@@ -407,7 +407,7 @@ var cnItems = {
     "Get Limit Break": "获得极限突破",
     "Level 100 boss": "100级boss",
     "Now we're getting somewhere": "现在我们正在到达某个地方",
-    "": "",
+    "What do all these levels even do?": "所有这些等级甚至可以做什么？",
     "": "",
     "": "",
     "": "",

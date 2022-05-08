@@ -678,61 +678,61 @@ function reboot() {
         let message = ""
         if (game.reboot < 1) {
             message =
-                "Are you sure you want to activate the Generator?\nThis will reset ALL progress up to this point!\nHowever, you will gain 1 watt"
+                "您确定要激活发电机吗？\n这将重置所有进度到这一点！\n但是，您将获得 1 瓦"
         } else {
             if (!game.perks[13]) {
                 message =
-                    "Are you sure you want to Reboot?\nYou will gain 1 watt"
+                    "您确定要重启吗？\n您将获得 1 瓦"
             } else {
                 if (
                     get_watts(game.pp) * game.prism_boost === 1 &&
                     game.notation !== 8
                 ) {
                     message =
-                        "Are you sure you want to Reboot?\nYou will gain " +
+                        "您确定要重启吗？\您将获得 " +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " watt"
+                        " 瓦"
                 } else {
                     message =
-                        "Are you sure you want to Reboot?\nYou will gain " +
+                        "您确定要重启吗？\您将获得 " +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " watts"
+                        " 瓦"
                 }
             }
 
             if (game.dk_bought[5])
                 message +=
-                    " and " +
+                    " 和 " +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             3 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g hydrogen"
+                    " g 氢"
             else if (
                 game.perks[25] &&
                 (game.watts >= 98304 || game.dk_bought[5])
             )
                 message +=
-                    " and " +
+                    " 和 " +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             2.5 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g hydrogen"
+                    " g 氢"
             else if (
                 game.perks[22] &&
                 (game.watts >= 98304 || game.dk_bought[5])
             )
                 message +=
-                    " and " +
+                    " 和 " +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             2 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g hydrogen"
+                    " g 氢"
         }
 
         if (confirm(message)) confirmed = true
@@ -1254,14 +1254,14 @@ function quantize() {
             )
             if (game.quantum < 1) {
                 message =
-                    "Are you sure you want to Quantize? This will reset ALL progress up to this point except for Perks and give you "
+                    "您确定要量化吗？ 这将重置除 特权 之外的所有进度并为您提供 "
             } else {
-                message = "Are you sure you want to Quantize? You will gain "
+                message = "您确定要量化吗？ 你会获得 "
             }
             if (amount === 1 && game.notation !== 8) {
-                message += format_num(amount) + " photon"
+                message += format_num(amount) + " 光子"
             } else {
-                message += format_num(amount) + " photons"
+                message += format_num(amount) + " 光子"
             }
 
             if (confirm(message)) confirmed = true

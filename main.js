@@ -2003,7 +2003,7 @@ function load(savegame) {
 function wipe() {
     if (
         confirm(
-            "Are you sure you want to wipe your save?\nThis will reset EVERYTHING!"
+            "你确定要擦除你的存档吗？\n这将重置一切！"
         )
     ) {
         reset()

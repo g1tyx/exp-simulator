@@ -748,9 +748,9 @@ function enter_challenge(id) {
         } else {
             if (
                 confirm(
-                    "You are entering Challenge " +
+                    "您正在进入挑战 " +
                         roman +
-                        "\nYou must reset to enter a challenge, you will still gain watts if you were able to\nAre you sure you want to enter the challenge?"
+                        "\n你必须重置才能参加挑战，如果你能够参加，你仍然会获得瓦特\n你确定要参加挑战吗？"
                 )
             ) {
                 confirmed = true
