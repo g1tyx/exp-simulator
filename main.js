@@ -1550,7 +1550,7 @@ function export_save() {
 
 //importing a save file
 function import_save() {
-    let save_file = atob(prompt("Paste your exported save code here:"))
+    let save_file = atob(prompt("在这里粘贴存档:"))
     let valid_json = true
     try {
         JSON.parse(save_file)
