@@ -1215,42 +1215,42 @@ function tick() {
             if (game.prestige > 6) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 6 Prestiges, you will now exit Challenge VI."
+                    "您的声望已超过 6 个，您现在将退出挑战 VI."
                 )
             }
         } else if (game.completions[5] === 1) {
             if (game.prestige > 5) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 5 Prestiges, you will now exit Challenge VI."
+                    "您的声望已超过 5 个，您现在将退出挑战 VI."
                 )
             }
         } else if (game.completions[5] >= 2 && game.completions[5] <= 3) {
             if (game.prestige > 4) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 4 Prestiges, you will now exit Challenge VI."
+                    "您的声望已超过 4 个，您现在将退出挑战  VI."
                 )
             }
         } else if (game.completions[5] >= 4 && game.completions[5] <= 5) {
             if (game.prestige > 3) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 3 Prestiges, you will now exit Challenge VI."
+                    "您的声望已超过 3 个，您现在将退出挑战  VI."
                 )
             }
         } else if (game.completions[5] >= 6 && game.completions[5] <= 7) {
             if (game.prestige > 2) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 2 Prestiges, you will now exit Challenge VI."
+                    "您的声望已超过 2 个，您现在将退出挑战  VI."
                 )
             }
         } else if (game.completions[5] >= 8 && game.completions[5] <= 11) {
             if (game.prestige > 1) {
                 exit_challenge()
                 alert(
-                    "You have exceeded 1 Prestige, you will now exit Challenge VI."
+                    "您的声望已超过 1 个，您现在将退出挑战  VI."
                 )
             }
         } else if (game.completions[5] >= 12) {
@@ -1258,14 +1258,14 @@ function tick() {
                 if (game.prestige > 0) {
                     exit_challenge()
                     alert(
-                        "You have exceeded 0 Prestiges, you will now exit Challenge VI."
+                        "您的声望已超过 60 个，您现在将退出挑战  VI."
                     )
                 }
             } else {
                 if (game.prestige > 1) {
                     exit_challenge()
                     alert(
-                        "You have exceeded 1 Prestige, you will now exit Challenge VI."
+                        "您的声望已超过 1 个，您现在将退出挑战  VI."
                     )
                 }
             }
@@ -1571,7 +1571,7 @@ function load(savegame) {
 
     //beta reject check
     if (savegame.beta) {
-        alert("Beta saves cannot be imported into the live game")
+        alert("无法将 Beta 存档导入正式版游戏")
         return
     }
 
@@ -1580,7 +1580,7 @@ function load(savegame) {
     //v2.0.000, v2.0.100, v2.0.200
     if (savegame.version == "2.0.200" || savegame.version == undefined) {
         alert(
-            "Your save has been wiped, very sorry!\nv2.0.xxx saves are not compatible with the current version"
+            "您的存档已被擦除，非常抱歉！\nv2.0.xxx 存档与当前版本不兼容"
         )
         regenerate_ui()
         return
@@ -1590,14 +1590,14 @@ function load(savegame) {
         .map(val => parseInt(val))
     if (major >= 4) {
         alert(
-            "You cannot load saves from game versions that do not exist\nIf you think you are recieving this alert in error, reload and try again"
+            "Y您无法从不存在的游戏版本中加载存档\如果您认为收到此警报有误，请重新加载并重试"
         )
         return
     }
     if (major < 2) {
         if (minor < 100 && savegame.highest_level >= 300) {
             alert(
-                "Your save has been wiped, very sorry!\nThere were balancing issues past LVL 300 that have now been fixed, making this wipe necessary"
+                "您的存档已被擦除，非常抱歉！\超过 300 级的平衡问题现已修复，因此必须进行此擦除"
             )
             regenerate_ui()
             return
@@ -1933,7 +1933,7 @@ function load(savegame) {
     } else {
         if (minor > 103) {
             alert(
-                "You cannot load saves from game versions that do not exist\nIf you think you are recieving this alert in error, reload and try again"
+                "您无法从不存在的游戏版本中加载存档\如果您认为收到此警告有误，请重新加载并重试"
             )
             return
         }

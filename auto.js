@@ -182,7 +182,7 @@ function rb_toggle() {
         }
     } else {
         alert(
-            "Reboot Confirmation must be turned off to enable Reboot automation"
+            "必须关闭重启确认才能启用重启自动化"
         )
     }
 }
@@ -201,7 +201,7 @@ function qu_toggle() {
         }
     } else {
         alert(
-            "Quantize Confirmation must be turned off to enable Quantize automation"
+            "必须关闭量化确认以启用量化自动化"
         )
     }
 }

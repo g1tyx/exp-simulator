@@ -810,7 +810,7 @@ function enter_challenge(id) {
             }
         }
     } else if (game.challenge !== id) {
-        alert("You cannot enter a challenge if you are already in one!")
+        alert("如果您已经参加了挑战，您将无法参加！")
     }
 }
 
