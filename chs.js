@@ -969,7 +969,7 @@ var cnRegReplace = new Map([
     [/^\+([\d\.,]+) AMP$/, '\+$1 AMP'],
     [/^([\d\.,]+) watts$/, '$1 瓦'],
     [/^([\d\.,]+) clicks\/s$/, '$1 点击/秒'],
-    [/^([\d\.]+) million watts$/, '$1 瓦'],
+    [/^([\d\.]+) million watts$/, '$1 million 瓦'],
     [/^([\d\.]+) seconds$/, '$1 秒'],
     [/^([\d\.,]+) EXP$/, '$1 经验'],
     [/^([\d\.]+) quadrillion EXP$/, '$1 quadrillion 经验'],
