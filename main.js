@@ -409,17 +409,17 @@ function tick() {
         }
         if (!game.achievements[52] && game.exp_flux >= 100) get_achievement(52)
         pp_upgrade.upgrades[20].desc =
-            "Unlocks an upgrade that generates a boost to EXP production, increasing over time<br>(Currently: " +
+            "Unlocks an upgrade that generates a boost to EXP production, increasing over time<br>(当前效果：" +
             format_eff(game.exp_flux) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[20])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[20].desc
     } else {
         pp_upgrade.upgrades[20].desc =
-            "Unlocks an upgrade that generates a boost to EXP production, increasing over time<br>(Caps at " +
+            "Unlocks an upgrade that generates a boost to EXP production, increasing over time<br>(最高" +
             format_num(20) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[20])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[20].desc
@@ -560,7 +560,7 @@ function tick() {
         if (game.smartpr_toggle && game.autopr_toggle) {
             game.smartpr_time++
             document.getElementById("smart_time").innerHTML =
-                "Current Mode Time: " + format_time(game.smartpr_time)
+                "当前模式时间：" + format_time(game.smartpr_time)
             if (game.smartpr_mode === 0) {
                 if (game.smartpr_time >= game.smartpr_peak * game.tickspeed) {
                     game.smartpr_mode = 1
@@ -621,8 +621,8 @@ function tick() {
                 game.oc_time++
                 if (game.pp_bought[26] && game.perks[5]) {
                     document.getElementById("oc_timer").innerHTML =
-                        format_time(90 * game.tickspeed - game.oc_time) +
-                        " Left"
+                        "剩余" + format_time(90 * game.tickspeed - game.oc_time) +
+                        ""
                     document.getElementById("oc_progress").style.width =
                         (100 * game.oc_time) / (90 * game.tickspeed) + "%"
                     if (game.oc_time >= 90 * game.tickspeed) {
@@ -639,8 +639,8 @@ function tick() {
                     }
                 } else if (game.pp_bought[26] || game.perks[5]) {
                     document.getElementById("oc_timer").innerHTML =
-                        format_time(180 * game.tickspeed - game.oc_time) +
-                        " Left"
+                        "剩余" + format_time(180 * game.tickspeed - game.oc_time) +
+                        ""
                     document.getElementById("oc_progress").style.width =
                         (100 * game.oc_time) / (180 * game.tickspeed) + "%"
                     if (game.oc_time >= 180 * game.tickspeed) {
@@ -657,8 +657,8 @@ function tick() {
                     }
                 } else {
                     document.getElementById("oc_timer").innerHTML =
-                        format_time(360 * game.tickspeed - game.oc_time) +
-                        " Left"
+                        "剩余" + format_time(360 * game.tickspeed - game.oc_time) +
+                        ""
                     document.getElementById("oc_progress").style.width =
                         (100 * game.oc_time) / (360 * game.tickspeed) + "%"
                     if (game.oc_time >= 360 * game.tickspeed) {
@@ -679,7 +679,7 @@ function tick() {
                 if (game.oc_time > 0) {
                     game.oc_time--
                     document.getElementById("oc_timer").innerHTML =
-                        format_time(game.oc_time) + " Left"
+                        "剩余" + format_time(game.oc_time) + ""
                     document.getElementById("oc_progress").style.width =
                         (100 * game.oc_time) / (45 * game.tickspeed) + "%"
                     if (game.pp_bought[21])
@@ -711,11 +711,11 @@ function tick() {
             if (game.pp_bought[19]) game.exp_oc = 4
             if (game.pp_bought[23]) game.exp_oc = 5
             document.getElementById("oc_state").innerHTML =
-                "Boosting " + format_num(game.exp_oc) + "x"
+                "强化" + format_num(game.exp_oc) + "倍"
             document.getElementById("oc_button").style.display = "none"
             document.getElementById("oc_auto").style.display = "none"
             document.getElementById("oc_timer").style.display = "block"
-            document.getElementById("oc_timer").innerHTML = "∞ Left"
+            document.getElementById("oc_timer").innerHTML = "剩余∞"
             document.getElementById("oc_progress").style.background = "#ff7f00"
             document.getElementById("oc_progress").style.width = "100%"
         }
@@ -756,16 +756,16 @@ function tick() {
             game.global_multiplier *
             game.cps
         if (game.battery_mode === 1 || game.perks[8]) eps *= game.exp_battery
-        let base_exp = "Base EXP Production: " + format_num(eps) + " EXP/sec"
+        let base_exp = "经验值基础产量：每秒" + format_num(eps) + "经验值"
         let effective_exp =
-            "Effective EXP Production: " +
+            "有效经验值产量：每秒" +
             format_num(eps * game.cap_boost) +
-            " EXP/sec"
-        let stored = "Stored EXP: " + format_time(game.stored_exp) + " of EXP"
+            "经验值"
+        let stored = "储存的经验值：" + format_time(game.stored_exp) + "的经验值"
         if (game.stored_exp >= 300 * game.tickspeed && game.notation !== 8)
-            stored = "Stored EXP: 5:00 of EXP (MAX)"
+            stored = "储存的经验值：5:00的经验值(已达最大)"
         let if_discharge =
-            "If Discharged: +" + format_num(0) + " EXP (Not Active)"
+            "放电后：+" + format_num(0) + "经验值(未激活)"
         if (
             game.cap_mode >= 1 ||
             game.notation === 8 ||
@@ -775,28 +775,28 @@ function tick() {
         ) {
             if (!game.perks[9])
                 if_discharge =
-                    "If Discharged: +" +
+                    "放电后：+" +
                     format_num(
                         (game.stored_exp / game.tickspeed) *
                             eps *
                             game.cap_mode *
                             2
                     ) +
-                    " EXP (" +
+                    "经验值(" +
                     format_num(game.cap_mode * 2) +
-                    "x)"
+                    "倍)"
             else
                 if_discharge =
-                    "If Discharged: +" +
+                    "放电后：+" +
                     format_num(
                         (game.stored_exp / game.tickspeed) *
                             eps *
                             game.cap_mode *
                             4
                     ) +
-                    " EXP (" +
+                    "经验值(" +
                     format_num(game.cap_mode * 4) +
-                    "x)"
+                    "倍)"
         }
         document.getElementById("cap_stats").innerHTML =
             base_exp +
@@ -862,7 +862,7 @@ function tick() {
                     game.pp_bought[cheapest] = true
                     pp_upgrade.upgrades[cheapest].on_purchase()
                     document.getElementById("pp").innerHTML =
-                        format_num(game.pp) + " PP"
+                        format_num(game.pp) + "转生点"
                 }
                 break
             case 1:
@@ -886,7 +886,7 @@ function tick() {
                     game.pp_bought[lowest] = true
                     pp_upgrade.upgrades[lowest].on_purchase()
                     document.getElementById("pp").innerHTML =
-                        format_num(game.pp) + " PP"
+                        format_num(game.pp) + "转生点"
                 }
                 break
             case 2:
@@ -910,7 +910,7 @@ function tick() {
                         game.pp_bought[lowest2] = true
                         pp_upgrade.upgrades[lowest2].on_purchase()
                         document.getElementById("pp").innerHTML =
-                            format_num(game.pp) + " PP"
+                            format_num(game.pp) + "转生点"
                     }
                 }
                 break
@@ -1215,42 +1215,42 @@ function tick() {
             if (game.prestige > 6) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 6 个，您现在将退出挑战 VI."
+                    "您已经进行了超过6次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] === 1) {
             if (game.prestige > 5) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 5 个，您现在将退出挑战 VI."
+                    "您已经进行了超过5次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] >= 2 && game.completions[5] <= 3) {
             if (game.prestige > 4) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 4 个，您现在将退出挑战  VI."
+                    "您已经进行了超过4次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] >= 4 && game.completions[5] <= 5) {
             if (game.prestige > 3) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 3 个，您现在将退出挑战  VI."
+                    "您已经进行了超过3次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] >= 6 && game.completions[5] <= 7) {
             if (game.prestige > 2) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 2 个，您现在将退出挑战  VI."
+                    "您已经进行了超过2次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] >= 8 && game.completions[5] <= 11) {
             if (game.prestige > 1) {
                 exit_challenge()
                 alert(
-                    "您的声望已超过 1 个，您现在将退出挑战  VI."
+                    "您已经进行了超过1次转生，将退出挑战 VI。"
                 )
             }
         } else if (game.completions[5] >= 12) {
@@ -1258,14 +1258,14 @@ function tick() {
                 if (game.prestige > 0) {
                     exit_challenge()
                     alert(
-                        "您的声望已超过 60 个，您现在将退出挑战  VI."
+                        "您已经进行了超过0次转生，将退出挑战 VI。"
                     )
                 }
             } else {
                 if (game.prestige > 1) {
                     exit_challenge()
                     alert(
-                        "您的声望已超过 1 个，您现在将退出挑战  VI."
+                        "您已经进行了超过1次转生，将退出挑战 VI。"
                     )
                 }
             }
@@ -1403,13 +1403,13 @@ function tick() {
         new Date().getUTCMonth() === 3
     ) {
         document.getElementById("version").innerHTML =
-            "<br><br><br>EXP Simulator v?.?.???<br>Made by ???"
+            "<br><br><br>经验模拟器 v?.?.???<br>作者 ???"
 
         game.notation = 8
         notation()
     } else if (game.notation === 8) {
         document.getElementById("version").innerHTML =
-            "<br><br><br>EXP Simulator v?.?.???<br>Made by Zakuro"
+            "<br><br><br>经验模拟器 v?.?.???<br>Made by Zakuro"
     } else {
         document.getElementById("version").innerHTML =
             "<br><br><br>EXP Simulator v2.3.103<br>Made by Zakuro"
@@ -1449,7 +1449,7 @@ document.addEventListener("keydown", function (event) {
         recorded_hotkey.shift = event.shiftKey
         recorded_hotkey.control = event.ctrlKey
         recorded_hotkey.alt = event.altKey
-        recorded_hotkey.text.data = `${recorded_hotkey.key_to_string(true)}: ${
+        recorded_hotkey.text.data = `${recorded_hotkey.key_to_string(true)}：${
             recorded_hotkey.name
         }`
     }
@@ -1497,7 +1497,7 @@ document.addEventListener("keyup", function (event) {
     if (event.code.startsWith("Shift")) recorded_hotkey.shift = false
     if (event.code.startsWith("Control")) recorded_hotkey.control = false
     if (event.code.startsWith("Alt")) recorded_hotkey.alt = false
-    recorded_hotkey.text.data = `${recorded_hotkey.key_to_string(true)}: ${
+    recorded_hotkey.text.data = `${recorded_hotkey.key_to_string(true)}：${
         recorded_hotkey.name
     }`
 })
@@ -1550,7 +1550,7 @@ function export_save() {
 
 //importing a save file
 function import_save() {
-    let save_file = atob(prompt("在这里粘贴存档:"))
+    let save_file = atob(prompt("此处粘贴存档："))
     let valid_json = true
     try {
         JSON.parse(save_file)
@@ -1571,7 +1571,7 @@ function load(savegame) {
 
     //beta reject check
     if (savegame.beta) {
-        alert("无法将 Beta 存档导入正式版游戏")
+        alert("无法将Beta版存档导入正式版游戏")
         return
     }
 
@@ -1580,7 +1580,7 @@ function load(savegame) {
     //v2.0.000, v2.0.100, v2.0.200
     if (savegame.version == "2.0.200" || savegame.version == undefined) {
         alert(
-            "您的存档已被擦除，非常抱歉！\nv2.0.xxx 存档与当前版本不兼容"
+            "Your save has been wiped, very sorry!\nv2.0.xxx saves are not compatible with the current version"
         )
         regenerate_ui()
         return
@@ -1590,14 +1590,14 @@ function load(savegame) {
         .map(val => parseInt(val))
     if (major >= 4) {
         alert(
-            "Y您无法从不存在的游戏版本中加载存档\如果您认为收到此警报有误，请重新加载并重试"
+            "You cannot load saves from game versions that do not exist\nIf you think you are recieving this alert in error, reload and try again"
         )
         return
     }
     if (major < 2) {
         if (minor < 100 && savegame.highest_level >= 300) {
             alert(
-                "您的存档已被擦除，非常抱歉！\超过 300 级的平衡问题现已修复，因此必须进行此擦除"
+                "Your save has been wiped, very sorry!\nThere were balancing issues past LVL 300 that have now been fixed, making this wipe necessary"
             )
             regenerate_ui()
             return
@@ -1671,7 +1671,7 @@ function load(savegame) {
             if (game.hotkey_configurations[hotkey.name])
                 hotkey.parse_key(game.hotkey_configurations[hotkey.name])
             else hotkey.parse_key(hotkey.default_combination)
-            hotkey.text.data = `${hotkey.key_to_string(true)}: ${hotkey.name}`
+            hotkey.text.data = `${hotkey.key_to_string(true)}：${hotkey.name}`
         }
         //v2.1.403
         if (minor < 405) {
@@ -1734,9 +1734,7 @@ function load(savegame) {
         game.speed_power = 1
         game.banked_prestige = 0
         game.true_banked_prestige = 0
-        game.subtab[0] = 0
-        game.subtab[1] = 0
-        game.subtab[2] = 0
+        game.subtab = new Array(3).fill(0)
         game.challenge = 0
         game.completions = new Array(9).fill(0)
         game.ch_boost = new Array(9).fill(1)
@@ -1836,7 +1834,9 @@ function load(savegame) {
             }
             game.speed_power = 1
             game.banked_prestige = 0
-            game.subtab[1] = 0
+            let old_subtab = game.subtab
+            game.subtab = new Array(3).fill(0)
+            game.subtab[0] = old_subtab[0]
             game.challenge = 0
             game.completions = new Array(9).fill(0)
             game.ch_boost = new Array(9).fill(1)
@@ -1877,7 +1877,7 @@ function load(savegame) {
         }
         //v2.2.300
         if (minor < 301) {
-            game.subtab = [0, 0]
+            game.subtab = new Array(3).fill(0)
             game.priority_layer = 1
             game.switchpoint = 0
         }
@@ -1933,7 +1933,7 @@ function load(savegame) {
     } else {
         if (minor > 103) {
             alert(
-                "您无法从不存在的游戏版本中加载存档\如果您认为收到此警告有误，请重新加载并重试"
+                "You cannot load saves from game versions that do not exist\nIf you think you are recieving this alert in error, reload and try again"
             )
             return
         }
@@ -2003,7 +2003,7 @@ function load(savegame) {
 function wipe() {
     if (
         confirm(
-            "你确定要擦除你的存档吗？\n这将重置一切！"
+            "您确定要删除存档吗？\n游戏进度将被彻底重置！"
         )
     ) {
         reset()
@@ -2034,9 +2034,7 @@ function wipe() {
         game.watts = 0
         game.watt_boost = 1
         game.perks = new Array(8).fill(false)
-        game.subtab[0] = 0
-        game.subtab[1] = 0
-        game.subtab[2] = 0
+        game.subtab = new Array(3).fill(0)
 
         game.challenge = 0
         game.completions = new Array(9).fill(0)
@@ -2144,7 +2142,7 @@ function wipe() {
 
         set_capacitance(0)
         document.getElementById("click").innerHTML =
-            "+" + format_num(1) + " EXP"
+            "+" + format_num(1) + "经验值"
 
         document.getElementById("amp_up").style.display = "none"
         document.getElementById("pp_up").style.display = "none"
@@ -2225,7 +2223,7 @@ class configurable_hotkey {
         configurable_hotkey.hotkeys.push(this)
         const list = document.getElementById("hotkeys_list")
         this.text = document.createTextNode(
-            `${this.key_to_string(true)}: ${this.name}`
+            `${this.key_to_string(true)}：${this.name}`
         )
         this.container = document.createElement("span")
         this.container.appendChild(this.text)
@@ -2266,67 +2264,67 @@ class configurable_hotkey {
 }
 
 //initializing customizable hotkeys
-new configurable_hotkey("EXP button", "Space", ev => {
+new configurable_hotkey("经验值按钮", "Space", ev => {
     if (!ev.repeat) player_increment()
     else if (ev.repeat) hold_tick()
 })
 new configurable_hotkey(
-    "Prestige",
+    "转生",
     "KeyP",
     prestige,
     () => game.prestige > 0 || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Toggle auto-Prestige",
+    "切换自动转生状态",
     "Shift+KeyP",
     pr_toggle,
     () => game.pp_bought[3] || game.reboot > 0 || game.quantum > 0
 )
-new configurable_hotkey("Reboot", "KeyR", reboot, () => !game.confirmation)
+new configurable_hotkey("重启", "KeyR", reboot, () => !game.confirmation)
 new configurable_hotkey(
-    "Toggle auto-Reboot",
+    "切换自动重启状态",
     "Shift+KeyR",
     rb_toggle,
     () => game.perks[15]
 )
-new configurable_hotkey("Quantize", "KeyQ", quantize, () => game.quantum >= 1)
+new configurable_hotkey("量子化", "KeyQ", quantize, () => game.quantum >= 1)
 new configurable_hotkey(
-    "Activate Overclocker",
+    "激活经验超频",
     "KeyO",
     oc_activate,
     () => game.pp_bought[14] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Toggle auto-Overclock",
+    "切换自动超频状态",
     "Shift+KeyO",
     oc_toggle,
     () => game.pp_bought[16] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Discharge Capacitor",
+    "电容放电",
     "KeyD",
     discharge,
     () => game.pp_bought[32] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Toggle auto-Discharge",
+    "切换自动放电状态",
     "Shift+KeyD",
     ds_toggle,
     () => game.pp_bought[35] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Toggle all automation",
+    "切换所有自动化状态",
     "KeyA",
     toggle_all_automation,
     () => game.pp_bought[2] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "Exit Challenge",
+    "退出挑战",
     "KeyE",
     exit_challenge,
     () => game.perks[17]
 )
-new configurable_hotkey("Buy all upgrades (on upgrades tab)", "KeyM", ev => {
+new configurable_hotkey("购买所有升级(在升级选项卡下)", "KeyM", ev => {
     if (game.tab === 1) {
         for (let i = 0; i < 6; i++) {
             upgrade(i, true)

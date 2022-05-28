@@ -275,9 +275,9 @@ function upgrade(id, max) {
                             get_achievement(55)
                         if (game.pp_bought[24] && game.challenge !== 7) {
                             pp_upgrade.upgrades[24].desc =
-                                "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: " +
+                                "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
                                 format_eff(16 + game.cps * 0.16) +
-                                "x)"
+                                "倍)"
                             pp_map
                                 .get(pp_upgrade.upgrades[24])
                                 .querySelector(".pp_desc").innerHTML =
@@ -468,9 +468,9 @@ function upgrade(id, max) {
                         get_achievement(55)
                     if (game.pp_bought[24] && game.challenge !== 7) {
                         pp_upgrade.upgrades[24].desc =
-                            "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: " +
+                            "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
                             format_eff(16 + game.cps * 0.16) +
-                            "x)"
+                            "倍)"
                         pp_map
                             .get(pp_upgrade.upgrades[24])
                             .querySelector(".pp_desc").innerHTML =
@@ -618,7 +618,7 @@ function oc_activate() {
         if (game.pp_bought[19]) game.exp_oc = 4
         if (game.pp_bought[23]) game.exp_oc = 5
         document.getElementById("oc_state").innerHTML =
-            "Boosting " + format_num(game.exp_oc) + "x"
+            "强化" + format_num(game.exp_oc) + "倍"
         document.getElementById("oc_button").style.display = "none"
         document.getElementById("oc_timer").style.display = "block"
         document.getElementById("oc_progress").style.background = "#ff7f00"
@@ -748,9 +748,9 @@ function enter_challenge(id) {
         } else {
             if (
                 confirm(
-                    "您正在进入挑战 " +
+                    "您将进入挑战 " +
                         roman +
-                        "\n你必须重置才能参加挑战，如果你能够参加，你仍然会获得瓦特\n你确定要参加挑战吗？"
+                        "\n进入挑战时将同时进行重置，如果满足条件，您可以正常获得瓦特\n您确定要进入挑战吗？"
                 )
             ) {
                 confirmed = true
@@ -810,7 +810,7 @@ function enter_challenge(id) {
             }
         }
     } else if (game.challenge !== id) {
-        alert("如果您已经参加了挑战，您将无法参加！")
+        alert("在挑战内无法进入其他挑战！")
     }
 }
 

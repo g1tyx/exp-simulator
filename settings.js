@@ -55,23 +55,23 @@ function notation() {
     reactor_update()
     if (game.oc_state === 2)
         document.getElementById("oc_state").innerHTML =
-            "Boosting " + format_num(game.exp_oc) + "x"
+            "强化" + format_num(game.exp_oc) + "倍"
     pp_upgrade.upgrades[24].desc =
-        "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: " +
+        "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
         format_eff(16 + game.cps * 0.16) +
-        "x)"
+        "倍)"
     pp_map.get(pp_upgrade.upgrades[24]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[24].desc
     pp_upgrade.upgrades[27].desc =
-        "EXP production is boosted based on how many times you have Prestiged<br>(Currently: " +
+        "EXP production is boosted based on how many times you have Prestiged<br>(当前效果：" +
         format_eff(1 + (game.prestige / 1000) ** (1 / 2)) +
-        "x)"
+        "倍)"
     pp_map.get(pp_upgrade.upgrades[27]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[27].desc
     pp_upgrade.upgrades[30].desc =
-        "EXP production is boosted based on your highest level<br>(Currently: " +
+        "EXP production is boosted based on your highest level<br>(当前效果：" +
         format_eff(1 + game.highest_level / 400) +
-        "x)"
+        "倍)"
     pp_map.get(pp_upgrade.upgrades[30]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[30].desc
 }
@@ -434,9 +434,9 @@ function change_page(dir) {
     }
 
     document.getElementById("page_text1").innerHTML =
-        "Page " + (game.achiev_page + 1)
+        "第" + (game.achiev_page + 1) + "页"
     document.getElementById("page_text2").innerHTML =
-        "Page " + (game.achiev_page + 1)
+        "第" + (game.achiev_page + 1) + "页"
 }
 
 //toggling buy one/buy max

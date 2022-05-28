@@ -1155,13 +1155,13 @@ function format_time(input) {
     var time = input / game.tickspeed
     let output = undefined
     if (time >= 10 ** 20 / game.tickspeed) {
-        output = "a very long time"
+        output = "时间极长"
     } else if (time < 1) {
-        output = time.toFixed(3) + "s"
+        output = time.toFixed(3) + "秒"
     } else if (time < 10) {
-        output = time.toFixed(2) + "s"
+        output = time.toFixed(2) + "秒"
     } else if (time < 60) {
-        output = time.toFixed(1) + "s"
+        output = time.toFixed(1) + "秒"
     } else if (time < 3600) {
         let colon = ":"
         if (time % 60 < 10) colon = ":0"
@@ -1715,7 +1715,7 @@ class pp_upgrade {
 
         //upgrade purchase button
         let pp_button = document.createElement("BUTTON")
-        pp_button.innerHTML = "-" + this.price + " PP"
+        pp_button.innerHTML = "-" + this.price + "转生点"
         pp_button.className = "pp_button pp_locked"
         pp_button.addEventListener("click", () => {
             if (
@@ -1728,7 +1728,7 @@ class pp_upgrade {
                 this.on_purchase()
                 pp_update()
                 document.getElementById("pp").innerHTML =
-                    format_num(game.pp) + " PP"
+                    format_num(game.pp) + "转生点"
             }
         })
 
@@ -2353,10 +2353,10 @@ class generator_perk {
         let perk_requirement = document.createElement("P")
         if (this.requirement === 1)
             perk_requirement.innerHTML =
-                "Requires<br>" + this.requirement + " watt"
+                "Requires<br>" + this.requirement + "瓦特"
         else
             perk_requirement.innerHTML =
-                "Requires<br>" + this.requirement + " watts"
+                "Requires<br>" + this.requirement + "瓦特"
         perk_requirement.className = "perk_requirement incomplete_text"
         perk_complete.appendChild(perk_requirement)
 
@@ -3210,19 +3210,19 @@ class challenge {
 
         //challenge goal
         let challenge_goal = document.createElement("P")
-        challenge_goal.innerHTML = "Goal: " + format_num(this.goal) + " PP"
+        challenge_goal.innerHTML = "目标：" + format_num(this.goal) + "转生点"
         challenge_goal.className = "challenge_goal"
 
         //challenge_completions
         let challenge_complete = document.createElement("P")
         challenge_complete.innerHTML =
-            "Completions: " +
+            "完成次数：已完成" +
             format_num(0) +
-            " / " +
+            "次，上限为" +
             format_num(12) +
-            "<br>EXP boost from completions: " +
+            "次<br>完成挑战的经验值加成：" +
             format_eff(1) +
-            "x"
+            "倍"
         challenge_complete.className = "challenge_complete"
 
         //enter challenge button
@@ -3368,20 +3368,20 @@ class core {
 
         //core id
         let core_id = document.createElement("P")
-        core_id.innerHTML = "Core " + format_num(this.id)
+        core_id.innerHTML = "核心" + format_num(this.id)
         core_id.className = "core_id"
 
         //core power
         let core_power = document.createElement("P")
         if (this.id === 0)
-            core_power.innerHTML = "+" + format_eff(0) + " mg base helium/sec"
-        else core_power.innerHTML = format_num(1) + "x helium production"
+            core_power.innerHTML = "每秒氦基础产量" + format_eff(0) + "毫克"
+        else core_power.innerHTML = "氦产量变为" + format_num(1) + "倍"
         core_power.className = "core_power"
 
         //core upgrade button
         let core_button = document.createElement("BUTTON")
         core_button.innerHTML =
-            "-" + format_num(this.base_price) + " g hydrogen"
+            "-" + format_num(this.base_price) + "克氢"
         core_button.className = "core_button core_locked"
         core_button.addEventListener("click", () => {
             if (!game.buy_max) {
@@ -3495,7 +3495,7 @@ class quantum_upgrade {
 
         //upgrade purchase button
         let qu_button = document.createElement("BUTTON")
-        qu_button.innerHTML = "-" + this.price + " photons"
+        qu_button.innerHTML = "-" + this.price + "光子"
         qu_button.className = "qu_button unlit"
         qu_button.addEventListener("click", () => {
             if (
@@ -3507,10 +3507,10 @@ class quantum_upgrade {
                 this.on_purchase()
                 prism_update()
                 if (game.photons === 1 && game.notation !== 8)
-                    document.getElementById("photons_text").innerHTML = "photon"
+                    document.getElementById("photons_text").innerHTML = "光子"
                 else
                     document.getElementById("photons_text").innerHTML =
-                        "photons"
+                        "光子"
             }
         })
 
@@ -3626,7 +3626,7 @@ class dark_upgrade {
 
         //upgrade purchase button
         let dk_button = document.createElement("BUTTON")
-        dk_button.innerHTML = "-" + this.price + " photons"
+        dk_button.innerHTML = "-" + this.price + "光子"
         dk_button.className = "qu_button unlit"
         dk_button.addEventListener("click", () => {
             if (
@@ -3638,10 +3638,10 @@ class dark_upgrade {
                 this.on_purchase()
                 prism_update()
                 if (game.photons === 1 && game.notation !== 8)
-                    document.getElementById("photons_text").innerHTML = "photon"
+                    document.getElementById("photons_text").innerHTML = "光子"
                 else
                     document.getElementById("photons_text").innerHTML =
-                        "photons"
+                        "光子"
             }
         })
 

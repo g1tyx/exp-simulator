@@ -57,9 +57,9 @@ function reset() {
 
     document.getElementById("lvlnum").innerHTML = format_num(game.level)
     document.getElementById("exp").innerHTML =
-        format_num(game.exp) + " / " + format_num(game.goal) + " EXP"
+        format_num(game.exp) + "经验值，升级需" + format_num(game.goal) + "经验值"
     document.getElementById("total_exp").innerHTML =
-        format_num(game.total_exp) + " Total EXP"
+        format_num(game.total_exp) + "总经验值"
 
     document.getElementById("progress").style.width = 0 + "%"
 }
@@ -96,9 +96,9 @@ function prestige() {
                     game.highest_level = game.level
             }
             document.getElementById("amp").innerHTML =
-                format_num(game.amp) + " AMP"
+                format_num(game.amp) + "放大倍率"
             document.getElementById("pp").innerHTML =
-                format_num(game.pp) + " PP"
+                format_num(game.pp) + "转生点"
 
             for (let i = 4; i > 0; i--) {
                 game.amp_eff[i] = game.amp_eff[i - 1]
@@ -329,9 +329,9 @@ function prestige() {
             )
                 game.highest_level = game.level
             document.getElementById("amp").innerHTML =
-                format_num(game.amp) + " AMP"
+                format_num(game.amp) + "放大倍率"
             document.getElementById("pp").innerHTML =
-                format_num(game.pp) + " PP"
+                format_num(game.pp) + "转生点"
 
             for (let i = 4; i > 0; i--) {
                 game.amp_eff[i] = game.amp_eff[i - 1]
@@ -678,61 +678,61 @@ function reboot() {
         let message = ""
         if (game.reboot < 1) {
             message =
-                "您确定要激活发电机吗？\n这将重置所有进度到这一点！\n但是，您将获得 1 瓦"
+                "您确定要激活发电机吗？\n之前的进度将被重置！\n但您可以获得1瓦特"
         } else {
             if (!game.perks[13]) {
                 message =
-                    "您确定要重启吗？\n您将获得 1 瓦"
+                    "您确定要重启吗？\n您可以获得1瓦特"
             } else {
                 if (
                     get_watts(game.pp) * game.prism_boost === 1 &&
                     game.notation !== 8
                 ) {
                     message =
-                        "您确定要重启吗？\您将获得 " +
+                        "您确定要重启吗？\n您可以获得" +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " 瓦"
+                        "瓦特"
                 } else {
                     message =
-                        "您确定要重启吗？\您将获得 " +
+                        "您确定要重启吗？\n您可以获得" +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " 瓦"
+                        "瓦特"
                 }
             }
 
             if (game.dk_bought[5])
                 message +=
-                    " 和 " +
+                    "和" +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             3 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g 氢"
+                    "克氢"
             else if (
                 game.perks[25] &&
                 (game.watts >= 98304 || game.dk_bought[5])
             )
                 message +=
-                    " 和 " +
+                    "和" +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             2.5 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g 氢"
+                    "克氢"
             else if (
                 game.perks[22] &&
                 (game.watts >= 98304 || game.dk_bought[5])
             )
                 message +=
-                    " 和 " +
+                    "和" +
                     format_eff(
                         (get_watts(game.pp) / 100) *
                             2 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g 氢"
+                    "克氢"
         }
 
         if (confirm(message)) confirmed = true
@@ -1032,7 +1032,7 @@ function reboot() {
             if (!game.perks[2]) game.subtab[0] = 0
 
             document.getElementById("click").innerHTML =
-                "+" + format_num(game.amp) + " EXP"
+                "+" + format_num(game.amp) + "经验值"
 
             document.getElementById("boost_auto").style.display = "none"
             document.getElementById("auto_auto").style.display = "none"
@@ -1167,7 +1167,7 @@ function empty_reboot() {
     if (!game.perks[2]) game.subtab[0] = 0
 
     document.getElementById("click").innerHTML =
-        "+" + format_num(game.amp) + " EXP"
+        "+" + format_num(game.amp) + "经验值"
 
     document.getElementById("boost_auto").style.display = "none"
     document.getElementById("auto_auto").style.display = "none"
@@ -1254,14 +1254,14 @@ function quantize() {
             )
             if (game.quantum < 1) {
                 message =
-                    "您确定要量化吗？ 这将重置除 特权 之外的所有进度并为您提供 "
+                    "您确定要量子化吗？除了特权以外，之前的进度将被重置，您可以获得"
             } else {
-                message = "您确定要量化吗？ 你会获得 "
+                message = "您确定要量子化吗？您可以获得"
             }
             if (amount === 1 && game.notation !== 8) {
-                message += format_num(amount) + " 光子"
+                message += format_num(amount) + "光子"
             } else {
-                message += format_num(amount) + " 光子"
+                message += format_num(amount) + "光子"
             }
 
             if (confirm(message)) confirmed = true

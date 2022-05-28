@@ -11,20 +11,20 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <script src="chs.js?202106041511"></script>
-<script src="//g8hh.com/zh/core.js"></script>
+        <script src="chs.js?20220528"></script>
+        <script src="core.js?20220528"></script>
         <main>
             <div class="ui">
                 <div class="lvlbar">
                     <div class="level">
-                        <p id="lvltext">
-                            LVL
-                        </p>
                         <p id="lvlnum">
                             1
                         </p>
+                        <p id="lvltext">
+                            级
+                        </p>
                         <p id="lvlrequirement">
-                            / 60
+                            ，上限为60级
                         </p>
                     </div>
                     <p id="exp">
@@ -292,10 +292,10 @@
 
                 <div id="prestige_tabs" class="menu">
                     <button id="p_upgrades_tab" class="button" onclick="goto_subtab(0)">
-                        UPGRADES
+                        升级
                     </button>
                     <button id="config_tab" class="button" onclick="goto_subtab(1)">
-                        CONFIG
+                        选项
                     </button>
                 </div>
 
@@ -502,13 +502,13 @@
 
                 <div id="reboot_tabs" class="menu">
                     <button id="generator_tab" class="button" onclick="goto_subtab(0)">
-                        GENERATOR
+                        发电机
                     </button>
                     <button id="challenges_tab" class="button" onclick="goto_subtab(1)">
-                        CHALLENGES
+                        挑战
                     </button>
                     <button id="reactor_tab" class="button" onclick="goto_subtab(2)">
-                        REACTOR
+                        反应堆
                     </button>
                 </div>
 
@@ -620,7 +620,7 @@
                     </div>
 
                     <p id="gen_perks_text">
-                        GENERATOR PERKS
+                        发电机特权
                     </p>
                 </div>
 
@@ -639,7 +639,7 @@
                     </div>
                     <div id="challenge_panel"></div>
                     <p id="challenge_footer">
-                        Get all 108 challenge completions to unlock a new prestige layer...
+                        完成所有108次挑战后可以解锁新一层重置……
                     </p>
                 </div>
 
@@ -738,10 +738,10 @@
 
                 <div id="quantum_tabs" class="menu">
                     <button id="prism_tab" class="button" onclick="goto_subtab(0)">
-                        PRISM
+                        棱镜
                     </button>
                     <button id="gravity_tab" class="button" onclick="goto_subtab(1)">
-                        GRAVITY WELL
+                        重力井
                     </button>
                 </div>
 
@@ -817,10 +817,13 @@
                     <div id="prism_block">
                         <div id="prism_level">
                             <p id="prism_lvl_text" class="quantize_text">
-                                Prism LVL
+                                棱镜
                             </p>
                             <p id="prism_lvl_num">
                                 0
+                            </p>
+                            <p id="prism_lvl_text" class="quantize_text">
+                                级
                             </p>
                         </div>
                         <canvas id="prism" width="500" height="500"></canvas>
@@ -837,7 +840,7 @@
                         </p>
                     </div>
                     <p id="prism_upgrade" class="quantize_text">
-                        Upgrade Prism LVL
+                        升级棱镜
                     </p>
                     <div id="prism_button_center">
                         <button id="prism_button" class="unlit" onclick="upgrade_prism()">
@@ -846,7 +849,7 @@
                     </div>
 
                     <p id="quantum_upgrades_text">
-                        QUANTUM UPGRADES
+                        量子升级
                     </p>
                 </div>
 
@@ -889,7 +892,7 @@
                     </div>
 
                     <p id="dark_upgrades_text">
-                        DARK UPGRADES
+                        暗之升级
                     </p>
                 </div>
 
@@ -1286,13 +1289,13 @@
 
                 <div class="settings" id="settings_page">
                     <button id="save_button" class="option option_button" onclick='save(); new notify("Game saved", "#00ddff")'>
-                        SAVE
+                        保存
                     </button>
                     <button id="export_button" class="option option_button" onclick="export_save()">
-                        EXPORT
+                        导出
                     </button>
                     <button id="import_button" class="option option_button" onclick="import_save()">
-                        IMPORT
+                        导入
                     </button>
                     <div class="option">
                         <p id="notation_text" class="option_text">
@@ -1401,7 +1404,7 @@
                         </button>
                     </div>
                     <button id="wipe_button" class="option wipe_button" onclick="wipe()">
-                        DELETE SAVE
+                        删除存档
                     </button>
                     <p id="hotkeys_list" class="option_text">
                         <span>Hotkeys:</span>
@@ -1415,13 +1418,13 @@
                     <br><br><br>EXP Simulator v2.3.103<br>Made by Zakuro
                 </p>
                 <a href="changelog.html" target="_blank" class="info link">
-                    Changelog
+                    更新日志
                 </a>
                 <a href="https://zakuro98.github.io/EXP-Simulator-Beta/" target="_blank" class="info link">
-                    Beta
+                    Beta版
                 </a>
                 <a href="https://discord.gg/fuQSBkYYqH" target="_blank" class="info link">
-                    Discord
+                    Discord频道
                 </a>
 
                 <div id="notifications"></div>
