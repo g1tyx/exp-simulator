@@ -2264,67 +2264,67 @@ class configurable_hotkey {
 }
 
 //initializing customizable hotkeys
-new configurable_hotkey("经验值按钮", "Space", ev => {
+new configurable_hotkey("EXP button", "Space", ev => {
     if (!ev.repeat) player_increment()
     else if (ev.repeat) hold_tick()
 })
 new configurable_hotkey(
-    "转生",
+    "Prestige",
     "KeyP",
     prestige,
     () => game.prestige > 0 || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "切换自动转生状态",
+    "Toggle auto-Prestige",
     "Shift+KeyP",
     pr_toggle,
     () => game.pp_bought[3] || game.reboot > 0 || game.quantum > 0
 )
-new configurable_hotkey("重启", "KeyR", reboot, () => !game.confirmation)
+new configurable_hotkey("Reboot", "KeyR", reboot, () => !game.confirmation)
 new configurable_hotkey(
-    "切换自动重启状态",
+    "Toggle auto-Reboot",
     "Shift+KeyR",
     rb_toggle,
     () => game.perks[15]
 )
-new configurable_hotkey("量子化", "KeyQ", quantize, () => game.quantum >= 1)
+new configurable_hotkey("Quantize", "KeyQ", quantize, () => game.quantum >= 1)
 new configurable_hotkey(
-    "激活经验超频",
+    "Activate Overclocker",
     "KeyO",
     oc_activate,
     () => game.pp_bought[14] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "切换自动超频状态",
+    "Toggle auto-Overclock",
     "Shift+KeyO",
     oc_toggle,
     () => game.pp_bought[16] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "电容放电",
+    "Discharge Capacitor",
     "KeyD",
     discharge,
     () => game.pp_bought[32] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "切换自动放电状态",
+    "Toggle auto-Discharge",
     "Shift+KeyD",
     ds_toggle,
     () => game.pp_bought[35] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "切换所有自动化状态",
+    "Toggle all automation",
     "KeyA",
     toggle_all_automation,
     () => game.pp_bought[2] || game.reboot > 0 || game.quantum > 0
 )
 new configurable_hotkey(
-    "退出挑战",
+    "Exit Challenge",
     "KeyE",
     exit_challenge,
     () => game.perks[17]
 )
-new configurable_hotkey("购买所有升级(在升级选项卡下)", "KeyM", ev => {
+new configurable_hotkey("Buy all upgrades (on upgrades tab)", "KeyM", ev => {
     if (game.tab === 1) {
         for (let i = 0; i < 6; i++) {
             upgrade(i, true)

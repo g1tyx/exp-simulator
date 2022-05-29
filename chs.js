@@ -715,4 +715,17 @@ var cnExcludePostfix = [
 //原样输出的字段：(.+)
 //换行加空格：\n(.+)
 var cnRegReplace = new Map([
+    [/^(.+)：EXP button$/, '$1：经验值按钮'],
+    [/^(.+)：Prestige$/, '$1：转生'],
+    [/^(.+)：Toggle auto-Prestige$/, '$1：切换自动转生状态'],
+    [/^(.+)：Reboot$/, '$1：重启'],
+    [/^(.+)：Toggle auto-Reboot$/, '$1：切换自动重启状态'],
+    [/^(.+)：Quantize$/, '$1：量子化'],
+    [/^(.+)：Activate Overclocker$/, '$1：激活经验超频'],
+    [/^(.+)：Toggle auto-Overclock$/, '$1：切换自动超频状态'],
+    [/^(.+)：Discharge Capacitor$/, '$1：电容放电'],
+    [/^(.+)：Toggle auto-Discharge$/, '$1：切换自动放电状态'],
+    [/^(.+)：Toggle all automation$/, '$1：切换所有自动化状态'],
+    [/^(.+)：Exit Challenge$/, '$1：退出挑战'],
+    [/^(.+)：Buy all upgrades \(on upgrades tab$/, '$1：购买所有升级(在升级选项卡下'],
 ]);
