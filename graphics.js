@@ -217,23 +217,23 @@ function level_update() {
     document.getElementById("lvlnum").innerHTML = format_lvl(game.level)
     if (game.level < 60 || (game.pp_bought[6] && game.level < 1000000))
         document.getElementById("exp").innerHTML =
-            format_num(game.exp) + " / " + format_num(game.goal) + " EXP"
+            format_num(game.exp) + "经验值，升级需" + format_num(game.goal) + "经验值"
     else document.getElementById("exp").innerHTML = "Maxed!"
 
     if (game.priority_layer === 2) {
         document.getElementById("total_exp").innerHTML =
-            format_num(game.prestige_exp) + " Total EXP"
+            format_num(game.prestige_exp) + "总经验值"
     } else if (game.priority_layer === 1) {
         document.getElementById("total_exp").innerHTML =
-            format_num(game.total_exp) + " Total EXP"
+            format_num(game.total_exp) + "总经验值"
     } else {
         if (game.reboot >= 1 || game.quantum >= 1) {
             document.getElementById("total_exp").innerHTML =
-                format_num(game.prestige_exp) + " Total EXP"
+                format_num(game.prestige_exp) + "总经验值"
         } else {
             document.getElementById("total_exp").innerHTML =
-                format_num(game.total_exp) + " Total EXP"
-        }
+                format_num(game.total_exp) + "总经验值"
+            }
     }
 
     if (
@@ -262,7 +262,7 @@ function click_update() {
                         game.exp_add * game.ml_boost * game.global_multiplier
                     )
                 ) +
-                " EXP"
+                "经验值"
         else
             document.getElementById("click").innerHTML =
                 "+" +
@@ -274,7 +274,7 @@ function click_update() {
                             game.exp_battery
                     )
                 ) +
-                " EXP"
+                "经验值"
     } else if (
         game.fluct_tier >= 1 ||
         game.starter_kit + game.generator_kit >= 1
@@ -295,7 +295,7 @@ function click_update() {
                             game.global_multiplier
                     )
                 ) +
-                " EXP"
+                "经验值"
         else
             document.getElementById("click").innerHTML =
                 "+" +
@@ -316,7 +316,7 @@ function click_update() {
                             game.exp_battery
                     )
                 ) +
-                " EXP"
+                "经验值"
     }
 }
 
@@ -330,9 +330,9 @@ function reset_button_update() {
             document.getElementById("pp_up").style.display = "inline"
             document.getElementById("amp_button").style.display = "inline"
             document.getElementById("amp").innerHTML =
-                format_num(game.amp) + " AMP"
+                format_num(game.amp) + "放大倍率"
             document.getElementById("pp").innerHTML =
-                format_num(game.pp) + " PP"
+                format_num(game.pp) + "转生点"
             document.getElementById("amp").style.display = "block"
             document.getElementById("pp").style.display = "block"
         } else {
@@ -353,7 +353,7 @@ function reset_button_update() {
                                 game.watt_boost
                         )
                     ) +
-                    " AMP"
+                    "放大倍率"
                 let pp_amount = 0
                 if (game.level > game.highest_level) {
                     if (game.prestige <= 21)
@@ -367,7 +367,7 @@ function reset_button_update() {
                     else pp_amount = 0
                 }
                 document.getElementById("pp_up").innerHTML =
-                    "+" + format_num(pp_amount) + " PP"
+                    "+" + format_num(pp_amount) + "转生点"
                 if (
                     (pp_amount >= 1 ||
                         game.notation === 8 ||
@@ -386,7 +386,7 @@ function reset_button_update() {
                 document.getElementById("amp_up").style.display = "none"
                 document.getElementById("pp_up").style.display = "none"
                 document.getElementById("amp_button").innerHTML =
-                    "LVL " + format_lvl(game.pr_min)
+                    "需" + format_lvl(game.pr_min) + "级"
                 document.getElementById("amp_button").style.color = get_color(
                     (Math.floor(game.pr_min / 60) + 5) % 12
                 )
@@ -399,14 +399,14 @@ function reset_button_update() {
                 document.getElementById("amp_up").innerHTML =
                     "+" +
                     format_num(Math.floor(amp_amount * game.watt_boost)) +
-                    " AMP"
+                    "放大倍率"
                 let pp_amount = 0
                 if (game.prestige <= 21)
                     pp_amount =
                         get_pp(game.level) - get_pp(game.highest_level) + 1
                 else pp_amount = get_pp(game.level) - get_pp(game.highest_level)
                 document.getElementById("pp_up").innerHTML =
-                    "+" + format_num(pp_amount) + " PP"
+                    "+" + format_num(pp_amount) + "转生点"
                 if (
                     (pp_amount >= 1 ||
                         game.notation === 8 ||
@@ -425,7 +425,7 @@ function reset_button_update() {
                 document.getElementById("amp_up").style.display = "none"
                 document.getElementById("pp_up").style.display = "none"
                 document.getElementById("amp_button").innerHTML =
-                    "LVL " + format_lvl(game.highest_level)
+                    "需" + format_lvl(game.highest_level) + "级"
 
                 if (game.highest_level < 12000) {
                     document.getElementById("amp_button").style.color =
@@ -456,13 +456,13 @@ function reset_button_update() {
         document.getElementById("watts2").style.display = "block"
         if (game.watts === 1)
             document.getElementById("watts2").innerHTML =
-                format_num(game.watts) + " watt"
+                format_num(game.watts) + "瓦特"
         else
             document.getElementById("watts2").innerHTML =
-                format_num(game.watts) + " watts"
+                format_num(game.watts) + "瓦特"
         document.getElementById("hydrogen3").style.display = "block"
         document.getElementById("hydrogen3").innerHTML =
-            format_eff(game.hydrogen) + " g hydrogen"
+            format_eff(game.hydrogen) + "克氢"
 
         let all_pp_upgrades = true
         for (const upgrade2 of pp_upgrade.upgrades) {
@@ -565,10 +565,10 @@ function reset_button_update() {
             if (!game.perks[13]) {
                 if (game.notation !== 8 && game.prism_level === 0)
                     document.getElementById("watts_up").innerHTML =
-                        "+" + format_num(game.prism_boost) + " watt"
+                        "+" + format_num(game.prism_boost) + "瓦特"
                 else
                     document.getElementById("watts_up").innerHTML =
-                        "+" + format_num(game.prism_boost) + " watts"
+                        "+" + format_num(game.prism_boost) + "瓦特"
             } else {
                 if (
                     get_watts(game.pp) * game.prism_boost === 1 &&
@@ -577,12 +577,12 @@ function reset_button_update() {
                     document.getElementById("watts_up").innerHTML =
                         "+" +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " watt"
+                        "瓦特"
                 else
                     document.getElementById("watts_up").innerHTML =
                         "+" +
                         format_num(get_watts(game.pp) * game.prism_boost) +
-                        " watts"
+                        "瓦特"
                 if (
                     game.perks[22] &&
                     (game.watts >= 98304 || game.dk_bought[5])
@@ -596,7 +596,7 @@ function reset_button_update() {
                                 2 ** game.supply_level *
                                 game.prism_boost
                         ) +
-                        " g hydrogen"
+                        "克氢"
                     if (game.perks[25])
                         document.getElementById("hydrogen_up").innerHTML =
                             "+" +
@@ -605,7 +605,7 @@ function reset_button_update() {
                                     2.5 ** game.supply_level *
                                     game.prism_boost
                             ) +
-                            " g hydrogen"
+                            "克氢"
                     if (game.dk_bought[5])
                         document.getElementById("hydrogen_up").innerHTML =
                             "+" +
@@ -614,7 +614,7 @@ function reset_button_update() {
                                     3 ** game.supply_level *
                                     game.prism_boost
                             ) +
-                            " g hydrogen"
+                            "克氢"
                 }
             }
         } else {
@@ -634,10 +634,10 @@ function reset_button_update() {
         document.getElementById("photons2").style.display = "block"
         if (game.photons === 1)
             document.getElementById("photons2").innerHTML =
-                format_num(game.photons) + " photon"
+                format_num(game.photons) + "光子"
         else
             document.getElementById("photons2").innerHTML =
-                format_num(game.photons) + " photons"
+                format_num(game.photons) + "光子"
 
         let all_pp_upgrades = true
         for (const upgrade2 of pp_upgrade.upgrades) {
@@ -669,10 +669,10 @@ function reset_button_update() {
 
             if (amount === 1 && game.notation !== 8)
                 document.getElementById("photons_up2").innerHTML =
-                    "+" + format_num(amount) + " photon"
+                    "+" + format_num(amount) + "光子"
             else
                 document.getElementById("photons_up2").innerHTML =
-                    "+" + format_num(amount) + " photons"
+                    "+" + format_num(amount) + "光子"
         } else {
             document.getElementById("photon_button").className = "button unlit"
             document.getElementById("photons_up2").style.display = "none"
@@ -704,7 +704,7 @@ function upgrade_update() {
             document.getElementById("boost_button").style.color = "#ffffff"
         } else {
             document.getElementById("boost_button").innerHTML =
-                "LVL " + format_lvl(game.boost_level)
+                "需" + format_lvl(game.boost_level) + "级"
             if (game.boost_level < 60) {
                 document.getElementById("boost_button").style.color = get_color(
                     Math.floor(game.boost_level / 10)
@@ -729,11 +729,11 @@ function upgrade_update() {
     }
     if (game.battery_mode === 1 || game.perks[8]) {
         document.getElementById("boost").innerHTML =
-            "EXP Boost<br>Tier " +
+            "EXP Boost<br>阶层" +
             format_num(
                 game.boost_tier + game.starter_kit + game.generator_kit
             ) +
-            ": +" +
+            "：每次点击+" +
             format_num(
                 Math.round(
                     game.exp_add *
@@ -742,7 +742,7 @@ function upgrade_update() {
                         game.cap_boost
                 )
             ) +
-            " EXP/click"
+            "经验值"
         if (
             (game.autods_toggle === 1 && game.autods_goal === 0) ||
             (game.autods_toggle === 2 &&
@@ -750,11 +750,11 @@ function upgrade_update() {
                 !game.smartds_oc)
         )
             document.getElementById("boost").innerHTML =
-                "EXP Boost<br>Tier " +
+                "EXP Boost<br>阶层" +
                 format_num(
                     game.boost_tier + game.starter_kit + game.generator_kit
                 ) +
-                ": +" +
+                "：每次点击+" +
                 format_num(
                     Math.round(
                         game.exp_add *
@@ -764,20 +764,20 @@ function upgrade_update() {
                                 (1 - game.cap_boost) * game.cap_mode * 2)
                     )
                 ) +
-                " EXP/click"
+                "经验值"
     } else {
         document.getElementById("boost").innerHTML =
-            "EXP Boost<br>Tier " +
+            "EXP Boost<br>阶层" +
             format_num(
                 game.boost_tier + game.starter_kit + game.generator_kit
             ) +
-            ": +" +
+            "：每次点击+" +
             format_num(
                 Math.round(
                     game.exp_add * game.global_multiplier * game.cap_boost
                 )
             ) +
-            " EXP/click"
+            "经验值"
         if (
             (game.autods_toggle === 1 && game.autods_goal === 0) ||
             (game.autods_toggle === 2 &&
@@ -785,11 +785,11 @@ function upgrade_update() {
                 !game.smartds_oc)
         )
             document.getElementById("boost").innerHTML =
-                "EXP Boost<br>Tier " +
+                "EXP Boost<br>阶层" +
                 format_num(
                     game.boost_tier + game.starter_kit + game.generator_kit
                 ) +
-                ": +" +
+                "：每次点击+" +
                 format_num(
                     Math.round(
                         game.exp_add *
@@ -798,17 +798,17 @@ function upgrade_update() {
                                 (1 - game.cap_boost) * game.cap_mode * 2)
                     )
                 ) +
-                " EXP/click"
+                "经验值"
     }
     if (game.challenge === 7)
         document.getElementById("boost").innerHTML =
-            "EXP Boost<br>Tier " +
+            "EXP Boost<br>阶层" +
             format_num(
                 game.boost_tier + game.starter_kit + game.generator_kit
             ) +
-            ": +" +
+            "：每次点击+" +
             format_num(Math.round(game.exp_add * game.global_multiplier)) +
-            " EXP/click"
+            "经验值"
 
     //autoclicker
     document.getElementById("auto").style.display = "block"
@@ -824,7 +824,7 @@ function upgrade_update() {
             document.getElementById("auto_button").style.color = "#ffffff"
         } else {
             document.getElementById("auto_button").innerHTML =
-                "LVL " + format_lvl(game.auto_level)
+                "需" + format_lvl(game.auto_level) + "级"
             if (game.auto_level < 60) {
                 document.getElementById("auto_button").style.color = get_color(
                     Math.floor(game.auto_level / 10)
@@ -848,11 +848,11 @@ function upgrade_update() {
         document.getElementById("auto_button").style.color = "#ffffff"
     }
     document.getElementById("auto").innerHTML =
-        "Autoclicker<br>Tier " +
+        "Autoclicker<br>阶层" +
         format_num(game.auto_tier + game.starter_kit + game.generator_kit) +
-        ": " +
+        "：每秒点击" +
         format_num(game.cps) +
-        " clicks/s"
+        "次"
 
     //exp fluctuation
     if (game.pp_bought[0] && game.challenge !== 7) {
@@ -870,7 +870,7 @@ function upgrade_update() {
             document.getElementById("fluct_button").style.color = "#ffffff"
         } else {
             document.getElementById("fluct_button").innerHTML =
-                "LVL " + format_lvl(game.fluct_level)
+                "需" + format_lvl(game.fluct_level) + "级"
             if (game.fluct_level < 60) {
                 document.getElementById("fluct_button").style.color = get_color(
                     Math.floor(game.fluct_level / 10)
@@ -895,11 +895,11 @@ function upgrade_update() {
     }
     if (game.battery_mode === 1 || game.perks[8]) {
         document.getElementById("fluct").innerHTML =
-            "EXP Fluctuation<br>Tier " +
+            "EXP Fluctuation<br>阶层" +
             format_num(
                 game.fluct_tier + game.starter_kit + game.generator_kit
             ) +
-            ": +" +
+            "：每次点击经验值上限+" +
             format_num(
                 Math.round(
                     game.exp_fluct *
@@ -908,14 +908,14 @@ function upgrade_update() {
                         game.cap_boost
                 )
             ) +
-            " max extra EXP/click"
+            ""
         if (game.autods_toggle >= 1 && game.autods_goal === 0)
             document.getElementById("fluct").innerHTML =
-                "EXP Fluctuation<br>Tier " +
+                "EXP Fluctuation<br>阶层" +
                 format_num(
                     game.fluct_tier + game.starter_kit + game.generator_kit
                 ) +
-                ": +" +
+                "：每次点击经验值上限+" +
                 format_num(
                     Math.round(
                         game.exp_fluct *
@@ -925,27 +925,27 @@ function upgrade_update() {
                                 (1 - game.cap_boost) * game.cap_mode * 2)
                     )
                 ) +
-                " max extra EXP/click"
+                ""
     } else {
         document.getElementById("fluct").innerHTML =
-            "EXP Fluctuation<br>Tier " +
+            "EXP Fluctuation<br>阶层" +
             format_num(
                 game.fluct_tier + game.starter_kit + game.generator_kit
             ) +
-            ": +" +
+            "：每次点击经验值上限+" +
             format_num(
                 Math.round(
                     game.exp_fluct * game.global_multiplier * game.cap_boost
                 )
             ) +
-            " max extra EXP/click"
+            ""
         if (game.autods_toggle >= 1 && game.autods_goal === 0)
             document.getElementById("fluct").innerHTML =
-                "EXP Fluctuation<br>Tier " +
+                "EXP Fluctuation<br>阶层" +
                 format_num(
                     game.fluct_tier + game.starter_kit + game.generator_kit
                 ) +
-                ": +" +
+                "：每次点击经验值上限+" +
                 format_num(
                     Math.round(
                         game.exp_fluct *
@@ -954,7 +954,7 @@ function upgrade_update() {
                                 (1 - game.cap_boost) * game.cap_mode * 2)
                     )
                 ) +
-                " max extra EXP/click"
+                ""
     }
 
     //exp factor
@@ -973,7 +973,7 @@ function upgrade_update() {
             document.getElementById("fact_button").style.color = "#ffffff"
         } else {
             document.getElementById("fact_button").innerHTML =
-                "LVL " + format_lvl(game.fact_level)
+                "需" + format_lvl(game.fact_level) + "级"
             if (game.fact_level < 60) {
                 document.getElementById("fact_button").style.color = get_color(
                     Math.floor(game.fact_level / 10)
@@ -997,11 +997,11 @@ function upgrade_update() {
         document.getElementById("fact_button").style.color = "#ffffff"
     }
     document.getElementById("fact").innerHTML =
-        "EXP Factor<br>Tier " +
+        "EXP Factor<br>阶层" +
         format_num(game.fact_tier + game.starter_kit + game.generator_kit) +
-        ": " +
+        "：点击经验值变为" +
         format_num(game.exp_fact) +
-        "x EXP/click"
+        "倍"
 
     //exp flux
     if (game.pp_bought[20] && game.challenge !== 7) {
@@ -1019,7 +1019,7 @@ function upgrade_update() {
             document.getElementById("flux_button").style.color = "#ffffff"
         } else {
             document.getElementById("flux_button").innerHTML =
-                "LVL " + format_lvl(game.flux_level)
+                "需" + format_lvl(game.flux_level) + "级"
             if (game.flux_level < 60) {
                 document.getElementById("flux_button").style.color = get_color(
                     Math.floor(game.flux_level / 10)
@@ -1043,18 +1043,18 @@ function upgrade_update() {
         document.getElementById("flux_button").style.color = "#ffffff"
     }
     document.getElementById("flux").innerHTML =
-        "EXP Flux<br>Tier " +
+        "EXP Flux<br>阶层" +
         format_num(game.flux_tier + game.starter_kit + game.generator_kit) +
-        ": " +
+        "：点击经验值变为" +
         format_eff(game.exp_flux) +
-        "x EXP/click (+" +
+        "倍(每分钟+" +
         format_eff(
             (game.flux_tier + game.starter_kit + game.generator_kit) *
                 0.15 *
                 game.flux_boost *
                 game.flux_increase
         ) +
-        "/min)"
+        ")"
 
     //exp battery
     if (game.pp_bought[25] && game.challenge !== 7) {
@@ -1074,7 +1074,7 @@ function upgrade_update() {
             document.getElementById("battery_button").style.color = "#ffffff"
         } else {
             document.getElementById("battery_button").innerHTML =
-                "LVL " + format_lvl(game.battery_level)
+                "需" + format_lvl(game.battery_level) + "级"
             if (game.battery_level < 60) {
                 document.getElementById("battery_button").style.color =
                     get_color(Math.floor(game.battery_level / 10))
@@ -1095,40 +1095,40 @@ function upgrade_update() {
     }
     if (game.battery_mode === 0) {
         document.getElementById("battery").innerHTML =
-            "EXP Battery<br>Tier " +
+            "EXP Battery<br>阶层" +
             format_num(
                 game.battery_tier + game.starter_kit + game.generator_kit
             ) +
-            ": " +
+            "：手动经验值产量变为" +
             format_num(game.exp_battery) +
-            "x manual EXP production"
+            "倍"
     } else if (game.battery_mode === 1) {
         document.getElementById("battery").innerHTML =
-            "EXP Battery<br>Tier " +
+            "EXP Battery<br>阶层" +
             format_num(
                 game.battery_tier + game.starter_kit + game.generator_kit
             ) +
-            ": " +
+            "：自动经验值产量变为" +
             format_num(game.exp_battery) +
-            "x automated EXP production"
+            "倍"
     }
     if (game.perks[8]) {
         document.getElementById("battery").innerHTML =
-            "EXP Battery<br>Tier " +
+            "EXP Battery<br>阶层" +
             format_num(
                 game.battery_tier + game.starter_kit + game.generator_kit
             ) +
-            ": " +
+            "：经验值产量变为" +
             format_num(game.exp_battery) +
-            "x EXP production"
+            "倍"
     }
 
     if (game.starter_kit + game.generator_kit > 0) {
         document.getElementById("starter_kit").style.display = "block"
         document.getElementById("starter_kit").innerHTML =
-            "+" +
+            "由于初始套件的效果，免费增加了" +
             format_num(game.starter_kit + game.generator_kit) +
-            " free tiers from Starter Kit"
+            "阶层"
     } else {
         document.getElementById("starter_kit").style.display = "none"
     }
@@ -1154,7 +1154,7 @@ function stats_update() {
                                 game.exp_battery *
                                 game.cap_boost
                         )
-                    ) + " EXP"
+                    ) + "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1172,7 +1172,7 @@ function stats_update() {
                                             game.cap_mode *
                                             cap_const)
                             )
-                        ) + " EXP (Discharging)"
+                        ) + "经验值(放电)"
             } else {
                 auto_plus =
                     format_num(
@@ -1181,7 +1181,7 @@ function stats_update() {
                                 game.global_multiplier *
                                 game.cap_boost
                         )
-                    ) + " EXP"
+                    ) + "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1198,7 +1198,7 @@ function stats_update() {
                                             game.cap_mode *
                                             cap_const)
                             )
-                        ) + " EXP (Discharging)"
+                        ) + "经验值(放电)"
             }
         } else if (
             game.fluct_tier >= 1 ||
@@ -1223,7 +1223,7 @@ function stats_update() {
                                 game.cap_boost
                         )
                     ) +
-                    " EXP"
+                    "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1254,7 +1254,7 @@ function stats_update() {
                                             cap_const)
                             )
                         ) +
-                        " EXP (Discharging)"
+                        "经验值(放电)"
             } else {
                 auto_plus =
                     format_num(
@@ -1272,7 +1272,7 @@ function stats_update() {
                                 game.cap_boost
                         )
                     ) +
-                    " EXP"
+                    "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1301,13 +1301,13 @@ function stats_update() {
                                             cap_const)
                             )
                         ) +
-                        " EXP (Discharging)"
+                        "经验值(放电)"
             }
         }
         if (game.challenge === 7)
             auto_plus =
                 format_num(Math.round(game.exp_add * game.global_multiplier)) +
-                " EXP"
+                "经验值"
         if (game.pp_bought[1]) {
             if (
                 game.fluct_tier === 0 &&
@@ -1322,7 +1322,7 @@ function stats_update() {
                                     game.exp_battery *
                                     game.ml_boost
                             )
-                        ) + " EXP"
+                        ) + "经验值"
                 } else {
                     manual_plus =
                         format_num(
@@ -1331,7 +1331,7 @@ function stats_update() {
                                     game.global_multiplier *
                                     game.ml_boost
                             )
-                        ) + " EXP"
+                        ) + "经验值"
                 }
             } else if (
                 game.fluct_tier >= 1 ||
@@ -1356,7 +1356,7 @@ function stats_update() {
                                     game.ml_boost
                             )
                         ) +
-                        " EXP"
+                        "经验值"
                 } else {
                     manual_plus =
                         format_num(
@@ -1374,7 +1374,7 @@ function stats_update() {
                                     game.ml_boost
                             )
                         ) +
-                        " EXP"
+                        "经验值"
                 }
             }
         }
@@ -1388,13 +1388,13 @@ function stats_update() {
         ) {
             if (game.battery_mode === 1 || game.perks[8]) {
                 exp_eff =
-                    format_eff(
+                    "每秒" + format_eff(
                         (game.exp_add + game.exp_fluct / 2) *
                             game.global_multiplier *
                             game.exp_battery *
                             game.cap_boost *
                             game.cps
-                    ) + " EXP/sec"
+                    ) + "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1402,7 +1402,7 @@ function stats_update() {
                         !game.smartds_oc)
                 )
                     exp_eff =
-                        format_eff(
+                        "每秒" + format_eff(
                             (game.exp_add + game.exp_fluct / 2) *
                                 game.global_multiplier *
                                 game.exp_battery *
@@ -1411,15 +1411,15 @@ function stats_update() {
                                         game.cap_mode *
                                         cap_const) *
                                 game.cps
-                        ) + " EXP/sec (Discharging)"
+                        ) + "经验值(放电)"
             } else {
                 exp_eff =
-                    format_eff(
+                    "每秒" + format_eff(
                         (game.exp_add + game.exp_fluct / 2) *
                             game.global_multiplier *
                             game.cap_boost *
                             game.cps
-                    ) + " EXP/sec"
+                    ) + "经验值"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1427,7 +1427,7 @@ function stats_update() {
                         !game.smartds_oc)
                 )
                     exp_eff =
-                        format_eff(
+                        "每秒" + format_eff(
                             (game.exp_add + game.exp_fluct / 2) *
                                 game.global_multiplier *
                                 (game.cap_boost +
@@ -1435,13 +1435,13 @@ function stats_update() {
                                         game.cap_mode *
                                         cap_const) *
                                 game.cps
-                        ) + " EXP/sec (Discharging)"
+                        ) + "经验值(放电)"
             }
         }
         if (game.challenge === 7)
             exp_eff =
-                format_eff(game.exp_add * game.global_multiplier * game.cps) +
-                " EXP/sec"
+                "每秒" + format_eff(game.exp_add * game.global_multiplier * game.cps) +
+                "经验值"
 
         let total_auto = ""
         let total_manual = ""
@@ -1453,7 +1453,7 @@ function stats_update() {
                             game.global_multiplier *
                             game.exp_battery *
                             game.cap_boost
-                    ) + "x"
+                    ) + "倍"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1469,16 +1469,16 @@ function stats_update() {
                                     (1 - game.cap_boost) *
                                         game.cap_mode *
                                         cap_const)
-                        ) + "x (Discharging)"
+                        ) + "倍(放电)"
                 total_manual =
                     format_eff(
                         game.amp * game.global_multiplier * game.ml_boost
-                    ) + "x"
+                    ) + "倍"
             } else {
                 total_auto =
                     format_eff(
                         game.amp * game.global_multiplier * game.cap_boost
-                    ) + "x"
+                    ) + "倍"
                 if (
                     (game.autods_toggle === 1 && game.autods_goal === 0) ||
                     (game.autods_toggle === 2 &&
@@ -1493,90 +1493,90 @@ function stats_update() {
                                     (1 - game.cap_boost) *
                                         game.cap_mode *
                                         cap_const)
-                        ) + "x (Discharging)"
+                        ) + "倍(放电)"
                 total_manual =
                     format_eff(
                         game.amp *
                             game.global_multiplier *
                             game.exp_battery *
                             game.ml_boost
-                    ) + "x"
+                    ) + "倍"
             }
 
             if (game.challenge === 7)
-                total_auto = format_eff(game.amp * game.global_multiplier) + "x"
+                total_auto = format_eff(game.amp * game.global_multiplier) + "倍"
         }
 
         document.getElementById("current_level_stat").innerHTML =
-            "LVL " + format_lvl(game.level)
+            format_lvl(game.level) + "级"
         document.getElementById("highest_level_stat").innerHTML =
-            "LVL " + format_lvl(game.highest_level)
+            format_lvl(game.highest_level) + "级"
         document.getElementById("highest_level_ci_stat").innerHTML =
-            "LVL " + format_lvl(game.reboot_highest_level)
+            format_lvl(game.reboot_highest_level) + "级"
         document.getElementById("highest_level_at_stat").innerHTML =
-            "LVL " + format_lvl(game.all_time_highest_level)
+            format_lvl(game.all_time_highest_level) + "级"
         if (game.level < 60 || (game.pp_bought[6] && game.level < 1000000))
             document.getElementById("current_exp_stat").innerHTML =
-                format_num(game.exp) + " / " + format_num(game.goal) + " EXP"
+                format_num(game.exp) + "经验值，升级需" + format_num(game.goal) + "经验值"
         else document.getElementById("current_exp_stat").innerHTML = "Maxed!"
         document.getElementById("total_exp_cp_stat").innerHTML =
-            format_num(game.total_exp) + " EXP"
+            format_num(game.total_exp) + "经验值"
         document.getElementById("total_exp_cr_stat").innerHTML =
-            format_num(game.prestige_exp) + " EXP"
+            format_num(game.prestige_exp) + "经验值"
         document.getElementById("total_exp_ci_stat").innerHTML =
-            format_num(game.reboot_exp) + " EXP"
+            format_num(game.reboot_exp) + "经验值"
         document.getElementById("total_exp_at_stat").innerHTML =
-            format_num(game.all_time_exp) + " EXP"
+            format_num(game.all_time_exp) + "经验值"
         document.getElementById("exp_click_au_stat").innerHTML =
             "<br>" + auto_plus
         document.getElementById("exp_click_mn_stat").innerHTML = manual_plus
         document.getElementById("exp_multi_au_stat").innerHTML = total_auto
         document.getElementById("exp_multi_mn_stat").innerHTML = total_manual
         document.getElementById("autoclicking_stat").innerHTML =
-            "<br>" + format_num(game.cps) + " clicks/s"
+            "<br>每秒点击" + format_num(game.cps) + "次"
         document.getElementById("auto_power_stat").innerHTML = exp_eff
         document.getElementById("total_clicks_cp_stat").innerHTML =
-            "<br>" + format_num(game.clicks)
+            "<br>" + format_num(game.clicks) + "次"
         document.getElementById("total_clicks_cr_stat").innerHTML = format_num(
             game.prestige_clicks
-        )
+        ) + "次"
         document.getElementById("total_clicks_ci_stat").innerHTML = format_num(
             game.reboot_clicks
-        )
+        ) + "次"
         document.getElementById("total_clicks_at_stat").innerHTML = format_num(
             game.total_clicks
-        )
+        ) + "次"
         document.getElementById("times_prestiged_stat").innerHTML =
-            "<br>" + format_num(game.prestige + game.banked_prestige)
+            "<br>" + format_num(game.prestige + game.banked_prestige) + "次"
         if (game.perks[18] && game.banked_prestige > 0)
             document.getElementById("times_prestiged_stat").innerHTML =
                 "<br>" +
                 format_num(game.prestige + game.banked_prestige) +
-                " (+" +
+                "次(+" +
                 format_num(game.banked_prestige) +
-                ")"
+                "次)"
         document.getElementById("amplification_stat").innerHTML =
-            format_num(game.amp) + " AMP"
+            format_num(game.amp) + "放大倍率"
         document.getElementById("current_pp_stat").innerHTML =
-            format_num(game.pp) + " PP"
+            format_num(game.pp) + "转生点"
         document.getElementById("total_pp_stat").innerHTML =
-            format_num(game.total_pp) + " PP"
+            format_num(game.total_pp) + "转生点"
         document.getElementById("total_reboots_stat").innerHTML =
-            "<br>" + format_num(game.reboot)
+            "<br>" + format_num(game.reboot) + "次"
         document.getElementById("generator_power_stat").innerHTML =
-            format_num(game.watts) + " watts"
+            format_num(game.watts) + "瓦特"
         if (game.watts === 1 && game.notation !== 8)
             document.getElementById("generator_power_stat").innerHTML =
-                format_num(game.watts) + " watt"
+                format_num(game.watts) + "瓦特"
         document.getElementById("current_hydrogen_stat").innerHTML =
-            format_eff(game.hydrogen) + " g hydrogen"
+            format_eff(game.hydrogen) + "克氢"
         document.getElementById("total_iterations_stat").innerHTML =
-            "<br>" + format_num(game.quantum)
+            "<br>" + format_num(game.quantum) + "次"
         document.getElementById("current_photons_stat").innerHTML =
-            format_num(game.photons) + " photons"
+            format_num(game.photons) + "光子"
         if (game.photons === 1 && game.notation !== 8)
             document.getElementById("current_photons_stat").innerHTML =
-                format_num(game.photons) + " photon"
+                format_num(game.photons) + "光子"
         document.getElementById("time_played_cp_stat").innerHTML =
             "<br>" + format_time(game.time)
         document.getElementById("fastest_prestige_stat").innerHTML =
@@ -1759,16 +1759,16 @@ function stats_update() {
         for (let i = 0; i < 5; i++) {
             reset_str += "<br>[" + format_num(i + 1) + "]"
             if (game.amp_amount[i] === -1) {
-                reset_str += " no data"
+                reset_str += "无数据"
             } else {
                 reset_str +=
-                    " +" +
+                    "放大倍率+" +
                     format_num(game.amp_amount[i]) +
-                    " AMP in " +
+                    "，耗时" +
                     format_time(game.amp_time[i] * game.tickspeed) +
-                    " (+" +
+                    "(每秒放大倍率+" +
                     format_eff(game.amp_eff[i]) +
-                    " AMP/sec)"
+                    ")"
                 entries++
                 amp_sec += game.amp_eff[i]
             }
@@ -1777,9 +1777,9 @@ function stats_update() {
         if (entries !== 0) {
             amp_sec /= entries
             reset_str +=
-                "<br><br>Average AMP gain: +" + format_eff(amp_sec) + " AMP/sec"
+                "<br><br>放大倍率平均收益：每秒放大倍率+" + format_eff(amp_sec) + ""
         } else {
-            reset_str += "<br><br>Average AMP gain: undefined"
+            reset_str += "<br><br>放大倍率平均收益：未知"
         }
 
         if (game.perks[15]) {
@@ -1790,28 +1790,28 @@ function stats_update() {
             for (let i = 0; i < 5; i++) {
                 reset_str += "<br>[" + format_num(i + 1) + "]"
                 if (game.watts_amount[i] === -1) {
-                    reset_str += "no data"
+                    reset_str += "无数据"
                 } else {
                     reset_str +=
-                        " +" +
+                        "瓦特+" +
                         format_num(game.watts_amount[i]) +
-                        " watts in " +
+                        "，耗时" +
                         format_time(game.watts_time[i] * game.tickspeed)
                     if (game.watts_eff[i] < 1 / 60) {
                         reset_str +=
-                            " (+" +
+                            "(每小时瓦特+" +
                             format_eff(game.watts_eff[i] * 3600) +
-                            " watts/hour)"
+                            ")"
                     } else if (game.watts_eff[i] < 1) {
                         reset_str +=
-                            " (+" +
+                            "(每分钟瓦特+" +
                             format_eff(game.watts_eff[i] * 60) +
-                            " watts/min)"
+                            ")"
                     } else {
                         reset_str +=
-                            " (+" +
+                            "(每秒瓦特+" +
                             format_eff(game.watts_eff[i]) +
-                            " watts/sec)"
+                            ")"
                     }
                     entries++
                     watts_sec += game.watts_eff[i]
@@ -1822,22 +1822,22 @@ function stats_update() {
                 watts_sec /= entries
                 if (watts_sec < 1 / 60) {
                     reset_str +=
-                        "<br><br>Average watts gain: +" +
+                        "<br><br>瓦特平均收益：每小时瓦特+" +
                         format_eff(watts_sec * 3600) +
-                        " watts/hour"
+                        ""
                 } else if (watts_sec < 1) {
                     reset_str +=
-                        "<br><br>Average watts gain: +" +
+                        "<br><br>瓦特平均收益：每分钟瓦特+" +
                         format_eff(watts_sec * 60) +
-                        " watts/min"
+                        ""
                 } else {
                     reset_str +=
-                        "<br><br>Average watts gain: +" +
+                        "<br><br>瓦特平均收益：每秒瓦特+" +
                         format_eff(watts_sec) +
-                        " watts/sec"
+                        ""
                 }
             } else {
-                reset_str += "<br><br>Average watts gain: undefined"
+                reset_str += "<br><br>瓦特平均收益：未知"
             }
         }
 
@@ -1850,7 +1850,7 @@ function pp_update() {
     //prestige panel
     document.getElementById("amp2").innerHTML = format_num(game.amp)
     document.getElementById("amp_boost").innerHTML =
-        "creating " + format_num(game.amp) + "x EXP production"
+        "使经验值产量变为" + format_num(game.amp) + "倍"
     document.getElementById("pp2").innerHTML = format_num(game.pp)
 
     if (game.challenge !== 4 && game.challenge !== 9) {
@@ -1862,7 +1862,7 @@ function pp_update() {
                         get_amp(game.level) * game.patience * game.watt_boost
                     )
                 ) +
-                " AMP"
+                "放大倍率"
             let pp_amount = 0
             if (game.level > game.highest_level) {
                 if (game.prestige <= 21)
@@ -1874,16 +1874,16 @@ function pp_update() {
                 else pp_amount = 0
             }
             document.getElementById("pp_up2").innerHTML =
-                "+" + format_num(pp_amount) + " PP"
+                "+" + format_num(pp_amount) + "转生点"
             document.getElementById("prestige_button").innerHTML = "PRESTIGE!"
             document.getElementById("prestige_button").style.color = "white"
         } else {
             document.getElementById("amp_up2").innerHTML =
-                "+" + format_num(0) + " AMP"
+                "+" + format_num(0) + "放大倍率"
             document.getElementById("pp_up2").innerHTML =
-                "+" + format_num(0) + " PP"
+                "+" + format_num(0) + "转生点"
             document.getElementById("prestige_button").innerHTML =
-                "LVL " + format_lvl(game.pr_min)
+                "需" + format_lvl(game.pr_min) + "级"
             document.getElementById("prestige_button").style.color = get_color(
                 (Math.floor(game.pr_min / 60) + 5) % 12
             )
@@ -1894,22 +1894,22 @@ function pp_update() {
             document.getElementById("amp_up2").innerHTML =
                 "+" +
                 format_num(Math.floor(amp_amount * game.watt_boost)) +
-                " AMP"
+                "放大倍率"
             let pp_amount = 0
             if (game.prestige <= 21)
                 pp_amount = get_pp(game.level) - get_pp(game.highest_level) + 1
             else pp_amount = get_pp(game.level) - get_pp(game.highest_level)
             document.getElementById("pp_up2").innerHTML =
-                "+" + format_num(pp_amount) + " PP"
+                "+" + format_num(pp_amount) + "转生点"
             document.getElementById("prestige_button").innerHTML = "PRESTIGE!"
             document.getElementById("prestige_button").style.color = "white"
         } else {
             document.getElementById("amp_up2").innerHTML =
-                "+" + format_num(0) + " AMP"
+                "+" + format_num(0) + "放大倍率"
             document.getElementById("pp_up2").innerHTML =
-                "+" + format_num(0) + " PP"
+                "+" + format_num(0) + "转生点"
             document.getElementById("prestige_button").innerHTML =
-                "LVL " + format_lvl(game.highest_level)
+                "需" + format_lvl(game.highest_level) + "级"
 
             if (game.highest_level < 12000) {
                 document.getElementById("prestige_button").style.color =
@@ -1939,11 +1939,11 @@ function pp_update() {
                         current_pp = Math.ceil(current_pp)
                     }
                     document.getElementById("pp_next").innerHTML =
-                        "(Next PP at LVL " +
+                        "(下次获得转生点需达到" +
                         format_lvl(
                             Math.ceil((current_pp + 1) ** 0.5 * 20 + 40)
                         ) +
-                        ")"
+                        "级)"
                 } else {
                     let current_pp = ((game.level - 40) / 20) ** 2 - 1
                     if (current_pp % 1 === 0) {
@@ -1952,19 +1952,19 @@ function pp_update() {
                         current_pp = Math.ceil(current_pp)
                     }
                     document.getElementById("pp_next").innerHTML =
-                        "(Next PP at LVL " +
+                        "(下次获得转生点需达到" +
                         format_lvl(
                             Math.ceil((current_pp + 1) ** 0.5 * 20 + 40)
                         ) +
-                        ")"
+                        "级)"
                 }
             } else {
                 if (game.level < game.highest_level) {
                     document.getElementById("pp_next").style.display = "inline"
                     document.getElementById("pp_next").innerHTML =
-                        "(Next PP at LVL " +
+                        "(下次获得转生点需达到" +
                         format_lvl(game.highest_level + 1) +
-                        ")"
+                        "级)"
                 } else {
                     document.getElementById("pp_next").style.display = "none"
                 }
@@ -2030,7 +2030,7 @@ function pp_update() {
                 element.style.display = "flex"
             }
         } else {
-            button.innerHTML = "-" + format_num(upgrade.price) + " PP"
+            button.innerHTML = "-" + format_num(upgrade.price) + "转生点"
             if (game.pp >= upgrade.price) {
                 button.className = "pp_button pp_hidden"
                 if (upgrade.can_buy())
@@ -2081,15 +2081,15 @@ function watts_update() {
     document.getElementById("watts").innerHTML = format_num(game.watts)
 
     if (game.watts === 1 && game.notation !== 8)
-        document.getElementById("watts_text").innerHTML = "watt"
-    else document.getElementById("watts_text").innerHTML = "watts"
+        document.getElementById("watts_text").innerHTML = "瓦特"
+    else document.getElementById("watts_text").innerHTML = "瓦特"
 
     if (game.watts <= 0 && game.notation !== 8)
         document.getElementById("watts").className = "watts_text no_power"
     else document.getElementById("watts").className = "watts_text power"
 
     document.getElementById("gen_boost").innerHTML =
-        "producing " + format_num(game.watt_boost) + "x AMP gain"
+        "使放大倍率获取速度变为" + format_num(game.watt_boost) + "倍"
 
     let all_pp_upgrades = true
     for (const upgrade2 of pp_upgrade.upgrades) {
@@ -2198,14 +2198,14 @@ function watts_update() {
     else document.getElementById("spare_pp_req").style.color = "#ffffff"
     if (!game.perks[13]) {
         document.getElementById("spare_pp_req").innerHTML =
-            format_num(reboot_requirement) + " spare PP"
+            format_num(reboot_requirement) + "空余转生点"
     } else {
         document.getElementById("spare_pp_req").innerHTML =
             format_num(
                 Math.ceil(
                     15000 * (get_watts(game.pp) + 1) ** (20 / 17) + 185000
                 )
-            ) + " spare PP"
+            ) + "空余转生点"
     }
 
     if (game.challenge !== 0) {
@@ -2219,7 +2219,7 @@ function watts_update() {
                             (game.completions[game.challenge - 1] - 1) *
                             game.completions[game.challenge - 1]) /
                             2
-                ) + " spare PP"
+                ) + "空余转生点"
         } else {
             if (game.dk_bought[3]) {
                 if (game.completions[game.challenge - 1] < 20) {
@@ -2236,7 +2236,7 @@ function watts_update() {
                                     (game.completions[game.challenge - 1] -
                                         12)) /
                                     2
-                        ) + " spare PP"
+                        ) + "空余转生点"
                 } else {
                     document.getElementById("spare_pp_req").innerHTML =
                         format_num(
@@ -2245,7 +2245,7 @@ function watts_update() {
                                     7 +
                                 challenge.challenges[game.challenge - 1].step4 *
                                     21
-                        ) + " spare PP"
+                        ) + "空余转生点"
                 }
             } else {
                 document.getElementById("spare_pp_req").innerHTML =
@@ -2253,7 +2253,7 @@ function watts_update() {
                         challenge.challenges[game.challenge - 1].goal +
                             challenge.challenges[game.challenge - 1].step * 11 +
                             challenge.challenges[game.challenge - 1].step2 * 55
-                    ) + " spare PP"
+                    ) + "空余转生点"
             }
         }
     }
@@ -2264,10 +2264,10 @@ function watts_update() {
         if (!game.perks[13]) {
             if (game.notation !== 8 && game.prism_level === 0)
                 document.getElementById("watts_plus").innerHTML =
-                    "+" + format_num(game.prism_boost) + " watt"
+                    "+" + format_num(game.prism_boost) + "瓦特"
             else
                 document.getElementById("watts_plus").innerHTML =
-                    "+" + format_num(game.prism_boost) + " watts"
+                    "+" + format_num(game.prism_boost) + "瓦特"
         } else {
             if (
                 get_watts(game.pp) * game.prism_boost === 1 &&
@@ -2276,12 +2276,12 @@ function watts_update() {
                 document.getElementById("watts_plus").innerHTML =
                     "+" +
                     format_num(get_watts(game.pp) * game.prism_boost) +
-                    " watt"
+                    "瓦特"
             else
                 document.getElementById("watts_plus").innerHTML =
                     "+" +
                     format_num(get_watts(game.pp) * game.prism_boost) +
-                    " watts"
+                    "瓦特"
             if (game.perks[22] && (game.watts >= 98304 || game.dk_bought[5])) {
                 document.getElementById("hydrogen_plus").style.display =
                     "inline"
@@ -2292,7 +2292,7 @@ function watts_update() {
                             2 ** game.supply_level *
                             game.prism_boost
                     ) +
-                    " g hydrogen"
+                    "克氢"
                 if (game.perks[25])
                     document.getElementById("hydrogen_plus").innerHTML =
                         "+" +
@@ -2301,7 +2301,7 @@ function watts_update() {
                                 2.5 ** game.supply_level *
                                 game.prism_boost
                         ) +
-                        " g hydrogen"
+                        "克氢"
                 if (game.dk_bought[5])
                     document.getElementById("hydrogen_plus").innerHTML =
                         "+" +
@@ -2310,7 +2310,7 @@ function watts_update() {
                                 3 ** game.supply_level *
                                 game.prism_boost
                         ) +
-                        " g hydrogen"
+                        "克氢"
             }
         }
     } else {
@@ -2336,10 +2336,10 @@ function watts_update() {
             text.className = "perk_requirement incomplete_text"
             if (perk.requirement === 1 && game.notation !== 8)
                 text.innerHTML =
-                    "Requires<br>" + format_num(perk.requirement) + " watt"
+                    "Requires<br>" + format_num(perk.requirement) + "瓦特"
             else
                 text.innerHTML =
-                    "Requires<br>" + format_num(perk.requirement) + " watts"
+                    "Requires<br>" + format_num(perk.requirement) + "瓦特"
         }
 
         if (perk.id >= 3) {
@@ -2447,7 +2447,7 @@ function watts_update() {
 function challenge_update() {
     if (game.dk_bought[3]) {
         document.getElementById("challenge_header").innerHTML =
-            "Entering a challenge will attempt to Reboot, and will reset without giving watts if you cannot<br>To complete a challenge you must Reboot with the required amount of spare PP<br><br>Total EXP boost from all challenges: " +
+            "Entering a challenge will attempt to Reboot, and will reset without giving watts if you cannot<br>To complete a challenge you must Reboot with the required amount of spare PP<br><br>所有挑战的经验值加成合计：" +
             format_num(
                 game.ch_boost[0] *
                     game.ch_boost[1] *
@@ -2459,7 +2459,7 @@ function challenge_update() {
                     game.ch_boost[7] *
                     game.ch_boost[8]
             ) +
-            "x<br>Total helium boost from all challenges: " +
+            "倍<br>所有挑战的氦加成合计：" +
             format_eff(
                 game.ch_helium_boost[0] *
                     game.ch_helium_boost[1] *
@@ -2471,10 +2471,10 @@ function challenge_update() {
                     game.ch_helium_boost[7] *
                     game.ch_helium_boost[8]
             ) +
-            "x"
+            "倍"
     } else {
         document.getElementById("challenge_header").innerHTML =
-            "Entering a challenge will attempt to Reboot, and will reset without giving watts if you cannot<br>To complete a challenge you must Reboot with the required amount of spare PP<br><br>Total EXP boost from all challenges: " +
+            "Entering a challenge will attempt to Reboot, and will reset without giving watts if you cannot<br>To complete a challenge you must Reboot with the required amount of spare PP<br><br>所有挑战的经验值加成合计：" +
             format_num(
                 game.ch_boost[0] *
                     game.ch_boost[1] *
@@ -2486,7 +2486,7 @@ function challenge_update() {
                     game.ch_boost[7] *
                     game.ch_boost[8]
             ) +
-            "x"
+            "倍"
     }
 
     let total_completions =
@@ -2532,24 +2532,24 @@ function challenge_update() {
 
         if (game.dk_bought[3]) {
             complete.innerHTML =
-                "Completions: " +
+                "完成次数：已完成" +
                 format_num(game.completions[chg.id - 1]) +
-                " / " +
+                "次，上限为" +
                 format_num(20) +
-                "<br>Boosts from completions: " +
+                "次<br>完成挑战的加成：" +
                 format_num(game.ch_boost[chg.id - 1]) +
-                "x EXP, " +
+                "倍经验值，" +
                 format_eff(game.ch_helium_boost[chg.id - 1]) +
-                "x helium"
+                "倍氦"
         } else {
             complete.innerHTML =
-                "Completions: " +
+                "完成次数：已完成" +
                 format_num(game.completions[chg.id - 1]) +
-                " / " +
+                "次，上限为" +
                 format_num(12) +
-                "<br>EXP boost from completions: " +
+                "次<br>完成挑战的经验值加成：" +
                 format_num(game.ch_boost[chg.id - 1]) +
-                "x"
+                "倍"
         }
 
         if (game.completions[chg.id - 1] < 12) {
@@ -2563,7 +2563,7 @@ function challenge_update() {
                             game.completions[chg.id - 1]) /
                             2
                 ) +
-                " PP</span>"
+                "转生点</span>"
         } else {
             if (game.dk_bought[3]) {
                 if (game.completions[chg.id - 1] < 20) {
@@ -2578,18 +2578,18 @@ function challenge_update() {
                                     (game.completions[chg.id - 1] - 12)) /
                                     2
                         ) +
-                        " PP</span>"
+                        "转生点</span>"
                 } else {
                     goal.innerHTML =
                         'Goal: <span class="challenge_pp">' +
                         format_num(chg.goal2 + chg.step3 * 7 + chg.step4 * 21) +
-                        " PP</span>"
+                        "转生点</span>"
                 }
             } else {
                 goal.innerHTML =
                     'Goal: <span class="challenge_pp">' +
                     format_num(chg.goal + chg.step * 11 + chg.step2 * 55) +
-                    " PP</span>"
+                    "转生点</span>"
             }
         }
 
@@ -2657,26 +2657,26 @@ function reactor_update() {
 
     document.getElementById("helium").innerHTML = format_eff(game.helium)
     document.getElementById("helium_boost").innerHTML =
-        "creating " + format_eff(game.helium_boost) + "x EXP production"
+        "使经验值产量变为" + format_eff(game.helium_boost) + "倍"
     document.getElementById("helium_rate").innerHTML =
-        "+" + format_eff(game.hps) + " mg helium/sec"
+        "每秒+" + format_eff(game.hps) + "毫克氦"
     if (game.challenge === 8)
         document.getElementById("helium_rate").innerHTML =
-            "+" + format_eff(0) + " mg helium/sec"
+            "每秒+" + format_eff(0) + "毫克氦"
 
     for (const c of core.cores) {
         let element = reactor_map.get(c)
         let button = element.querySelector(".core_button")
         let power = element.querySelector(".core_power")
 
-        element.querySelector(".core_id").innerHTML = "Core " + format_num(c.id)
+        element.querySelector(".core_id").innerHTML = "核心" + format_num(c.id)
 
         if (c.id === 0) {
             power.innerHTML =
-                "+" + format_eff(game.core_level[c.id]) + " mg base helium/sec"
+                "每秒氦基础产量" + format_eff(game.core_level[c.id]) + "毫克"
         } else {
             power.innerHTML =
-                format_num(game.core_level[c.id] + 1) + "x helium production"
+                "氦产量变为" + format_num(game.core_level[c.id] + 1) + "倍"
             if (game.core_level[c.id - 1] >= 1) {
                 element.style.display = "flex"
             } else {
@@ -2685,7 +2685,7 @@ function reactor_update() {
         }
 
         button.innerHTML =
-            "-" + format_eff(game.core_price[c.id]) + " g hydrogen"
+            "-" + format_eff(game.core_price[c.id]) + "克氢"
 
         if (game.hydrogen >= game.core_price[c.id]) {
             button.className = "core_button core_unlocked"
@@ -2707,15 +2707,15 @@ function reactor_update() {
         document.getElementById("power_supply").style.display = "none"
     }
     document.getElementById("supply_gain").innerHTML =
-        format_eff(2 ** game.supply_level) + "x hydrogen gains"
+        "氢产量变为" + format_eff(2 ** game.supply_level) + "倍"
     if (game.perks[25])
         document.getElementById("supply_gain").innerHTML =
-            format_eff(2.5 ** game.supply_level) + "x hydrogen gains"
+            "氢产量变为" + format_eff(2.5 ** game.supply_level) + "倍"
     if (game.dk_bought[5])
         document.getElementById("supply_gain").innerHTML =
-            format_eff(3 ** game.supply_level) + "x hydrogen gains"
+            "氢产量变为" + format_eff(3 ** game.supply_level) + "倍"
     document.getElementById("supply_button").innerHTML =
-        "-" + format_eff(game.supply_price) + " g hydrogen"
+        "-" + format_eff(game.supply_price) + "克氢"
 
     if (game.core_level[7] >= 1 || game.quantum >= 1) {
         document.getElementById("reactor_buy_max").style.display = "inline"
@@ -2752,8 +2752,8 @@ function reactor_update() {
 function prism_update() {
     document.getElementById("photons").innerHTML = format_num(game.photons)
     if (game.photons === 1 && game.notation !== 8)
-        document.getElementById("photons_text").innerHTML = "photon"
-    else document.getElementById("photons_text").innerHTML = "photons"
+        document.getElementById("photons_text").innerHTML = "光子"
+    else document.getElementById("photons_text").innerHTML = "光子"
 
     let total_completions =
         game.completions[0] +
@@ -2782,20 +2782,20 @@ function prism_update() {
         document.getElementById("photons_up").style.display = "block"
         if (amount === 1 && game.notation !== 8)
             document.getElementById("photons_up").innerHTML =
-                "+" + format_num(amount) + " photon"
+                "+" + format_num(amount) + "光子"
         else
             document.getElementById("photons_up").innerHTML =
-                "+" + format_num(amount) + " photons"
+                "+" + format_num(amount) + "光子"
     } else {
         document.getElementById("quantize_button").className = "unlit"
         if (amount >= 1) {
             document.getElementById("photons_up").style.display = "block"
             if (amount === 1 && game.notation !== 8)
                 document.getElementById("photons_up").innerHTML =
-                    "+" + format_num(amount) + " photon"
+                    "+" + format_num(amount) + "光子"
             else
                 document.getElementById("photons_up").innerHTML =
-                    "+" + format_num(amount) + " photons"
+                    "+" + format_num(amount) + "光子"
         } else {
             document.getElementById("photons_up").style.display = "none"
         }
@@ -2819,13 +2819,13 @@ function prism_update() {
         game.prism_level
     )
     document.getElementById("prism_level2").innerHTML =
-        "Prism LVL " + format_lvl(game.prism_level)
+        "棱镜" + format_lvl(game.prism_level) + "级"
     document.getElementById("prism_boost").innerHTML =
-        format_num(game.prism_boost * game.om_boost[0]) + "x watt gain boost"
+        "使瓦特获取速度变为" + format_num(game.prism_boost * game.om_boost[0]) + "倍"
     document.getElementById("prism_boost2").innerHTML =
-        format_num(game.prism_boost * game.om_boost[0]) + "x watt gain boost"
+        "使瓦特获取速度变为" + format_num(game.prism_boost * game.om_boost[0]) + "倍"
     document.getElementById("prism_button").innerHTML =
-        "-" + format_num(Math.round(5 * 2.8 ** game.prism_level)) + " photons"
+        "-" + format_num(Math.round(5 * 2.8 ** game.prism_level)) + "光子"
 
     if (game.prism_level >= 1)
         document.getElementById("prism").className = "prism_lit"
@@ -2847,7 +2847,7 @@ function prism_update() {
             button.className = "qu_button superlit"
             button.innerHTML = "PURCHASED"
         } else {
-            button.innerHTML = "-" + format_num(upgrade.price) + " photons"
+            button.innerHTML = "-" + format_num(upgrade.price) + "光子"
             if (game.photons >= upgrade.price) {
                 button.className = "qu_button lit"
             } else {
@@ -2876,16 +2876,16 @@ function prism_update() {
 
             if (game.prev_photons === 0) {
                 document.getElementById("step_goal").innerHTML =
-                    "Current Quantize Goal: " +
+                    "当前量子化目标：" +
                     format_num(Math.ceil(game.autoqu_goal[2])) +
-                    " photons"
+                    "光子"
             } else {
                 document.getElementById("step_goal").innerHTML =
-                    "Current Quantize Goal: " +
+                    "当前量子化目标：" +
                     format_num(
                         Math.ceil(game.prev_photons * game.autoqu_goal[2])
                     ) +
-                    " photons"
+                    "光子"
             }
         } else {
             document.getElementById("step_mode").style.display = "none"
@@ -3013,24 +3013,24 @@ function gravity_update() {
         game.dark_matter
     )
     document.getElementById("dark_matter_boost").innerHTML =
-        "creating " + format_eff(game.dark_matter_boost) + "x EXP production"
+        "使经验值产量变为" + format_eff(game.dark_matter_boost) + "倍"
     if (game.dk_bought[6])
         document.getElementById("dark_matter_boost").innerHTML =
-            "creating " +
+            "使经验值产量变为" +
             format_eff(game.dark_matter_boost) +
-            "x EXP production<br>also creating " +
+            "倍<br>并使氦产量变为" +
             format_eff(game.dark_matter_boost ** 0.2) +
-            "x helium production"
+            "倍"
     if (game.challenge === 7) {
         document.getElementById("dark_matter_boost").innerHTML =
-            "creating " + format_eff(1) + "x EXP production"
+            "使经验值产量变为" + format_eff(1) + "倍"
         if (game.dk_bought[6])
             document.getElementById("dark_matter_boost").innerHTML =
-                "creating " +
+                "使经验值产量变为" +
                 format_eff(1) +
-                "x EXP production<br>also creating " +
+                "倍<br>并使氦产量变为" +
                 format_eff(1) +
-                "x helium production"
+                "倍"
     }
 
     let penalty = 1
@@ -3044,46 +3044,46 @@ function gravity_update() {
     if (game.omega_level >= 1) {
         document.getElementById("omega_level").style.display = "block"
         document.getElementById("omega_level_text").innerHTML =
-            "Omega LVL " + format_num(game.omega_level)
+            "" + format_num(game.omega_level) + "级欧米伽"
         document.getElementById("growth_penalty").innerHTML =
-            "Effective Growth Factor " +
+            "有效增长系数为" +
             format_eff(
                 (game.growth_factor * 12 ** game.om_completions) **
                     (0.7 ** game.omega_level * penalty)
             ) +
-            "x"
+            "倍"
         if (game.om_bought[2]) {
             document.getElementById("growth_penalty").innerHTML =
-                "Effective Growth Factor " +
+                "有效增长系数为" +
                 format_eff(
                     (game.growth_factor *
                         1.15 ** game.highest_omega_level *
                         12 ** game.om_completions) **
                         (0.7 ** game.omega_level * penalty)
                 ) +
-                "x"
+                "倍"
             if (game.om_bought[5])
                 document.getElementById("growth_penalty").innerHTML =
-                    "Effective Growth Factor " +
+                    "有效增长系数为" +
                     format_eff(
                         (game.growth_factor *
                             1.15 ** game.highest_omega_level *
                             12 ** game.om_completions) **
                             (0.8 ** game.omega_level * penalty)
                     ) +
-                    "x"
+                    "倍"
         }
     } else {
         document.getElementById("omega_level").style.display = "none"
     }
 
     document.getElementById("interval_text").innerHTML =
-        "Growth Interval<br>" +
+        "增长间隔<br>" +
         format_eff(game.growth_interval / game.tickspeed) +
-        " seconds"
+        "秒"
     if (game.growth_interval > 1) {
         document.getElementById("interval_button").innerHTML =
-            "-" + format_num(game.growth_price[0]) + " photons"
+            "-" + format_num(game.growth_price[0]) + "光子"
         if (game.photons >= game.growth_price[0]) {
             document.getElementById("interval_button").className = "lit"
         } else {
@@ -3094,23 +3094,23 @@ function gravity_update() {
         document.getElementById("interval_button").className = "superlit"
     }
     document.getElementById("growth_text").innerHTML =
-        "Growth Factor<br>" +
+        "增长系数<br>" +
         format_eff(game.growth_factor * 12 ** game.om_completions) +
-        "x"
+        "倍"
     if (game.om_bought[2])
         document.getElementById("growth_text").innerHTML =
-            "Growth Factor<br>" +
+            "增长系数<br>" +
             format_eff(
                 game.growth_factor *
                     1.15 ** game.highest_omega_level *
                     12 ** game.om_completions
             ) +
-            "x"
+            "倍"
     if (game.omega_challenge)
         document.getElementById("growth_text").innerHTML =
-            "Growth Factor<br>" + format_eff(1) + "x"
+            "增长系数<br>" + format_eff(1) + "倍"
     document.getElementById("growth_button").innerHTML =
-        "-" + format_num(game.growth_price[1]) + " photons"
+        "-" + format_num(game.growth_price[1]) + "光子"
     if (game.photons >= game.growth_price[1]) {
         document.getElementById("growth_button").className = "lit"
     } else {
@@ -3133,7 +3133,7 @@ function gravity_update() {
         else document.getElementById("collapse_time").style.display = "none"
         if (game.dark_matter.cmp(1.7976931348622053 * 10 ** 308) === -1) {
             document.getElementById("collapse_time").innerHTML =
-                "Collapse ready in " +
+                "" +
                 format_time(
                     (Math.log(
                         (1.7976931348622053 * 10 ** 308) /
@@ -3144,10 +3144,10 @@ function gravity_update() {
                                 (0.7 ** game.omega_level)
                         )) *
                         game.growth_interval
-                )
+                ) + "后可以坍缩"
             if (game.om_bought[2]) {
                 document.getElementById("collapse_time").innerHTML =
-                    "Collapse ready in " +
+                    "" +
                     format_time(
                         (Math.log(
                             (1.7976931348622053 * 10 ** 308) /
@@ -3160,11 +3160,11 @@ function gravity_update() {
                                     (0.7 ** game.omega_level)
                             )) *
                             game.growth_interval
-                    )
+                    ) + "后可以坍缩"
 
                 if (game.om_bought[5])
                     document.getElementById("collapse_time").innerHTML =
-                        "Collapse ready in " +
+                        "" +
                         format_time(
                             (Math.log(
                                 (1.7976931348622053 * 10 ** 308) /
@@ -3177,11 +3177,11 @@ function gravity_update() {
                                         (0.8 ** game.omega_level)
                                 )) *
                                 game.growth_interval
-                        )
+                        ) + "后可以坍缩"
             }
             if (game.omega_challenge)
                 document.getElementById("collapse_time").innerHTML =
-                    "Collapse ready in " +
+                    "" +
                     format_time(
                         (Math.log(
                             (1.7976931348622053 * 10 ** 308) /
@@ -3189,24 +3189,24 @@ function gravity_update() {
                         ) /
                             Math.log(1)) *
                             game.growth_interval
-                    )
+                    ) + "后可以坍缩"
         } else {
             document.getElementById("collapse_time").innerHTML =
-                "Effective Growth Factor " +
+                "有效增长系数为" +
                 format_eff(
                     (game.growth_factor * 12 ** game.om_completions) ** penalty
                 ) +
-                "x"
+                "倍"
             if (game.om_bought[2]) {
                 document.getElementById("collapse_time").innerHTML =
-                    "Effective Growth Factor " +
+                    "有效增长系数为" +
                     format_eff(
                         (game.growth_factor *
                             1.15 ** game.highest_omega_level *
                             12 ** game.om_completions) **
                             penalty
                     ) +
-                    "x"
+                    "倍"
             }
         }
 
@@ -3248,7 +3248,7 @@ function gravity_update() {
             button.className = "qu_button superlit"
             button.innerHTML = "PURCHASED"
         } else {
-            button.innerHTML = "-" + format_num(upgrade.price) + " photons"
+            button.innerHTML = "-" + format_num(upgrade.price) + "光子"
             if (game.photons >= upgrade.price) {
                 button.className = "qu_button lit"
             } else {
@@ -3277,22 +3277,22 @@ function omega_update() {
         game.omega_points
     )
     document.getElementById("highest_omega_level").innerHTML =
-        "Highest Omega LVL " + format_num(game.highest_omega_level)
+        "欧米伽等级最高为" + format_num(game.highest_omega_level) + "级"
 
     document.getElementById("prism_assigned").innerHTML =
-        format_num(game.om_assigned[0]) +
-        " Ω assigned<br>" +
+        "已分配" + format_num(game.om_assigned[0]) +
+        "Ω<br>棱镜倍率变为" +
         format_num(game.om_boost[0]) +
-        "x Prism output"
+        "倍"
     document.getElementById("reactor_assigned").innerHTML =
-        format_num(game.om_assigned[1]) +
-        " Ω assigned<br>" +
+        "已分配" + format_num(game.om_assigned[1]) +
+        "Ω<br>氦产量变为" +
         format_num(game.om_boost[1]) +
-        "x helium production"
+        "倍"
     document.getElementById("dark_matter_assigned").innerHTML =
-        format_num(game.om_assigned[2]) +
-        " Ω assigned<br>Dark matter formula ^" +
-        format_eff(game.om_boost[2])
+        "已分配" + format_num(game.om_assigned[2]) +
+        "Ω<br>暗物质公式变为" +
+        format_eff(game.om_boost[2]) + "次方"
 
     //omega upgrades handling
     for (const upgrade of omega_upgrade.upgrades) {
@@ -3303,7 +3303,7 @@ function omega_update() {
             button.className = "qu_button superlit"
             button.innerHTML = "PURCHASED"
         } else {
-            button.innerHTML = "-" + format_num(upgrade.price) + " photons"
+            button.innerHTML = "-" + format_num(upgrade.price) + "光子"
             if (game.photons >= upgrade.price) {
                 button.className = "qu_button lit"
             } else {
@@ -3373,19 +3373,19 @@ function omega_update() {
         }
 
         document.getElementById("omega_challenge_desc").innerHTML =
-            "All EXP production ^" + format_eff(0.5)
+            "经验值产量变为" + format_eff(0.5) + "次方"
 
         document.getElementById("omega_challenge_complete").innerHTML =
-            "Completions: " +
+            "完成次数：" +
             format_num(game.om_completions) +
-            "<br>Growth Factor boost from completions: " +
+            "<br>完成挑战的增长系数加成：" +
             format_num(12 ** game.om_completions) +
-            "x"
+            "倍"
 
         document.getElementById("omega_challenge_goal").innerHTML =
             'Goal: <span class="challenge_photons">+' +
             format_num(300 * 200 ** game.om_completions) +
-            " photons</span>"
+            "光子</span>"
     } else {
         document.getElementById("omega_challenge_block").style.display = "none"
     }
@@ -3574,190 +3574,190 @@ function achievements_update() {
         if (game.achievements[i]) ach_completed++
     }
     document.getElementById("achievement_count").innerHTML =
-        "Achievements earned: " +
+        "成就获取数量：已获取" +
         format_num(ach_completed) +
-        " / " +
-        format_num(achievement.achievements.length)
+        "个，上限为" +
+        format_num(achievement.achievements.length) + "个"
     if (game.perks[0]) {
         document.getElementById("achievement_count").innerHTML =
-            "Achievements earned: " +
+            "成就获取数量：已获取" +
             format_num(ach_completed) +
-            " / " +
+            "个，上限为" +
             format_num(achievement.achievements.length) +
-            "<br>EXP boost from Achievements: " +
+            "个<br>成就的经验值加成：" +
             format_eff(game.ach_power) +
-            "x"
+            "倍"
     }
 
     document.getElementById("page_text1").innerHTML =
-        "Page " + format_num(game.achiev_page + 1)
+        "第" + format_num(game.achiev_page + 1) + "页"
     document.getElementById("page_text2").innerHTML =
-        "Page " + format_num(game.achiev_page + 1)
+        "第" + format_num(game.achiev_page + 1) + "页"
 }
 
 //updating descriptions of various things
 function description_update() {
     pp_upgrade.upgrades[1].desc =
-        "Unautomated clicks are " + format_num(2) + "x stronger"
+        "非自动点击的收益变为" + format_num(2) + "倍"
     pp_map.get(pp_upgrade.upgrades[1]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[1].desc
     pp_upgrade.upgrades[4].desc =
-        "Unautomated clicks are " + format_num(4) + "x stronger"
+        "非自动点击的收益变为" + format_num(4) + "倍"
     pp_map.get(pp_upgrade.upgrades[4]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[4].desc
     pp_upgrade.upgrades[6].desc =
-        "Breaks the limits, allowing you to go beyond LVL " +
+        "突破界限，使等级可以超过" +
         format_lvl(60) +
-        "<br>Also allows Auto-Prestige configuration<br>(Heads up! PP gain past LVL " +
+        "级<br>并解锁自动转生设置<br>(请小心！超过" +
         format_lvl(60) +
-        " is based on highest level instead)"
+        "级后，转生点的获取将改为基于最高等级)"
     pp_map.get(pp_upgrade.upgrades[6]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[6].desc
     pp_upgrade.upgrades[7].desc =
-        "All further Prestiges start at LVL " +
+        "从下次转生起，初始状态下就有" +
         format_lvl(15) +
-        "; Prestiging now requires LVL " +
-        format_lvl(70)
+        "级，但转生将需要" +
+        format_lvl(70) + "级"
     pp_map.get(pp_upgrade.upgrades[7]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[7].desc
     pp_upgrade.upgrades[10].desc =
-        "All further Prestiges start at LVL " +
+        "从下次转生起，初始状态下就有" +
         format_lvl(30) +
-        "; Prestiging now requires LVL " +
-        format_lvl(80)
+        "级，但转生将需要" +
+        format_lvl(80) + "级"
     pp_map.get(pp_upgrade.upgrades[10]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[10].desc
     pp_upgrade.upgrades[11].desc =
-        "Unautomated clicks are " + format_num(8) + "x stronger"
+        "非自动点击的收益变为" + format_num(8) + "倍"
     pp_map.get(pp_upgrade.upgrades[11]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[11].desc
     pp_upgrade.upgrades[13].desc =
-        "All further Prestiges start at LVL " +
+        "从下次转生起，初始状态下就有" +
         format_lvl(60) +
-        "; Prestiging now requires LVL " +
-        format_lvl(90)
+        "级，但转生将需要" +
+        format_lvl(90) + "级"
     pp_map.get(pp_upgrade.upgrades[13]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[13].desc
     pp_upgrade.upgrades[17].desc =
-        "Unautomated clicks are " + format_num(16) + "x stronger"
+        "非自动点击的收益变为" + format_num(16) + "倍"
     pp_map.get(pp_upgrade.upgrades[17]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[17].desc
     pp_upgrade.upgrades[19].desc =
-        "EXP Overclocker now boosts EXP " + format_num(4) + "x"
+        "经验超频的经验值加成效果变为" + format_num(4) + "倍"
     pp_map.get(pp_upgrade.upgrades[19]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[19].desc
     pp_upgrade.upgrades[23].desc =
-        "EXP Overclocker now boosts EXP " + format_num(5) + "x"
+        "经验超频的经验值加成效果变为" + format_num(5) + "倍"
     pp_map.get(pp_upgrade.upgrades[23]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[23].desc
     pp_upgrade.upgrades[27].desc =
-        "EXP production is boosted based on how many times you have Prestiged<br>(Currently: " +
+        "EXP production is boosted based on how many times you have Prestiged<br>(当前效果：" +
         format_eff(
             1 + ((game.prestige + game.banked_prestige) / 1000) ** (1 / 2)
         ) +
-        "x)"
+        "倍)"
     pp_map.get(pp_upgrade.upgrades[27]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[27].desc
     pp_upgrade.upgrades[30].desc =
-        "EXP production is boosted based on your highest level<br>(Currently: " +
+        "EXP production is boosted based on your highest level<br>(当前效果：" +
         format_eff(1 + game.highest_level / 400) +
-        "x)"
+        "倍)"
     pp_map.get(pp_upgrade.upgrades[30]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[30].desc
     pp_upgrade.upgrades[31].desc =
-        "EXP Battery is now " + format_num(3) + "x stronger"
+        "经验电池的效果变为" + format_num(3) + "倍"
     pp_map.get(pp_upgrade.upgrades[31]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[31].desc
     pp_upgrade.upgrades[33].desc =
-        "EXP Flux now increases " +
+        "经验通量增长速度变为" +
         format_num(5) +
-        "x faster, and has a " +
+        "倍，且上限变为" +
         format_num(5) +
-        "x higher cap"
+        "倍"
     pp_map.get(pp_upgrade.upgrades[33]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[33].desc
     pp_upgrade.upgrades[36].desc =
-        "EXP Battery is now " + format_num(9) + "x stronger"
+        "经验电池的效果变为" + format_num(9) + "倍"
     pp_map.get(pp_upgrade.upgrades[36]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[36].desc
 
     if (game.pp !== 0)
         pp_upgrade.upgrades[22].desc =
-            "EXP production is boosted based on how much spare PP you have<br>(Currently: " +
+            "EXP production is boosted based on how much spare PP you have<br>(当前效果：" +
             format_eff(Math.log(game.pp / 100 + 1) ** 2 + 1) +
-            "x)"
+            "倍)"
     else
         pp_upgrade.upgrades[22].desc =
-            "EXP production is boosted based on how much spare PP you have<br>(Currently: " +
+            "EXP production is boosted based on how much spare PP you have<br>(当前效果：" +
             format_num(1) +
-            "x)"
+            "倍)"
     pp_map.get(pp_upgrade.upgrades[22]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[22].desc
 
     generator_perk.perks[3].desc =
-        "EXP Flux permanently increases " +
+        "经验通量增长速度永久变为" +
         format_num(5) +
-        "x faster and has a " +
+        "倍，且上限变为" +
         format_num(5) +
-        "x higher cap<br>(stacks with Magnified Flux if you have it, making it uncapped)"
+        "倍<br>(stacks with Magnified Flux if you have it, making it uncapped)"
     perk_map
         .get(generator_perk.perks[3])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[3].desc
     generator_perk.perks[4].desc =
-        "You gain " +
-        format_num(1) +
-        " extra prestige stat for every " +
+        "每获得" +
         format_num(200) +
-        " levels gained<br>Patience will also boost prestige stat by up to " +
+        "级，转生时就可以额外获得" +
+        format_num(1) +
+        "次转生次数<br>耐心升级还可以使获得的转生次数进一步增加，最高为" +
         format_num(30) +
-        "x"
+        "倍"
     perk_map
         .get(generator_perk.perks[4])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[4].desc
     generator_perk.perks[9].desc =
-        "Discharge is " +
+        "放电的效果变为" +
         format_num(2) +
-        "x stronger<br>Discharge automation is also now unlocked with the EXP Capacitor instead of High Voltage I"
+        "倍<br>Discharge automation is also now unlocked with the EXP Capacitor instead of High Voltage I"
     perk_map
         .get(generator_perk.perks[9])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[9].desc
     generator_perk.perks[13].desc =
-        "You gain more watts on Reboot the farther past " +
+        "重启时，转生点超过" +
         format_num(200000) +
-        " PP you go"
+        "越多，就可以获得越多瓦特"
     perk_map
         .get(generator_perk.perks[13])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[13].desc
     if (game.fastest_reboot > 600 * game.tickspeed) {
         generator_perk.perks[16].desc =
-            "EXP production is boosted based on your fastest Reboot<br>(Currently: " +
+            "EXP production is boosted based on your fastest Reboot<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
     } else {
         generator_perk.perks[16].desc =
-            "EXP production is boosted based on your fastest Reboot<br>(Currently: " +
+            "EXP production is boosted based on your fastest Reboot<br>(当前效果：" +
             format_eff(
                 Math.log(game.fastest_reboot / (600 * game.tickspeed)) /
                     Math.log(0.75) +
                     1
             ) +
-            "x)"
+            "倍)"
     }
     perk_map
         .get(generator_perk.perks[16])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[16].desc
     if (game.watts >= 117965)
         generator_perk.perks[23].desc =
-            "Helium production is boosted based on how many watts you have<br>(Currently: " +
+            "Helium production is boosted based on how many watts you have<br>(当前效果：" +
             format_eff(
                 (game.watts * 5) / generator_perk.perks[23].requirement
             ) +
-            "x)"
+            "倍)"
     else
         generator_perk.perks[23].desc =
-            "Helium production is boosted based on how many watts you have<br>(Currently: " +
+            "Helium production is boosted based on how many watts you have<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
     perk_map
         .get(generator_perk.perks[23])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[23].desc
@@ -3767,36 +3767,36 @@ function description_update() {
         else he_boost = Math.log10(game.helium) ** 2
     }
     generator_perk.perks[24].desc =
-        "Helium production is boosted based on how much helium you have<br>(Currently: " +
+        "Helium production is boosted based on how much helium you have<br>(当前效果：" +
         format_eff(he_boost) +
-        "x)"
+        "倍)"
     perk_map
         .get(generator_perk.perks[24])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[24].desc
     generator_perk.perks[25].desc =
-        "Deuterium Power now boosts hydrogen gains " +
+        "氘供能改为每阶层使氢产量变为" +
         format_eff(2.5) +
-        "x per tier instead<br>(This applies retroactively)"
+        "倍<br>(This applies retroactively)"
     perk_map
         .get(generator_perk.perks[25])
         .querySelector(".perk_desc").innerHTML = generator_perk.perks[25].desc
 
     if (game.hydrogen >= 1)
         quantum_upgrade.upgrades[0].desc =
-            "Helium production is boosted based on unspent hydrogen<br>(Currently: " +
+            "Helium production is boosted based on unspent hydrogen<br>(当前效果：" +
             format_eff(game.hydrogen ** 0.25) +
-            "x)"
+            "倍)"
     else
         quantum_upgrade.upgrades[0].desc =
-            "Helium production is boosted based on unspent hydrogen<br>(Currently: " +
+            "Helium production is boosted based on unspent hydrogen<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
     quantum_map
         .get(quantum_upgrade.upgrades[0])
         .querySelector(".qu_desc").innerHTML = quantum_upgrade.upgrades[0].desc
 
     quantum_upgrade.upgrades[3].desc =
-        "EXP production is boosted based on your fastest Quantum Iteration<br>(Currently: " +
+        "EXP production is boosted based on your fastest Quantum Iteration<br>(当前效果：" +
         format_eff(
             5 **
                 (Math.log(game.fastest_quantize / (6400 * game.tickspeed)) /
@@ -3804,368 +3804,368 @@ function description_update() {
                     1) +
                 1
         ) +
-        "x)"
+        "倍)"
     quantum_map
         .get(quantum_upgrade.upgrades[3])
         .querySelector(".qu_desc").innerHTML = quantum_upgrade.upgrades[3].desc
 
     if (game.photons > dark_upgrade.upgrades[2].price)
         dark_upgrade.upgrades[2].desc =
-            "EXP production is boosted based on unspent photons<br>(Currently: " +
+            "EXP production is boosted based on unspent photons<br>(当前效果：" +
             format_eff(
                 (Math.log(game.photons / dark_upgrade.upgrades[2].price) ** 4 +
                     1) *
                     13
             ) +
-            "x)"
+            "倍)"
     else
         dark_upgrade.upgrades[2].desc =
-            "EXP production is boosted based on unspent photons<br>(Currently: " +
+            "EXP production is boosted based on unspent photons<br>(当前效果：" +
             format_eff(13) +
-            "x)"
+            "倍)"
     quantum_map
         .get(dark_upgrade.upgrades[2])
         .querySelector(".dk_desc").innerHTML = dark_upgrade.upgrades[2].desc
 
     dark_upgrade.upgrades[3].desc =
-        "All challenges can now be completed up to " +
+        "挑战的完成次数上限变为" +
         format_num(20) +
-        " times<br>Completions past " +
+        "次<br>超过" +
         format_num(12) +
-        " also give a helium production boost"
+        "次以后，挑战还可以加成氦产量"
     quantum_map
         .get(dark_upgrade.upgrades[3])
         .querySelector(".dk_desc").innerHTML = dark_upgrade.upgrades[3].desc
     dark_upgrade.upgrades[4].desc =
-        "Helium production is boosted based on Prism LVL<br>(Currently: " +
+        "Helium production is boosted based on Prism LVL<br>(当前效果：" +
         format_eff((game.prism_boost / 150) ** (4 / 3)) +
-        "x)"
+        "倍)"
     quantum_map
         .get(dark_upgrade.upgrades[4])
         .querySelector(".dk_desc").innerHTML = dark_upgrade.upgrades[4].desc
     dark_upgrade.upgrades[5].desc =
-        "Hydrogen now no longer requires " +
+        "不再需要有" +
         format_num(98304) +
-        " watts to be gained<br>Deuterium Power now also boosts " +
+        "瓦特才能获得氢<br>氘供能改为每阶层使氦产量变为" +
         format_num(3) +
-        "x instead"
+        "倍"
     quantum_map
         .get(dark_upgrade.upgrades[5])
         .querySelector(".dk_desc").innerHTML = dark_upgrade.upgrades[5].desc
 
     omega_upgrade.upgrades[2].desc =
-        "Dark matter growth factor is boosted based on your Highest Omega LVL<br>(Currently: " +
+        "Dark matter growth factor is boosted based on your Highest Omega LVL<br>(当前效果：" +
         format_eff(1.15 ** game.highest_omega_level) +
-        "x)"
+        "倍)"
     quantum_map
         .get(omega_upgrade.upgrades[2])
         .querySelector(".om_desc").innerHTML = omega_upgrade.upgrades[2].desc
     omega_upgrade.upgrades[6].desc =
-        "You can gain more than " +
+        "暗物质可以超过" +
         format_infinity(new Decimal(1.7976931348622053 * 10 ** 308)) +
-        " kg dark matter<br>Growth Factor will be reduced the further past " +
+        "千克<br>超过" +
         format_infinity(new Decimal(1.7976931348622053 * 10 ** 308)) +
-        " kg you go"
+        "千克后，增长系数将随着暗物质增长变得越来越低"
     quantum_map
         .get(omega_upgrade.upgrades[6])
         .querySelector(".om_desc").innerHTML = omega_upgrade.upgrades[6].desc
 
     if (game.challenge === 7) {
         pp_upgrade.upgrades[22].desc =
-            "EXP production is boosted based on how much spare PP you have<br>(Currently: " +
+            "EXP production is boosted based on how much spare PP you have<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[22])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[22].desc
         pp_upgrade.upgrades[27].desc =
-            "EXP production is boosted based on how many times you have Prestiged<br>(Currently: " +
+            "EXP production is boosted based on how many times you have Prestiged<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[27])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[27].desc
         pp_upgrade.upgrades[30].desc =
-            "EXP production is boosted based on your highest level<br>(Currently: " +
+            "EXP production is boosted based on your highest level<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[30])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[30].desc
         generator_perk.perks[16].desc =
-            "EXP production is boosted based on your fastest Reboot<br>(Currently: " +
+            "EXP production is boosted based on your fastest Reboot<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         perk_map
             .get(generator_perk.perks[16])
             .querySelector(".perk_desc").innerHTML =
             generator_perk.perks[16].desc
         quantum_upgrade.upgrades[3].desc =
-            "EXP production is boosted based on your fastest Quantum Iteration<br>(Currently: " +
+            "EXP production is boosted based on your fastest Quantum Iteration<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         quantum_map
             .get(quantum_upgrade.upgrades[3])
             .querySelector(".qu_desc").innerHTML =
             quantum_upgrade.upgrades[3].desc
         dark_upgrade.upgrades[2].desc =
-            "EXP production is boosted based on unspent photons<br>(Currently: " +
+            "EXP production is boosted based on unspent photons<br>(当前效果：" +
             format_eff(1) +
-            "x)"
+            "倍)"
         quantum_map
             .get(dark_upgrade.upgrades[2])
             .querySelector(".dk_desc").innerHTML = dark_upgrade.upgrades[2].desc
     }
 
-    achievement.achievements[0].requirement = "Reach LVL " + format_lvl(2)
-    achievement.achievements[1].requirement = "Reach LVL " + format_lvl(10)
-    achievement.achievements[2].requirement = "Reach LVL " + format_lvl(30)
-    achievement.achievements[3].requirement = "Reach LVL " + format_lvl(60)
-    achievement.achievements[4].requirement = "Reach LVL " + format_lvl(100)
-    achievement.achievements[5].requirement = "Reach LVL " + format_lvl(200)
-    achievement.achievements[6].requirement = "Reach LVL " + format_lvl(300)
-    achievement.achievements[7].requirement = "Reach LVL " + format_lvl(500)
-    achievement.achievements[8].requirement = "Reach LVL " + format_lvl(1000)
-    achievement.achievements[9].requirement = "Reach LVL " + format_lvl(2000)
-    achievement.achievements[10].requirement = "Reach LVL " + format_lvl(3000)
-    achievement.achievements[11].requirement = "Reach LVL " + format_lvl(6000)
-    achievement.achievements[12].requirement = "Reach LVL " + format_lvl(12000)
-    achievement.achievements[13].requirement = "Reach LVL " + format_lvl(18000)
-    achievement.achievements[14].requirement = "Reach LVL " + format_lvl(24000)
-    achievement.achievements[15].requirement = "Reach LVL " + format_lvl(30000)
-    achievement.achievements[16].requirement = "Reach LVL " + format_lvl(40000)
-    achievement.achievements[17].requirement = "Reach LVL " + format_lvl(50000)
-    achievement.achievements[18].requirement = "Reach LVL " + format_lvl(60000)
-    achievement.achievements[19].requirement = "Reach LVL " + format_lvl(80000)
-    achievement.achievements[20].requirement = "Reach LVL " + format_lvl(100000)
-    achievement.achievements[21].requirement = "Reach LVL " + format_lvl(150000)
-    achievement.achievements[22].requirement = "Reach LVL " + format_lvl(200000)
-    achievement.achievements[23].requirement = "Reach LVL " + format_lvl(300000)
-    achievement.achievements[24].requirement = "Reach LVL " + format_lvl(500000)
-    achievement.achievements[25].requirement = "Reach LVL " + format_lvl(750000)
+    achievement.achievements[0].requirement = "达到" + format_lvl(2) + "级"
+    achievement.achievements[1].requirement = "达到" + format_lvl(10) + "级"
+    achievement.achievements[2].requirement = "达到" + format_lvl(30) + "级"
+    achievement.achievements[3].requirement = "达到" + format_lvl(60) + "级"
+    achievement.achievements[4].requirement = "达到" + format_lvl(100) + "级"
+    achievement.achievements[5].requirement = "达到" + format_lvl(200) + "级"
+    achievement.achievements[6].requirement = "达到" + format_lvl(300) + "级"
+    achievement.achievements[7].requirement = "达到" + format_lvl(500) + "级"
+    achievement.achievements[8].requirement = "达到" + format_lvl(1000) + "级"
+    achievement.achievements[9].requirement = "达到" + format_lvl(2000) + "级"
+    achievement.achievements[10].requirement = "达到" + format_lvl(3000) + "级"
+    achievement.achievements[11].requirement = "达到" + format_lvl(6000) + "级"
+    achievement.achievements[12].requirement = "达到" + format_lvl(12000) + "级"
+    achievement.achievements[13].requirement = "达到" + format_lvl(18000) + "级"
+    achievement.achievements[14].requirement = "达到" + format_lvl(24000) + "级"
+    achievement.achievements[15].requirement = "达到" + format_lvl(30000) + "级"
+    achievement.achievements[16].requirement = "达到" + format_lvl(40000) + "级"
+    achievement.achievements[17].requirement = "达到" + format_lvl(50000) + "级"
+    achievement.achievements[18].requirement = "达到" + format_lvl(60000) + "级"
+    achievement.achievements[19].requirement = "达到" + format_lvl(80000) + "级"
+    achievement.achievements[20].requirement = "达到" + format_lvl(100000) + "级"
+    achievement.achievements[21].requirement = "达到" + format_lvl(150000) + "级"
+    achievement.achievements[22].requirement = "达到" + format_lvl(200000) + "级"
+    achievement.achievements[23].requirement = "达到" + format_lvl(300000) + "级"
+    achievement.achievements[24].requirement = "达到" + format_lvl(500000) + "级"
+    achievement.achievements[25].requirement = "达到" + format_lvl(750000) + "级"
     achievement.achievements[26].requirement =
-        "Reach LVL " + format_lvl(1000000)
+        "达到" + format_lvl(1000000) + "级"
     achievement.achievements[28].requirement =
-        "Prestige " + format_num(10) + " times"
+        "进行" + format_num(10) + "次转生"
     achievement.achievements[29].requirement =
-        "Prestige " + format_num(100) + " times"
+        "进行" + format_num(100) + "次转生"
     achievement.achievements[30].requirement =
-        "Prestige " + format_num(1000) + " times"
+        "进行" + format_num(1000) + "次转生"
     achievement.achievements[31].requirement =
-        "Prestige " + format_num(10000) + " times"
+        "进行" + format_num(10000) + "次转生"
     achievement.achievements[32].requirement =
-        "Prestige " + format_num(100000) + " times"
+        "进行" + format_num(100000) + "次转生"
     achievement.achievements[33].requirement =
-        "Prestige " + format_num(1000000) + " times"
+        "进行" + format_num(1000000) + "次转生"
     achievement.achievements[34].requirement =
-        "Get " + format_num(10 ** 6) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 6) + ""
     achievement.achievements[35].requirement =
-        "Get " + format_num(10 ** 9) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 9) + ""
     achievement.achievements[36].requirement =
-        "Get " + format_num(10 ** 12) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 12) + ""
     achievement.achievements[37].requirement =
-        "Get " + format_num(10 ** 15) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 15) + ""
     achievement.achievements[38].requirement =
-        "Get " + format_num(10 ** 18) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 18) + ""
     achievement.achievements[39].requirement =
-        "Get " + format_num(10 ** 21) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 21) + ""
     achievement.achievements[40].requirement =
-        "Get " + format_num(10 ** 24) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 24) + ""
     achievement.achievements[41].requirement =
-        "Get " + format_num(10 ** 27) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 27) + ""
     achievement.achievements[42].requirement =
-        "Get " + format_num(10 ** 30) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 30) + ""
     achievement.achievements[43].requirement =
-        "Get " + format_num(10 ** 33) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 33) + ""
     achievement.achievements[44].requirement =
-        "Get " + format_num(10 ** 36) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 36) + ""
     achievement.achievements[45].requirement =
-        "Get " + format_num(10 ** 39) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 39) + ""
     achievement.achievements[46].requirement =
-        "Get " + format_num(10 ** 42) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 42) + ""
     achievement.achievements[47].requirement =
-        "Get " + format_num(10 ** 45) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 45) + ""
     achievement.achievements[48].requirement =
-        "Get " + format_num(10 ** 48) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 48) + ""
     achievement.achievements[49].requirement =
-        "Get " + format_num(10 ** 51) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 51) + ""
     achievement.achievements[50].requirement =
-        "Get " + format_num(10 ** 57) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 57) + ""
     achievement.achievements[51].requirement =
-        "Get " + format_num(10 ** 63) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 63) + ""
     achievement.achievements[52].requirement =
-        "Get " + format_num(10 ** 75) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 75) + ""
     achievement.achievements[53].requirement =
-        "Get " + format_num(10 ** 87) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 87) + ""
     achievement.achievements[54].requirement =
-        "Get " + format_num(10 ** 99) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 99) + ""
     achievement.achievements[55].requirement =
-        "Get " + format_num(10 ** 111) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 111) + ""
     achievement.achievements[56].requirement =
-        "Get " + format_num(10 ** 123) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 123) + ""
     achievement.achievements[57].requirement =
-        "Get " + format_num(10 ** 138) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 138) + ""
     achievement.achievements[58].requirement =
-        "Get " + format_num(10 ** 153) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 153) + ""
     achievement.achievements[59].requirement =
-        "Get " + format_num(10 ** 183) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 183) + ""
     achievement.achievements[60].requirement =
-        "Get " + format_num(10 ** 228) + " all time EXP"
+        "总经验值达到" + format_num(10 ** 228) + ""
     achievement.achievements[61].requirement =
-        "Get " + format_num(10 ** 303) + " all time EXP"
-    achievement.achievements[67].requirement = "Get " + format_num(100) + " AMP"
+        "总经验值达到" + format_num(10 ** 303) + ""
+    achievement.achievements[67].requirement = "放大倍率达到" + format_num(100) + ""
     achievement.achievements[68].requirement =
-        "Get " + format_num(10000) + " AMP"
+        "放大倍率达到" + format_num(10000) + ""
     achievement.achievements[69].requirement =
-        "Get " + format_num(10 ** 6) + " AMP"
+        "放大倍率达到" + format_num(10 ** 6) + ""
     achievement.achievements[70].requirement =
-        "Get " + format_num(10 ** 8) + " AMP"
+        "放大倍率达到" + format_num(10 ** 8) + ""
     achievement.achievements[71].requirement =
-        "Get " + format_num(10 ** 10) + " AMP"
+        "放大倍率达到" + format_num(10 ** 10) + ""
     achievement.achievements[72].requirement =
-        "Get " + format_num(10 ** 12) + " AMP"
+        "放大倍率达到" + format_num(10 ** 12) + ""
     achievement.achievements[73].requirement =
-        "Get " + format_num(10 ** 14) + " AMP"
+        "放大倍率达到" + format_num(10 ** 14) + ""
     achievement.achievements[74].requirement =
-        "Get " + format_num(10 ** 16) + " AMP"
+        "放大倍率达到" + format_num(10 ** 16) + ""
     achievement.achievements[75].requirement =
-        "Get " + format_num(10 ** 18) + " AMP"
+        "放大倍率达到" + format_num(10 ** 18) + ""
     achievement.achievements[76].requirement =
-        "Get " + format_num(10 ** 20) + " AMP"
+        "放大倍率达到" + format_num(10 ** 20) + ""
     achievement.achievements[77].requirement =
-        "Get " + format_num(10 ** 24) + " AMP"
+        "放大倍率达到" + format_num(10 ** 24) + ""
     achievement.achievements[78].requirement =
-        "Get " + format_num(10 ** 28) + " AMP"
+        "放大倍率达到" + format_num(10 ** 28) + ""
     achievement.achievements[79].requirement =
-        "Get " + format_num(10 ** 32) + " AMP"
+        "放大倍率达到" + format_num(10 ** 32) + ""
     achievement.achievements[88].requirement =
-        "Buy all " + format_num(39) + " Prestige upgrades"
+        "购买所有" + format_num(39) + "个转生升级"
     achievement.achievements[89].requirement =
-        "Reach " + format_num(100) + "x EXP Flux boost"
+        "经验通量加成达到" + format_num(100) + "倍"
     achievement.achievements[90].requirement =
-        "Reach " + format_num(30) + " clicks/s on the Autoclicker"
+        "自动点击达到每秒点击" + format_num(30) + "次"
     achievement.achievements[91].requirement =
-        "Reach " + format_num(150) + " clicks/s on the Autoclicker"
+        "自动点击达到每秒点击" + format_num(150) + "次"
     achievement.achievements[92].requirement =
-        "Reach " + format_num(1000) + " clicks/s on the Autoclicker"
+        "自动点击达到每秒点击" + format_num(1000) + "次"
     achievement.achievements[94].requirement =
-        "Reboot " + format_num(3) + " times"
+        "进行" + format_num(3) + "次重启"
     achievement.achievements[95].requirement =
-        "Reboot " + format_num(5) + " times"
+        "进行" + format_num(5) + "次重启"
     achievement.achievements[96].requirement =
-        "Reboot " + format_num(10) + " times"
+        "进行" + format_num(10) + "次重启"
     achievement.achievements[97].requirement =
-        "Reboot " + format_num(25) + " times"
+        "进行" + format_num(25) + "次重启"
     achievement.achievements[98].requirement =
-        "Reboot " + format_num(50) + " times"
+        "进行" + format_num(50) + "次重启"
     achievement.achievements[99].requirement =
-        "Reboot " + format_num(100) + " times"
+        "进行" + format_num(100) + "次重启"
     achievement.achievements[100].requirement =
-        "Reboot " + format_num(1000) + " times"
+        "进行" + format_num(1000) + "次重启"
     achievement.achievements[114].requirement =
-        "Complete a single challenge " + format_num(12) + " times"
+        "单个挑战完成" + format_num(12) + "次"
     achievement.achievements[115].requirement =
-        "Complete a single challenge " + format_num(20) + " times"
+        "单个挑战完成" + format_num(20) + "次"
     achievement.achievements[116].requirement =
-        "Get " + format_num(27) + " total challenge completions"
+        "挑战完成次数之和达到" + format_num(27) + "次"
     achievement.achievements[117].requirement =
-        "Get " + format_num(54) + " total challenge completions"
+        "挑战完成次数之和达到" + format_num(54) + "次"
     achievement.achievements[118].requirement =
-        "Get " + format_num(108) + " total challenge completions"
+        "挑战完成次数之和达到" + format_num(108) + "次"
     achievement.achievements[119].requirement =
-        "Get " + format_num(180) + " total challenge completions"
+        "挑战完成次数之和达到" + format_num(180) + "次"
     achievement.achievements[120].requirement =
-        "Unlock all " + format_num(28) + " Generator Perks"
+        "解锁所有" + format_num(28) + "个发电机特权"
     achievement.achievements[123].requirement =
-        "Make " + format_num(10 ** 30) + " mg helium/sec"
+        "氦产量达到每秒" + format_num(10 ** 30) + "毫克"
     achievement.achievements[124].requirement =
-        "Make " + format_num(10 ** 60) + " mg helium/sec"
+        "氦产量达到每秒" + format_num(10 ** 60) + "毫克"
     achievement.achievements[125].requirement =
-        "Make " + format_num(10 ** 90) + " mg helium/sec"
+        "氦产量达到每秒" + format_num(10 ** 90) + "毫克"
     achievement.achievements[127].requirement =
-        "Quantize " + format_num(3) + " times"
+        "进行" + format_num(3) + "次量子化"
     achievement.achievements[128].requirement =
-        "Quantize " + format_num(5) + " times"
+        "进行" + format_num(5) + "次量子化"
     achievement.achievements[129].requirement =
-        "Quantize " + format_num(10) + " times"
+        "进行" + format_num(10) + "次量子化"
     achievement.achievements[130].requirement =
-        "Quantize " + format_num(25) + " times"
+        "进行" + format_num(25) + "次量子化"
     achievement.achievements[131].requirement =
-        "Quantize " + format_num(50) + " times"
+        "进行" + format_num(50) + "次量子化"
     achievement.achievements[132].requirement =
-        "Quantize " + format_num(100) + " times"
+        "进行" + format_num(100) + "次量子化"
     achievement.achievements[133].requirement =
-        "Quantize " + format_num(1000) + " times"
+        "进行" + format_num(1000) + "次量子化"
     achievement.achievements[134].requirement =
-        "Reach Prism LVL " + format_lvl(1)
+        "棱镜达到" + format_lvl(1) + "级"
     achievement.achievements[135].requirement =
-        "Reach Prism LVL " + format_lvl(10)
+        "棱镜达到" + format_lvl(10) + "级"
     achievement.achievements[136].requirement =
-        "Reach Prism LVL " + format_lvl(30)
+        "棱镜达到" + format_lvl(30) + "级"
     achievement.achievements[137].requirement =
-        "Reach Prism LVL " + format_lvl(100)
+        "棱镜达到" + format_lvl(100) + "级"
     achievement.achievements[138].requirement =
-        "Reach Prism LVL " + format_lvl(200)
-    achievement.achievements[142].name = "Mach " + format_num(874030)
+        "棱镜达到" + format_lvl(200) + "级"
+    achievement.achievements[142].name = format_num(874030) + "马赫"
     achievement.achievements[146].requirement =
-        "Reach " +
+        "达到" +
         format_infinity(new Decimal(1.7976931348622053 * 10 ** 308)) +
-        " kg dark matter"
+        "千克暗物质"
     achievement.achievements[148].requirement =
-        "Reach " +
+        "达到" +
         format_infinity(new Decimal(10).pow(2000)) +
-        " kg dark matter"
+        "千克暗物质"
     achievement.achievements[149].requirement =
-        "Reach Omega LVL " + format_num(1)
+        "达到" + format_num(1) + "级欧米伽"
     achievement.achievements[150].requirement =
-        "Reach Omega LVL " + format_num(10)
+        "达到" + format_num(10) + "级欧米伽"
     achievement.achievements[151].requirement =
-        "Reach Omega LVL " + format_num(30)
+        "达到" + format_num(30) + "级欧米伽"
     achievement.achievements[153].requirement =
-        "Complete the Omega Challenge " + format_num(5) + " times"
+        "完成" + format_num(5) + "次欧米伽挑战"
     achievement.achievements[159].requirement =
-        "There is a " +
-        format_num(1) +
-        " in " +
+        "您每秒有" +
         format_num(7777) +
-        " chance every second you will get this achievement"
+        "分之" +
+        format_num(1) +
+        "的概率获得该成就"
     achievement.achievements[163].requirement =
-        "Reboot " + format_num(10) + " times while using Cancer notation"
+        "在使用毒瘤记数法的前提下，进行" + format_num(10) + "次重启"
     achievement.achievements[166].requirement =
-        "Manually upgrade a Reactor core when it has already been upgraded " +
+        "在某个反应堆核心升级" +
         format_num(100000) +
-        " times"
+        "次后，手动升级它"
 
     challenge.challenges[1].desc =
-        "All upgrades require " + format_num(5) + "x as many levels"
+        "所有升级需要" + format_num(5) + "倍等级才可升级"
     challenge_map
         .get(challenge.challenges[1])
         .querySelector(".challenge_desc").innerHTML =
         challenge.challenges[1].desc
     challenge.challenges[4].desc =
-        "All EXP production reduces to zero over " + format_num(20) + " seconds"
+        "经验值产量在" + format_num(20) + "秒内降为0"
     challenge_map
         .get(challenge.challenges[4])
         .querySelector(".challenge_desc").innerHTML =
         challenge.challenges[4].desc
     challenge.challenges[8].desc =
-        "All rules from the first four challenges, simultaneously<br>All EXP production is divided by " +
+        "All rules from the first four challenges, simultaneously<br>经验值产量除以" +
         format_num(10 ** 16) +
-        ", AMP Conversion does not apply"
+        "，且放大倍率转换不生效"
     challenge_map
         .get(challenge.challenges[8])
         .querySelector(".challenge_desc").innerHTML =
         challenge.challenges[8].desc
 
     document.getElementById("challenge_footer").innerHTML =
-        "Get all " +
+        "完成所有" +
         format_num(108) +
-        " challenge completions to unlock a new prestige layer..."
+        "次挑战后可以解锁新一层重置……"
     document.getElementById("quantize_req").innerHTML =
-        format_num(108) +
-        " challenge completions & LVL " +
+        "需要完成" +format_num(108) +
+        "次挑战并达到" +
         format_lvl(65536) +
-        " required"
+        "级"
 
     switch (game.notation) {
         case 0:
@@ -4223,9 +4223,9 @@ function description_update() {
             .get(pp_upgrade.upgrades[14])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[14].desc
         pp_upgrade.upgrades[24].desc =
-            "Unautomated clicks are boosted a further +??? for every Autoclicker tier<br>(Currently: " +
+            "Unautomated clicks are boosted a further +??? for every Autoclicker tier<br>(当前效果：" +
             format_eff(16 + game.cps * 0.16) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[24])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[24].desc
@@ -4287,9 +4287,9 @@ function description_update() {
         achievement.achievements[142].requirement = "Quantize in under ???"
         achievement.achievements[143].requirement = "Quantize in under ???"
         achievement.achievements[147].requirement =
-            "Reach " +
+            "在花费时间少于???的前提下达到" +
             format_infinity(new Decimal(1.7976931348622053 * 10 ** 308)) +
-            " kg dark matter in under ???"
+            "千克暗物质"
         achievement.achievements[156].requirement = "Gain no EXP for ???"
 
         if (game.perks[9]) {
@@ -4342,17 +4342,17 @@ function description_update() {
             .get(pp_upgrade.upgrades[14])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[14].desc
         pp_upgrade.upgrades[24].desc =
-            "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: " +
+            "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
             format_eff(16 + game.cps * 0.16) +
-            "x)"
+            "倍)"
         pp_map
             .get(pp_upgrade.upgrades[24])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[24].desc
         if (game.challenge === 7) {
             pp_upgrade.upgrades[24].desc =
-                "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: " +
+                "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
                 format_eff(16 + game.cps * 0.16) +
-                "x)"
+                "倍)"
             pp_map
                 .get(pp_upgrade.upgrades[24])
                 .querySelector(".pp_desc").innerHTML =
@@ -4409,9 +4409,9 @@ function description_update() {
         achievement.achievements[143].requirement =
             "Quantize in under 10 seconds"
         achievement.achievements[147].requirement =
-            "Reach " +
+            "在花费时间少于1分钟的前提下达到" +
             format_infinity(new Decimal(1.7976931348622053 * 10 ** 308)) +
-            " kg dark matter in under 1 minute"
+            "千克暗物质"
         achievement.achievements[156].requirement = "Gain no EXP for 10 minutes"
 
         if (game.perks[9]) {
@@ -4513,17 +4513,17 @@ function description_update() {
 
     if (game.perks[9]) {
         pp_upgrade.upgrades[32].desc =
-            "Unlocks the EXP Capacitor, which takes some of your EXP production and stores it<br>Stored EXP can later be discharged at a " +
+            "Unlocks the EXP Capacitor, which takes some of your EXP production and stores it<br>可以将储存的经验值进行放电并获得相应数值" +
             format_num(4) +
-            "x boost<br>Also starts with automation unlocked"
+            "倍的经验值<br>Also starts with automation unlocked"
         pp_map
             .get(pp_upgrade.upgrades[32])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[32].desc
     } else {
         pp_upgrade.upgrades[32].desc =
-            "Unlocks the EXP Capacitor, which takes some of your EXP production and stores it<br>Stored EXP can later be discharged at a " +
+            "Unlocks the EXP Capacitor, which takes some of your EXP production and stores it<br>可以将储存的经验值进行放电并获得相应数值" +
             format_num(2) +
-            "x boost"
+            "倍的经验值"
         pp_map
             .get(pp_upgrade.upgrades[32])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[32].desc
@@ -4531,72 +4531,72 @@ function description_update() {
 
     if (game.perks[12]) {
         pp_upgrade.upgrades[9].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(8) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map.get(pp_upgrade.upgrades[9]).querySelector(".pp_desc").innerHTML =
             pp_upgrade.upgrades[9].desc
         pp_upgrade.upgrades[18].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(12) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[18])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[18].desc
         pp_upgrade.upgrades[28].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(16) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[28])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[28].desc
         pp_upgrade.upgrades[34].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(20) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[34])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[34].desc
         generator_perk.perks[1].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(24) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         perk_map
             .get(generator_perk.perks[1])
             .querySelector(".perk_desc").innerHTML =
             generator_perk.perks[1].desc
     } else {
         pp_upgrade.upgrades[9].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(4) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map.get(pp_upgrade.upgrades[9]).querySelector(".pp_desc").innerHTML =
             pp_upgrade.upgrades[9].desc
         pp_upgrade.upgrades[18].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(6) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[18])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[18].desc
         pp_upgrade.upgrades[28].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(8) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[28])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[28].desc
         pp_upgrade.upgrades[34].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(10) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         pp_map
             .get(pp_upgrade.upgrades[34])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[34].desc
         generator_perk.perks[1].desc =
-            "+" +
+            "使升级面板的每个升级免费+" +
             format_num(12) +
-            " free tiers on every upgrade on the Upgrades tab"
+            "阶层"
         perk_map
             .get(generator_perk.perks[1])
             .querySelector(".perk_desc").innerHTML =
@@ -4643,11 +4643,11 @@ function description_update() {
     switch (game.completions[5]) {
         case 0:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in " +
+                "，多重转生和重启余产无效<br>只能进行不超过" +
                 format_num(6) +
-                " Prestiges or less"
+                "次转生"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4655,11 +4655,11 @@ function description_update() {
             break
         case 1:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in " +
+                "，多重转生和重启余产无效<br>只能进行不超过" +
                 format_num(5) +
-                " Prestiges or less"
+                "次转生"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4668,11 +4668,11 @@ function description_update() {
         case 2:
         case 3:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in " +
+                "，多重转生和重启余产无效<br>只能进行不超过" +
                 format_num(4) +
-                " Prestiges or less"
+                "次转生"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4681,11 +4681,11 @@ function description_update() {
         case 4:
         case 5:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in " +
+                "，多重转生和重启余产无效<br>只能进行不超过" +
                 format_num(3) +
-                " Prestiges or less"
+                "次转生"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4694,11 +4694,11 @@ function description_update() {
         case 6:
         case 7:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in " +
+                "，多重转生和重启余产无效<br>只能进行不超过" +
                 format_num(2) +
-                " Prestiges or less"
+                "次转生"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4709,14 +4709,14 @@ function description_update() {
         case 10:
         case 11:
             challenge.challenges[5].desc =
-                "All EXP production is divided by " +
+                "经验值产量除以" +
                 format_num(10 ** 12) +
-                ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in 1 Prestige or less"
+                "，多重转生和重启余产无效<br>Reboot in 1 Prestige or less"
             if (game.notation === 8)
                 challenge.challenges[5].desc =
-                    "All EXP production is divided by " +
+                    "经验值产量除以" +
                     format_num(10 ** 12) +
-                    ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in ??? Prestiges or less"
+                    "，多重转生和重启余产无效<br>Reboot in ??? Prestiges or less"
             challenge_map
                 .get(challenge.challenges[5])
                 .querySelector(".challenge_desc").innerHTML =
@@ -4733,21 +4733,21 @@ function description_update() {
         default:
             if (game.dk_bought[3]) {
                 challenge.challenges[5].desc =
-                    "All EXP production is divided by " +
+                    "经验值产量除以" +
                     format_num(10 ** (12 + 6 * (game.completions[5] - 11))) +
-                    "<br>Multi-Prestige, Reboot Residue, Ease of Completion do not apply<br>Reboot in " +
+                    "<br>Multi-Prestige, Reboot Residue, Ease of Completion do not apply<br>只能进行不超过" +
                     format_num(0) +
-                    " Prestiges or less"
+                    "次转生"
             } else {
                 challenge.challenges[5].desc =
-                    "All EXP production is divided by " +
+                    "经验值产量除以" +
                     format_num(10 ** 12) +
-                    ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in 1 Prestige or less"
+                    "，多重转生和重启余产无效<br>Reboot in 1 Prestige or less"
                 if (game.notation === 8)
                     challenge.challenges[5].desc =
-                        "All EXP production is divided by " +
+                        "经验值产量除以" +
                         format_num(10 ** 12) +
-                        ", Multi-Prestige and Reboot Residue do not apply<br>Reboot in ??? Prestiges or less"
+                        "，多重转生和重启余产无效<br>Reboot in ??? Prestiges or less"
             }
             challenge_map
                 .get(challenge.challenges[5])
@@ -4915,9 +4915,9 @@ function regenerate_ui() {
 
     document.getElementById("lvlnum").innerHTML = format_num(game.level)
     document.getElementById("exp").innerHTML =
-        format_num(game.exp) + " / " + format_num(game.goal) + " EXP"
+        format_num(game.exp) + "经验值，升级需" + format_num(game.goal) + "经验值"
     document.getElementById("total_exp").innerHTML =
-        format_num(game.total_exp) + " Total EXP"
+        format_num(game.total_exp) + "总经验值"
 
     for (let i = 0; i < 6; i++) {
         up_toggle(i)
@@ -4959,9 +4959,9 @@ function regenerate_ui() {
     }
 
     document.getElementById("page_text1").innerHTML =
-        "Page " + (game.achiev_page + 1)
+        "第" + (game.achiev_page + 1) + "页"
     document.getElementById("page_text2").innerHTML =
-        "Page " + (game.achiev_page + 1)
+        "第" + (game.achiev_page + 1) + "页"
 
     if (game.pp_bought[3]) {
         document.getElementById("amp_auto").style.display = "inline"
@@ -5011,7 +5011,7 @@ function regenerate_ui() {
             case 2:
                 document.getElementById("oc_button").style.display = "none"
                 document.getElementById("oc_state").innerHTML =
-                    "Boosting " + format_num(game.exp_oc) + "x"
+                    "强化" + format_num(game.exp_oc) + "倍"
                 document.getElementById("oc_timer").style.display = "block"
                 document.getElementById("oc_progress").style.background =
                     "#ff7f00"

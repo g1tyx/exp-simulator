@@ -752,7 +752,7 @@ function oc_activate() {
         if (game.pp_bought[19]) game.exp_oc = 4
         if (game.pp_bought[23]) game.exp_oc = 5
         document.getElementById("oc_state").innerHTML =
-            "Boosting " + format_num(game.exp_oc) + "x"
+            "强化" + format_num(game.exp_oc) + "倍"
         document.getElementById("oc_button").style.display = "none"
         document.getElementById("oc_timer").style.display = "block"
         document.getElementById("oc_progress").style.background = "#ff7f00"
@@ -882,9 +882,9 @@ function enter_challenge(id) {
         } else {
             if (
                 confirm(
-                    "You are entering Challenge " +
+                    "您将进入挑战 " +
                         roman +
-                        "\nYou must reset to enter a challenge, you will still gain watts if you were able to\nAre you sure you want to enter the challenge?"
+                        "\n进入挑战时将同时进行重置，如果满足条件，您可以正常获得瓦特\n您确定要进入挑战吗？"
                 )
             ) {
                 confirmed = true
@@ -944,7 +944,7 @@ function enter_challenge(id) {
             }
         }
     } else if (game.challenge !== id) {
-        alert("You cannot enter a challenge if you are already in one!")
+        alert("在挑战内无法进入其他挑战！")
     }
 }
 
@@ -1087,7 +1087,7 @@ function enter_omega_challenge() {
             else {
                 let message = ""
                 message =
-                    "Are you sure you want to enter the Omega Challenge? You must Quantize before entering."
+                    "您确定要进入欧米伽挑战吗？这将同时进行量子化。"
 
                 if (confirm(message)) confirmed = true
             }
