@@ -221,7 +221,7 @@ var cnItems = {
     'STATISTICS': '统计',
     'ACHIEVEMENTS': '成就',
     'SETTINGS': '设置',
-    'THE END!': '结局！',
+    'THE END!': '结局!',
     'EXP Overclocker': '经验超频',
     'ACTIVATE': '激活',
     'EXP Capacitor': '经验电容',
