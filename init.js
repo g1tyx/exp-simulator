@@ -180,6 +180,7 @@ let game = {
 
     //v2.2.201 variables
     watts_eff: new Array(5).fill(-1),
+    watts_time: new Array(5).fill(-1),
 
     //v2.2.300 variables
     hydrogen: 0,
