@@ -335,7 +335,7 @@ var cnItems = {
     'Left/Right: Change tab': '左/右键：切换选项卡',
     '1-6: Buy upgrade (on upgrades tab': '1-6：购买升级(在升级选项卡下',
     'Shift+1-6: Toggle auto-upgrade (on upgrades tab': 'Shift+1-6：切换自动升级状态(在升级选项卡下',
-    'EXP Simulator v2.3.201': '经验模拟器 v2.3.201',
+    'EXP Simulator v2.3.202': '经验模拟器 v2.3.202',
     'Made by Zakuro': '作者Zakuro，汉化者by22dgb',
     'CONGRATULATIONS!': '恭喜！',
     'You have reached LVL 1,000,000 and thus officially beaten EXP Simulator!': '您达到了1,000,000级，可以算是通关了经验模拟器！',
