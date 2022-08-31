@@ -201,6 +201,8 @@ var cnItems = {
     'INFINITY': '无限记数法',
     'ROMAN': '罗马记数法',
     'BASE64': 'BASE64记数法',
+    'MIXED SCIENTIFIC': '混合科学记数法',
+    'MIXED ENGINEERING': '混合工程记数法',
     'MILLION': '百万(1e6)',
     'BILLION': '十亿(1e9)',
     'SHOW ALL': '显示全部',
