@@ -1,6 +1,6 @@
 //initializing game variables
 let game = {
-    version: "2.3.201",
+    version: "2.3.205",
 
     //v2.0.000 variables
     total_exp: 0,
@@ -250,7 +250,7 @@ let game = {
     highest_omega_level: 0,
     omega_points: 0,
     om_bought: new Array(8).fill(false),
-    om_boost: [1, 1, 0],
+    om_boost: [1, 1, 1],
     om_assigned: [0, 0, 0],
 
     omega_challenge: false,
@@ -263,11 +263,15 @@ let game = {
 
     perks_hide: false,
 
-    //v2.3.201
+    //v2.3.201 variables
     amp_amount: new Array(5).fill(-1),
     amp_time: new Array(5).fill(-1),
     watts_amount: new Array(5).fill(-1),
     watts_time: new Array(5).fill(-1),
+
+    //v2.3.205 variables
+    work: true,
+    work_unlocked: false,
 }
 
 //initialize maps
@@ -285,6 +289,8 @@ let focus_time = undefined
 let entering = false
 let reduction = 1
 let prism_angle = Math.PI / 10
+
+let meme = true
 
 //initialize pp upgrade priorities
 for (let i = 0; i < 39; i++) {
@@ -913,12 +919,7 @@ function format_num(num) {
     if (negative) {
         output = "-" + output
     }
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    ) {
+    if (game.notation === 8) {
         output = "???"
     }
     return output
@@ -1871,12 +1872,7 @@ function format_infinity(num) {
     if (negative) {
         output = "-" + output
     }
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    ) {
+    if (game.notation === 8) {
         output = "???"
     }
     return output
@@ -1894,12 +1890,7 @@ function format_lvl(num) {
         }
     }
 
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    ) {
+    if (game.notation === 8) {
         output = "???"
     }
 
@@ -1908,12 +1899,7 @@ function format_lvl(num) {
 
 //special decimal formatting
 function format_eff(num) {
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    ) {
+    if (game.notation === 8) {
         return "???"
     } else if (game.notation === 10) {
         if (num >= 100) {
@@ -2085,13 +2071,7 @@ function format_time(input) {
             (Math.floor(time) % 60)
     }
 
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    )
-        output = "???"
+    if (game.notation === 8) output = "???"
     return output
 }
 
@@ -2581,13 +2561,8 @@ function get_color(num) {
             break
     }
 
-    if (
-        game.notation === 8 ||
-        (game.question &&
-            new Date().getUTCDate() === 1 &&
-            new Date().getUTCMonth() === 3)
-    )
-        color = colors[0]
+    if (game.notation === 8) color = colors[0]
+    if (meme) color = "black"
     return color
 }
 
@@ -3254,7 +3229,9 @@ class generator_perk {
         perk_desc.className = "perk_desc"
 
         //perk completion box
-        let perk_complete = document.createElement("DIV")
+        let perk_complete = undefined
+        if (meme) perk_complete = document.createElement("BUTTON")
+        else perk_complete = document.createElement("DIV")
         perk_complete.className = "perk_complete incomplete"
 
         //perk requirement
@@ -4166,7 +4143,7 @@ class notify {
 
         let notif_text = document.createElement("P")
         notif_text.innerHTML = this.text
-        notif_text.style.color = this.color
+        if (!meme) notif_text.style.color = this.color
         notif_text.className = "notif_text"
 
         notification.appendChild(notif_text)

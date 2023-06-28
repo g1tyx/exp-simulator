@@ -8,7 +8,8 @@
         <title>经验模拟器 - EXP Simulator</title>
         <link rel="icon" href="favicon.png">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel|Josefin+Sans:700">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link id="main_css" rel="stylesheet" type="text/css" href="style.css">
+        <link id="meme_css" rel="stylesheet alternate" type="text/css" href="meme.css">
     </head>
     <body>
         <script src="chs.js?20220528"></script>
@@ -1518,6 +1519,14 @@
                     <button id="import_button" class="option option_button" onclick="import_save()">
                         导入
                     </button>
+                    <div id="work" class="option">
+                        <p id="work_text" class="option_text">
+                            Work Theme
+                        </p>
+                        <button id="work_button" class="option_button small" onclick="work()">
+                            ENABLED
+                        </button>
+                    </div>
                     <div class="option">
                         <p id="notation_text" class="option_text">
                             Notation
@@ -1616,14 +1625,6 @@
                             </p>
                         </div>
                     </div>
-                    <div class="option" id="question">
-                        <p id="question_text" class="option_text">
-                            ???
-                        </p>
-                        <button id="question_button" class="option_button small" onclick="question()">
-                            ENABLED
-                        </button>
-                    </div>
                     <button id="wipe_button" class="option wipe_button" onclick="wipe()">
                         删除存档
                     </button>
@@ -1636,13 +1637,16 @@
                 </div>
 
                 <p id="version" class="info">
-                    <br><br><br>EXP Simulator v2.3.203<br>Made by Zakuro
+                    <br><br><br>EXP Simulator v2.3.206<br>Made by Zakuro<br><br>Last updated April 2, 2023
                 </p>
-                <a href="changelog.html" target="_blank" class="info link">
+                <a id="changelog" href="changelog.html" target="_blank" class="info link">
                     更新日志
                 </a>
-                <a href="https://zakuro98.github.io/EXP-Simulator-Beta/" target="_blank" class="info link">
-                    Beta版
+                <a href="https://zakuro98.github.io/Spice-Idle/" target="_blank" class="info link">
+                    香料放置
+                </a>
+                <a href="https://g8hh.github.io/spice-idle/" target="_blank" class="info link">
+                    香料放置中文版
                 </a>
                 <a href="https://discord.gg/fuQSBkYYqH" target="_blank" class="info link">
                     Discord频道
