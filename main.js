@@ -1680,7 +1680,7 @@ function tick() {
     for (const notif of notify.queue) {
         notif.age += 30 / delta_time
         if (notif.age >= game.tickspeed * 4) {
-            notif_map.get(notif)
+            notif_map.get(notif).remove()
             notif_map.delete(notif)
             notify.queue.splice(notif, 1)
         } else if (notif.age >= game.tickspeed * 3) {
