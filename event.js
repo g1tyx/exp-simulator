@@ -1,33 +1,19 @@
 //function to increment exp and handle showing the results
 function increment(num) {
     if (game.level < game.pr_min || game.pp_bought[6]) {
-        if (game.total_exp + num < 1.7976931348622053 * 10 ** 308)
-            game.total_exp += num
-        else game.total_exp = 1.7976931348622053 * 10 ** 308
-
-        if (game.prestige_exp + num < 1.7976931348622053 * 10 ** 308)
-            game.prestige_exp += num
-        else game.prestige_exp = 1.7976931348622053 * 10 ** 308
-
-        if (game.reboot_exp + num < 1.7976931348622053 * 10 ** 308)
-            game.reboot_exp += num
-        else game.reboot_exp = 1.7976931348622053 * 10 ** 308
-
-        if (game.all_time_exp + num < 1.7976931348622053 * 10 ** 308)
-            game.all_time_exp += num
-        else game.all_time_exp = 1.7976931348622053 * 10 ** 308
+        game.total_exp = game.total_exp.add(num)
+        game.prestige_exp = game.prestige_exp.add(num)
+        game.reboot_exp = game.reboot_exp.add(num)
+        game.all_time_exp = game.all_time_exp.add(num)
 
         let prev_level = game.level
 
-        if (game.total_exp <= 10) {
+        if (game.total_exp.cmp(10) <= 0) {
             game.level = 1
         } else {
             game.level = get_level(game.total_exp)
 
-            if (game.total_exp >= 1.7976931348622053 * 10 ** 308)
-                game.level = 1000000
-
-            if (game.perks[27]) {
+            if (game.perks[28] && game.challenge !== 6) {
                 if (
                     game.level > prev_level &&
                     game.level > game.highest_level
@@ -42,15 +28,7 @@ function increment(num) {
                             get_pp(game.level) - get_pp(game.highest_level)
                     }
 
-                    if (
-                        game.challenge !== 9 &&
-                        !(
-                            game.challenge === 4 &&
-                            game.dk_bought[3] &&
-                            game.completions[3] >= 12
-                        )
-                    )
-                        game.highest_level = game.level
+                    game.highest_level = game.level
                 }
             }
 
@@ -96,8 +74,14 @@ function increment(num) {
                 get_achievement(149)
             if (!game.achievements[150] && game.level >= 750000)
                 get_achievement(150)
-            if (!game.achievements[151] && game.level >= 1000000)
+            if (!game.achievements[151] && game.level >= 1000000) {
                 get_achievement(151)
+                increment(1)
+            }
+            if (!game.achievements[170] && game.level >= 1250000)
+                get_achievement(170)
+            if (!game.achievements[171] && game.level >= 1500000)
+                get_achievement(171)
 
             if (game.level >= 5 && !game.hold_notify) {
                 new notify("Protip: you can hold the EXP button", "#ffc400")
@@ -112,65 +96,78 @@ function increment(num) {
             }
         }
 
-        if (!game.achievements[19] && game.all_time_exp >= 10 ** 6)
+        if (!game.achievements[19] && game.all_time_exp.cmp(10 ** 6) >= 0)
             get_achievement(19)
-        if (!game.achievements[20] && game.all_time_exp >= 10 ** 9)
+        if (!game.achievements[20] && game.all_time_exp.cmp(10 ** 9) >= 0)
             get_achievement(20)
-        if (!game.achievements[21] && game.all_time_exp >= 10 ** 12)
+        if (!game.achievements[21] && game.all_time_exp.cmp(10 ** 12) >= 0)
             get_achievement(21)
-        if (!game.achievements[22] && game.all_time_exp >= 10 ** 15)
+        if (!game.achievements[22] && game.all_time_exp.cmp(10 ** 15) >= 0)
             get_achievement(22)
-        if (!game.achievements[23] && game.all_time_exp >= 10 ** 18)
+        if (!game.achievements[23] && game.all_time_exp.cmp(10 ** 18) >= 0)
             get_achievement(23)
-        if (!game.achievements[24] && game.all_time_exp >= 10 ** 21)
+        if (!game.achievements[24] && game.all_time_exp.cmp(10 ** 21) >= 0)
             get_achievement(24)
-        if (!game.achievements[25] && game.all_time_exp >= 10 ** 24)
+        if (!game.achievements[25] && game.all_time_exp.cmp(10 ** 24) >= 0)
             get_achievement(25)
-        if (!game.achievements[26] && game.all_time_exp >= 10 ** 27)
+        if (!game.achievements[26] && game.all_time_exp.cmp(10 ** 27) >= 0)
             get_achievement(26)
-        if (!game.achievements[27] && game.all_time_exp >= 10 ** 30)
+        if (!game.achievements[27] && game.all_time_exp.cmp(10 ** 30) >= 0)
             get_achievement(27)
-        if (!game.achievements[28] && game.all_time_exp >= 10 ** 33)
+        if (!game.achievements[28] && game.all_time_exp.cmp(10 ** 33) >= 0)
             get_achievement(28)
-        if (!game.achievements[29] && game.all_time_exp >= 10 ** 36)
+        if (!game.achievements[29] && game.all_time_exp.cmp(10 ** 39) >= 0)
             get_achievement(29)
-        if (!game.achievements[30] && game.all_time_exp >= 10 ** 39)
+        if (!game.achievements[30] && game.all_time_exp.cmp(10 ** 45) >= 0)
             get_achievement(30)
-        if (!game.achievements[70] && game.all_time_exp >= 10 ** 42)
+        if (!game.achievements[70] && game.all_time_exp.cmp(10 ** 51) >= 0)
             get_achievement(70)
-        if (!game.achievements[79] && game.all_time_exp >= 10 ** 45)
+        if (!game.achievements[79] && game.all_time_exp.cmp(10 ** 57) >= 0)
             get_achievement(79)
-        if (!game.achievements[80] && game.all_time_exp >= 10 ** 48)
+        if (!game.achievements[80] && game.all_time_exp.cmp(10 ** 63) >= 0)
             get_achievement(80)
-        if (!game.achievements[93] && game.all_time_exp >= 10 ** 51)
+        if (!game.achievements[93] && game.all_time_exp.cmp(10 ** 78) >= 0)
             get_achievement(93)
-        if (!game.achievements[96] && game.all_time_exp >= 10 ** 57)
+        if (!game.achievements[96] && game.all_time_exp.cmp(10 ** 93) >= 0)
             get_achievement(96)
-        if (!game.achievements[99] && game.all_time_exp >= 10 ** 63)
+        if (!game.achievements[99] && game.all_time_exp.cmp(10 ** 108) >= 0)
             get_achievement(99)
-        if (!game.achievements[100] && game.all_time_exp >= 10 ** 75)
+        if (!game.achievements[100] && game.all_time_exp.cmp(10 ** 123) >= 0)
             get_achievement(100)
-        if (!game.achievements[101] && game.all_time_exp >= 10 ** 87)
+        if (!game.achievements[101] && game.all_time_exp.cmp(10 ** 138) >= 0)
             get_achievement(101)
-        if (!game.achievements[102] && game.all_time_exp >= 10 ** 99)
+        if (!game.achievements[102] && game.all_time_exp.cmp(10 ** 153) >= 0)
             get_achievement(102)
-        if (!game.achievements[118] && game.all_time_exp >= 10 ** 111)
+        if (!game.achievements[118] && game.all_time_exp.cmp(10 ** 183) >= 0)
             get_achievement(118)
-        if (!game.achievements[132] && game.all_time_exp >= 10 ** 123)
+        if (!game.achievements[132] && game.all_time_exp.cmp(10 ** 213) >= 0)
             get_achievement(132)
-        if (!game.achievements[134] && game.all_time_exp >= 10 ** 138)
+        if (!game.achievements[134] && game.all_time_exp.cmp(10 ** 243) >= 0)
             get_achievement(134)
-        if (!game.achievements[138] && game.all_time_exp >= 10 ** 153)
+        if (!game.achievements[138] && game.all_time_exp.cmp(10 ** 273) >= 0)
             get_achievement(138)
-        if (!game.achievements[146] && game.all_time_exp >= 10 ** 183)
+        if (!game.achievements[146] && game.all_time_exp.cmp(10 ** 303) >= 0)
             get_achievement(146)
-        if (!game.achievements[152] && game.all_time_exp >= 10 ** 228)
+        if (
+            !game.achievements[152] &&
+            game.all_time_exp.cmp(Decimal.pow(10, 333)) >= 0
+        )
             get_achievement(152)
-        if (!game.achievements[153] && game.all_time_exp >= 10 ** 303)
+        if (
+            !game.achievements[153] &&
+            game.all_time_exp.cmp(Decimal.pow(10, 363)) >= 0
+        )
             get_achievement(153)
+        if (
+            !game.achievements[174] &&
+            game.all_time_exp.cmp(Decimal.pow(10, 393)) >= 0
+        )
+            get_achievement(174)
 
-        game.exp = game.total_exp - Math.ceil(get_exp(game.level - 1))
-        game.goal = Math.ceil(get_exp(game.level) - get_exp(game.level - 1))
+        game.exp = game.total_exp.sub(get_exp(game.level - 1).ceil())
+        game.goal = get_exp(game.level)
+            .sub(get_exp(game.level - 1))
+            .ceil()
     }
 
     if (num > 0) game.afk_time = 0
@@ -195,26 +192,27 @@ function player_increment() {
     if (legit) {
         if (game.battery_mode === 0 || game.perks[8])
             increment(
-                Math.round(
-                    (game.exp_add + fluct_increment(game.exp_fluct)) *
-                        game.ml_boost *
-                        game.global_multiplier *
-                        game.exp_battery
-                )
+                game.global_multiplier
+                    .mul(game.exp_add + fluct_increment(game.exp_fluct))
+                    .mul(game.ml_boost)
+                    .mul(game.exp_battery)
+                    .round()
             )
         else
             increment(
-                Math.round(
-                    (game.exp_add + fluct_increment(game.exp_fluct)) *
-                        game.ml_boost *
-                        game.global_multiplier
-                )
+                game.global_multiplier
+                    .mul(game.exp_add + fluct_increment(game.exp_fluct))
+                    .mul(game.ml_boost)
+                    .round()
             )
         game.clicks += 1
         game.prestige_clicks += 1
         game.reboot_clicks += 1
         game.total_clicks += 1
         click_time = Date.now()
+
+        if (!game.achievements[92] && game.total_clicks >= 10000)
+            get_achievement(92)
     }
 }
 
@@ -261,6 +259,7 @@ function upgrade(id, max) {
                                 game.generator_kit +
                                 1) *
                             game.amp
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -293,6 +292,7 @@ function upgrade(id, max) {
                             get_achievement(54)
                         if (!game.achievements[55] && game.cps >= 1000)
                             get_achievement(55)
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -331,6 +331,7 @@ function upgrade(id, max) {
                                     game.generator_kit) *
                                 game.amp *
                                 2
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -364,6 +365,7 @@ function upgrade(id, max) {
                             game.starter_kit +
                             game.generator_kit +
                             1
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -389,6 +391,7 @@ function upgrade(id, max) {
                         }
                         if (game.challenge === 2 || game.challenge === 9)
                             game.flux_level = game.flux_level * 5
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -435,6 +438,7 @@ function upgrade(id, max) {
                                     game.generator_kit +
                                     1) *
                                 9
+                        game.no_upgrades = false
                     }
                 }
                 break
@@ -445,6 +449,7 @@ function upgrade(id, max) {
             case 0:
                 //exp boost
                 if (game.boost_level < game.pr_min || game.pp_bought[6]) {
+                    let old_tier = game.boost_tier
                     game.boost_tier = Math.floor(game.level / 2)
                     game.boost_level = game.boost_tier * 2 + 2
                     if (game.challenge === 0) {
@@ -468,11 +473,13 @@ function upgrade(id, max) {
                             game.generator_kit +
                             1) *
                         game.amp
+                    if (game.boost_tier !== old_tier) game.no_upgrades = false
                 }
                 break
             case 1:
                 //autoclicker
                 if (game.auto_level < game.pr_min || game.pp_bought[6]) {
+                    let old_tier = game.auto_tier
                     if (game.level < 3) {
                         game.auto_tier = 0
                         game.auto_level = 3
@@ -536,6 +543,8 @@ function upgrade(id, max) {
                         get_achievement(54)
                     if (!game.achievements[55] && game.cps >= 1000)
                         get_achievement(55)
+
+                    if (game.auto_tier !== old_tier) game.no_upgrades = false
                 }
                 break
             case 2:
@@ -545,6 +554,7 @@ function upgrade(id, max) {
                     game.pp_bought[0] &&
                     game.challenge !== 7
                 ) {
+                    let old_tier = game.fluct_tier
                     if (game.level < 3) {
                         game.fluct_tier = 0
                         game.fluct_level = 6
@@ -600,6 +610,8 @@ function upgrade(id, max) {
                                 game.generator_kit) *
                             game.amp *
                             2
+
+                    if (game.fluct_tier !== old_tier) game.no_upgrades = false
                 }
                 break
             case 3:
@@ -609,6 +621,7 @@ function upgrade(id, max) {
                     game.pp_bought[5] &&
                     game.challenge !== 7
                 ) {
+                    let old_tier = game.fact_tier
                     if (game.level < 15) {
                         game.fact_tier = 0
                         game.fact_level = 15
@@ -664,6 +677,7 @@ function upgrade(id, max) {
                         game.starter_kit +
                         game.generator_kit +
                         1
+                    if (game.fact_tier !== old_tier) game.no_upgrades = false
                 }
                 break
             case 4:
@@ -673,6 +687,7 @@ function upgrade(id, max) {
                     game.pp_bought[20] &&
                     game.challenge !== 7
                 ) {
+                    let old_tier = game.flux_tier
                     game.flux_tier = Math.floor(game.level / 75)
                     game.flux_level = game.flux_tier * 75 + 75
                     if (game.challenge === 0) {
@@ -692,6 +707,7 @@ function upgrade(id, max) {
                         game.flux_tier = Math.floor(game.level / 375)
                         game.flux_level = game.flux_tier * 375 + 375
                     }
+                    if (game.flux_tier !== old_tier) game.no_upgrades = false
                 }
                 break
             case 5:
@@ -701,6 +717,7 @@ function upgrade(id, max) {
                     game.pp_bought[25] &&
                     game.challenge !== 7
                 ) {
+                    let old_tier = game.battery_tier
                     game.battery_tier = Math.floor(game.level / 90)
                     game.battery_level = game.battery_tier * 90 + 90
                     if (game.challenge === 0) {
@@ -715,8 +732,8 @@ function upgrade(id, max) {
                         }
                     }
                     if (game.challenge === 2 || game.challenge === 9) {
-                        game.flux_tier = Math.floor(game.level / 450)
-                        game.flux_level = game.flux_tier * 450 + 450
+                        game.battery_tier = Math.floor(game.level / 450)
+                        game.battery_level = game.battery_tier * 450 + 450
                     }
                     if (!game.pp_bought[31])
                         game.exp_battery =
@@ -738,6 +755,7 @@ function upgrade(id, max) {
                                 game.generator_kit +
                                 1) *
                             9
+                    if (game.battery_tier !== old_tier) game.no_upgrades = false
                 }
                 break
         }
@@ -755,7 +773,8 @@ function oc_activate() {
             "强化" + format_num(game.exp_oc) + "倍"
         document.getElementById("oc_button").style.display = "none"
         document.getElementById("oc_timer").style.display = "block"
-        document.getElementById("oc_progress").style.background = "#ff7f00"
+        if (!meme)
+            document.getElementById("oc_progress").style.background = "#ff7f00"
     }
 }
 
@@ -812,18 +831,18 @@ function discharge() {
         game.challenge !== 9 &&
         (game.stored_exp >= game.tickspeed || game.pp_bought[38])
     ) {
-        let eps =
-            (game.exp_add + game.exp_fluct / 2) *
-            game.global_multiplier *
-            game.cps
-        if (game.battery_mode === 1 || game.perks[8]) eps *= game.exp_battery
+        let eps = game.global_multiplier
+            .mul(game.exp_add + game.exp_fluct / 2)
+            .mul(game.cps)
+        if (game.battery_mode === 1 || game.perks[8])
+            eps = eps.mul(game.exp_battery)
         if (!game.perks[9])
             increment(
-                (game.stored_exp / game.tickspeed) * eps * game.cap_mode * 2
+                eps.mul(game.stored_exp / game.tickspeed).mul(game.cap_mode * 2)
             )
         else
             increment(
-                (game.stored_exp / game.tickspeed) * eps * game.cap_mode * 4
+                eps.mul(game.stored_exp / game.tickspeed).mul(game.cap_mode * 4)
             )
         game.stored_exp = 0
 
@@ -912,39 +931,38 @@ function enter_challenge(id) {
 
             entering = false
 
-            game.global_multiplier =
-                game.exp_fact *
-                game.exp_oc *
-                game.exp_flux *
-                game.pp_power *
-                game.prestige_power *
-                game.depth_power *
-                game.ach_power *
-                game.speed_power *
-                game.ch_boost[0] *
-                game.ch_boost[1] *
-                game.ch_boost[2] *
-                game.ch_boost[3] *
-                game.ch_boost[4] *
-                game.ch_boost[5] *
-                game.ch_boost[6] *
-                game.ch_boost[7] *
-                game.ch_boost[8] *
-                reduction *
-                game.helium_boost
+            game.global_multiplier = Decimal.mul(game.exp_fact, game.exp_oc)
+                .mul(game.exp_flux)
+                .mul(game.pp_power)
+                .mul(game.prestige_power)
+                .mul(game.depth_power)
+                .mul(game.ach_power)
+                .mul(game.speed_power)
+                .mul(game.ch_boost[0])
+                .mul(game.ch_boost[1])
+                .mul(game.ch_boost[2])
+                .mul(game.ch_boost[3])
+                .mul(game.ch_boost[4])
+                .mul(game.ch_boost[5])
+                .mul(game.ch_boost[6])
+                .mul(game.ch_boost[7])
+                .mul(game.ch_boost[8])
+                .mul(reduction)
+                .mul(game.helium_boost)
 
             if (game.challenge === 7) {
-                game.global_multiplier =
-                    game.ch_boost[0] *
-                    game.ch_boost[1] *
-                    game.ch_boost[2] *
-                    game.ch_boost[3] *
-                    game.ch_boost[4] *
-                    game.ch_boost[5] *
-                    game.ch_boost[6] *
-                    game.ch_boost[7] *
-                    game.ch_boost[8] *
-                    game.helium_boost
+                game.global_multiplier = Decimal.mul(
+                    game.ch_boost[0],
+                    game.ch_boost[1]
+                )
+                    .mul(game.ch_boost[2])
+                    .mul(game.ch_boost[3])
+                    .mul(game.ch_boost[4])
+                    .mul(game.ch_boost[5])
+                    .mul(game.ch_boost[6])
+                    .mul(game.ch_boost[7])
+                    .mul(game.ch_boost[8])
+                    .mul(game.helium_boost)
             }
         }
     } else if (game.challenge !== id) {
@@ -962,15 +980,265 @@ function exit_challenge() {
     }
 }
 
+//buy max cores
+function max_all() {
+    let cores = 0
+    let available = []
+    for (let i = 0; i < 8; i++) {
+        if (game.hydrogen >= game.core_price[i]) {
+            cores++
+            available.push(i)
+        }
+    }
+
+    let budget = game.hydrogen / cores
+    const scaling_array = [24000, 16000, 8000, 4000, 2000, 1000, 500, 250]
+    while (budget >= game.core_price[0] && cores > 0) {
+        for (let i = 0; i < available.length; i++) {
+            let budget2 = budget
+            let c = core.cores[available[i]]
+            let scaling = scaling_array[c.id]
+
+            if (game.core_level[c.id] < scaling) {
+                let n = Math.floor(
+                    ((game.core_level[c.id] + 3.5) ** 2 +
+                        (8 * budget2) / c.base_price) **
+                        0.5 -
+                        game.core_level[c.id] -
+                        3.5
+                )
+                if (n >= scaling - game.core_level[c.id])
+                    n = scaling - game.core_level[c.id]
+
+                let hydrogen_before = game.hydrogen
+                game.hydrogen -=
+                    (c.base_price * n ** 2 +
+                        n *
+                            (2 * c.base_price * game.core_level[c.id] +
+                                7 * c.base_price)) /
+                    8
+                budget2 -= hydrogen_before - game.hydrogen
+                if (budget2 < 0) budget2 = 0
+                for (let i = 0; i < 9; i++) {
+                    game.budget[i] -= (hydrogen_before - game.hydrogen) / 9
+                    if (game.budget[i] < 0) game.budget[i] = 0
+                }
+
+                game.core_level[c.id] += n
+                game.core_price[c.id] =
+                    (c.base_price / 4) * (game.core_level[c.id] + 4)
+            }
+
+            if (game.core_level[c.id] >= scaling) {
+                let m = game.core_level[c.id] - scaling
+                let p = (6 * scaling - 31) / 3
+                let q =
+                    12 * (budget2 / c.base_price) +
+                    (3 * scaling - 15) +
+                    m * (3 * scaling - 14) +
+                    m ** 2 * 1.5 +
+                    m ** 3 / 2
+                let n = Math.floor(
+                    Math.cbrt(q + Math.sqrt(p ** 3 + q ** 2)) -
+                        p / Math.cbrt(q + Math.sqrt(p ** 3 + q ** 2)) -
+                        m -
+                        1.5
+                )
+
+                let a = 3 - 2 * scaling
+                let b = scaling ** 2 - scaling + 8
+                let u = n - 1
+                let hydrogen_before = game.hydrogen
+                game.hydrogen -=
+                    (c.base_price / 48) *
+                    (2 * u ** 3 +
+                        3 * u * (1 + a) * (u + 2 * game.core_level[c.id]) +
+                        u * (3 * a + 6 * b + 1) +
+                        6 *
+                            (game.core_level[c.id] * u ** 2 +
+                                game.core_level[c.id] ** 2 * u +
+                                game.core_level[c.id] ** 2 +
+                                a * game.core_level[c.id] +
+                                b))
+                budget2 -= hydrogen_before - game.hydrogen
+                if (budget2 < 0) budget2 = 0
+                for (let i = 0; i < 9; i++) {
+                    game.budget[i] -= (hydrogen_before - game.hydrogen) / 9
+                    if (game.budget[i] < 0) game.budget[i] = 0
+                }
+
+                game.core_level[c.id] += n
+                game.core_price[c.id] =
+                    (c.base_price / 8) *
+                    (game.core_level[c.id] ** 2 + a * game.core_level[c.id] + b)
+
+                if (budget2 >= game.core_price[c.id]) {
+                    game.hydrogen -= game.core_price[c.id]
+                    for (let i = 0; i < 9; i++) {
+                        game.budget[i] -= game.core_price[c.id] / 9
+                        if (game.budget[i] < 0) game.budget[i] = 0
+                    }
+                    game.core_level[c.id]++
+
+                    game.core_price[c.id] =
+                        (c.base_price / 8) *
+                        (game.core_level[c.id] ** 2 -
+                            game.core_level[c.id] * (2 * scaling - 3) +
+                            scaling ** 2 -
+                            scaling +
+                            8)
+                }
+            }
+        }
+
+        cores = 0
+        available = []
+        for (let i = 0; i < 8; i++) {
+            if (game.hydrogen >= game.core_price[i]) {
+                cores++
+                available.push(i)
+            }
+        }
+
+        budget = game.hydrogen / cores
+    }
+}
+
+//buy max cores with half hydrogen
+function max_half() {
+    let half_hydrogen = game.hydrogen / 2
+    let cores = 0
+    let available = []
+    for (let i = 0; i < 8; i++) {
+        if (half_hydrogen >= game.core_price[i]) {
+            cores++
+            available.push(i)
+        }
+    }
+
+    let budget = half_hydrogen / cores
+    const scaling_array = [24000, 16000, 8000, 4000, 2000, 1000, 500, 250]
+    while (budget >= game.core_price[0] && cores > 0) {
+        for (let i = 0; i < available.length; i++) {
+            let budget2 = budget
+            let c = core.cores[available[i]]
+            let scaling = scaling_array[c.id]
+
+            if (game.core_level[c.id] < scaling) {
+                let n = Math.floor(
+                    ((game.core_level[c.id] + 3.5) ** 2 +
+                        (8 * budget2) / c.base_price) **
+                        0.5 -
+                        game.core_level[c.id] -
+                        3.5
+                )
+                if (n >= scaling - game.core_level[c.id])
+                    n = scaling - game.core_level[c.id]
+
+                let hydrogen_before = game.hydrogen
+                game.hydrogen -=
+                    (c.base_price * n ** 2 +
+                        n *
+                            (2 * c.base_price * game.core_level[c.id] +
+                                7 * c.base_price)) /
+                    8
+                half_hydrogen -= hydrogen_before - game.hydrogen
+                budget2 -= hydrogen_before - game.hydrogen
+                if (budget2 < 0) budget2 = 0
+                for (let i = 0; i < 9; i++) {
+                    game.budget[i] -= (hydrogen_before - game.hydrogen) / 9
+                    if (game.budget[i] < 0) game.budget[i] = 0
+                }
+
+                game.core_level[c.id] += n
+                game.core_price[c.id] =
+                    (c.base_price / 4) * (game.core_level[c.id] + 4)
+            }
+
+            if (game.core_level[c.id] >= scaling) {
+                let m = game.core_level[c.id] - scaling
+                let p = (6 * scaling - 31) / 3
+                let q =
+                    12 * (budget2 / c.base_price) +
+                    (3 * scaling - 15) +
+                    m * (3 * scaling - 14) +
+                    m ** 2 * 1.5 +
+                    m ** 3 / 2
+                let n = Math.floor(
+                    Math.cbrt(q + Math.sqrt(p ** 3 + q ** 2)) -
+                        p / Math.cbrt(q + Math.sqrt(p ** 3 + q ** 2)) -
+                        m -
+                        1.5
+                )
+
+                let a = 3 - 2 * scaling
+                let b = scaling ** 2 - scaling + 8
+                let u = n - 1
+                let hydrogen_before = game.hydrogen
+                game.hydrogen -=
+                    (c.base_price / 48) *
+                    (2 * u ** 3 +
+                        3 * u * (1 + a) * (u + 2 * game.core_level[c.id]) +
+                        u * (3 * a + 6 * b + 1) +
+                        6 *
+                            (game.core_level[c.id] * u ** 2 +
+                                game.core_level[c.id] ** 2 * u +
+                                game.core_level[c.id] ** 2 +
+                                a * game.core_level[c.id] +
+                                b))
+                half_hydrogen -= hydrogen_before - game.hydrogen
+                budget2 -= hydrogen_before - game.hydrogen
+                if (budget2 < 0) budget2 = 0
+                for (let i = 0; i < 9; i++) {
+                    game.budget[i] -= (hydrogen_before - game.hydrogen) / 9
+                    if (game.budget[i] < 0) game.budget[i] = 0
+                }
+
+                game.core_level[c.id] += n
+                game.core_price[c.id] =
+                    (c.base_price / 8) *
+                    (game.core_level[c.id] ** 2 + a * game.core_level[c.id] + b)
+
+                if (budget2 >= game.core_price[c.id]) {
+                    game.hydrogen -= game.core_price[c.id]
+                    half_hydrogen -= game.core_price[c.id]
+                    for (let i = 0; i < 9; i++) {
+                        game.budget[i] -= game.core_price[c.id] / 9
+                        if (game.budget[i] < 0) game.budget[i] = 0
+                    }
+                    game.core_level[c.id]++
+
+                    game.core_price[c.id] =
+                        (c.base_price / 8) *
+                        (game.core_level[c.id] ** 2 -
+                            game.core_level[c.id] * (2 * scaling - 3) +
+                            scaling ** 2 -
+                            scaling +
+                            8)
+                }
+            }
+        }
+
+        cores = 0
+        available = []
+        for (let i = 0; i < 8; i++) {
+            if (half_hydrogen >= game.core_price[i]) {
+                cores++
+                available.push(i)
+            }
+        }
+
+        budget = half_hydrogen / cores
+    }
+}
+
 //upgrading the prism
 function upgrade_prism() {
-    if (
-        game.photons >= Math.round(5 * 2.8 ** game.prism_level) &&
-        Math.round(5 * 2.8 ** game.prism_level) < Infinity
-    ) {
-        game.photons -= Math.round(5 * 2.8 ** game.prism_level)
+    if (game.photons.cmp(game.prism_price) >= 0) {
+        game.photons = game.photons.sub(game.prism_price)
         game.prism_level++
         game.prism_boost = game.prism_level * (game.prism_level + 4)
+        game.prism_price = Decimal.pow(2.8, game.prism_level).round()
 
         if (!game.achievements[126] && game.prism_level >= 1)
             get_achievement(126)
@@ -982,25 +1250,44 @@ function upgrade_prism() {
             get_achievement(141)
         if (!game.achievements[161] && game.prism_level >= 200)
             get_achievement(161)
+        if (!game.achievements[169] && game.prism_level >= 300)
+            get_achievement(169)
+        if (!game.achievements[172] && game.prism_level >= 500)
+            get_achievement(172)
     }
 }
 
 //upgrading growth interval
 function upgrade_interval() {
-    if (game.photons >= game.growth_price[0] && game.growth_interval > 1) {
-        game.photons -= game.growth_price[0]
-        game.growth_price[0] *= 80
+    if (
+        game.photons.cmp(game.growth_price[0]) >= 0 &&
+        game.growth_interval > 1
+    ) {
+        game.photons = game.photons.sub(game.growth_price[0])
+        if (game.growth_level[0] >= 24)
+            game.growth_price[0] = game.growth_price[0].mul(2500)
+        else
+            game.growth_price[0] = game.growth_price[0].mul(
+                100 + 100 * game.growth_level[0]
+            )
         game.growth_interval *= 0.9
         if (game.growth_interval < 1) game.growth_interval = 1
+        game.growth_level[0]++
     }
 }
 
 //upgrading growth facor
 function upgrade_growth() {
-    if (game.photons >= game.growth_price[1]) {
-        game.photons -= game.growth_price[1]
-        game.growth_price[1] *= 15
+    if (game.photons.cmp(game.growth_price[1]) >= 0) {
+        game.photons = game.photons.sub(game.growth_price[1])
+        if (game.growth_level[1] >= 24)
+            game.growth_price[1] = game.growth_price[1].mul(625)
+        else
+            game.growth_price[1] = game.growth_price[1].mul(
+                25 + 25 * game.growth_level[1]
+            )
         game.growth_factor *= 1.02
+        game.growth_level[1]++
     }
 }
 
@@ -1019,9 +1306,9 @@ function collapse() {
 
         if (!game.achievements[162] && game.omega_level >= 1)
             get_achievement(162)
-        if (!game.achievements[163] && game.omega_level >= 10)
+        if (!game.achievements[163] && game.omega_level >= 5)
             get_achievement(163)
-        if (!game.achievements[164] && game.omega_level >= 30)
+        if (!game.achievements[164] && game.omega_level >= 20)
             get_achievement(164)
     }
 }
@@ -1039,17 +1326,48 @@ function assign(chamber, max) {
 
         switch (chamber) {
             case 0:
-                game.om_boost[chamber] = Math.ceil(
-                    2.9 * 1.45 ** (game.om_assigned[chamber] - 1)
+                game.om_boost[chamber] = Math.round(
+                    2.5 ** (game.om_assigned[chamber] ** 0.75)
                 )
+                if (game.om_assigned[chamber] >= 15)
+                    game.om_boost[chamber] = Math.round(
+                        1079 *
+                            1.422 ** ((game.om_assigned[chamber] - 15) ** 1.25)
+                    )
+                if (game.om_assigned[chamber] >= 30)
+                    game.om_boost[chamber] = Math.round(
+                        35204148 * 2.37 ** (game.om_assigned[chamber] - 30)
+                    )
                 break
             case 1:
-                game.om_boost[chamber] = Math.floor(
-                    7 * 7.2 ** (game.om_assigned[chamber] - 1)
+                game.om_boost[chamber] = Math.round(
+                    16 ** (game.om_assigned[chamber] ** 0.75)
                 )
+                if (game.om_assigned[chamber] >= 15)
+                    game.om_boost[chamber] = Math.round(
+                        1505885455 *
+                            2.903 ** ((game.om_assigned[chamber] - 15) ** 1.25)
+                    )
+                if (game.om_assigned[chamber] >= 30)
+                    game.om_boost[chamber] = Math.round(
+                        6.933694888160306 *
+                            10 ** 22 *
+                            13.5 ** (game.om_assigned[chamber] - 30)
+                    )
                 break
             case 2:
-                game.om_boost[chamber] = 1 + 0.06 * game.om_assigned[chamber]
+                game.om_boost[chamber] =
+                    1 + Math.round(10 * game.om_assigned[chamber] ** 0.75) / 100
+                if (game.om_assigned[chamber] >= 15)
+                    game.om_boost[chamber] =
+                        1.76 +
+                        Math.round(
+                            4 * (game.om_assigned[chamber] - 15) ** 1.25
+                        ) /
+                            100
+                if (game.om_assigned[chamber] >= 30)
+                    game.om_boost[chamber] =
+                        2.93 + 0.09 * (game.om_assigned[chamber] - 30)
                 break
         }
     }
@@ -1058,6 +1376,7 @@ function assign(chamber, max) {
 //retrieve omega points
 function retrieve() {
     game.omega_points = game.highest_omega_level
+    if (!game.omega_challenge) game.omega_points += game.free_omega_points
     game.om_assigned[0] = 0
     game.om_assigned[1] = 0
     game.om_assigned[2] = 0
@@ -1098,8 +1417,8 @@ function enter_omega_challenge() {
 
             if (confirmed) {
                 game.quantum++
-                game.photons += Math.floor(
-                    1000000 ** ((highest_level - 65536) / 32768)
+                game.photons = game.photons.add(
+                    Decimal.pow(1000, (highest_level - 65536) / 16384).floor()
                 )
 
                 if (!game.achievements[120] && game.quantum >= 1)
@@ -1122,6 +1441,9 @@ function enter_omega_challenge() {
                 if (!game.achievements[168] && game.hps === 0)
                     get_achievement(168)
 
+                if (!game.achievements[68] && game.blind) get_achievement(68)
+                game.blind = true
+
                 game.watts = 0
                 game.watt_boost = 1
 
@@ -1134,11 +1456,11 @@ function enter_omega_challenge() {
                 }
 
                 game.hydrogen = 0
-                game.budget = 0
+                game.budget = [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 game.core_level = [0, 0, 0, 0, 0, 0, 0, 0]
-                game.core_price = [1, 3, 10, 36, 136, 528, 2080, 8256]
+                game.core_price = [5, 15, 50, 180, 680, 2640, 10400, 41280]
                 game.supply_level = 0
-                game.supply_price = 16
+                game.supply_price = 80
                 game.autohy_spent = 0
 
                 game.dark_matter = new Decimal(1)
@@ -1187,15 +1509,19 @@ function enter_omega_challenge() {
 
                 game.omega_challenge = true
 
+                retrieve()
+
                 empty_reboot()
 
                 game.reboot = 0
                 game.true_banked_prestige = 0
-                game.reboot_exp = 0
+                game.reboot_exp = new Decimal(0)
                 game.reboot_time = 0
                 game.highest_level = 1
                 game.reboot_highest_level = 1
                 game.reboot_clicks = 0
+
+                if (!game.achievements[165]) get_achievement(165)
             }
         }
     }
@@ -1216,11 +1542,11 @@ function exit_omega_challenge() {
         }
 
         game.hydrogen = 0
-        game.budget = 0
+        game.budget = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         game.core_level = [0, 0, 0, 0, 0, 0, 0, 0]
-        game.core_price = [1, 3, 10, 36, 136, 528, 2080, 8256]
+        game.core_price = [5, 15, 50, 180, 680, 2640, 10400, 41280]
         game.supply_level = 0
-        game.supply_price = 16
+        game.supply_price = 80
         game.autohy_spent = 0
 
         game.dark_matter = new Decimal(1)
@@ -1239,12 +1565,13 @@ function exit_omega_challenge() {
         }
 
         game.omega_challenge = false
+        game.omega_points += game.free_omega_points
 
         empty_reboot()
 
         game.reboot = 0
         game.true_banked_prestige = 0
-        game.reboot_exp = 0
+        game.reboot_exp = new Decimal(0)
         game.reboot_time = 0
         game.highest_level = 1
         game.reboot_highest_level = 1

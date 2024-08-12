@@ -292,17 +292,6 @@ function priority_layer() {
     }
 }
 
-//toggling hidden achievement hints
-function hints() {
-    if (game.hints) {
-        game.hints = false
-        document.getElementById("hints_button").innerHTML = "DISABLED"
-    } else {
-        game.hints = true
-        document.getElementById("hints_button").innerHTML = "ENABLED"
-    }
-}
-
 //tab switching
 function goto_tab(id) {
     if (id !== 5 && game.tab === 6) {
@@ -330,7 +319,6 @@ function goto_tab(id) {
     document.getElementById("past_resets_page").style.display = "none"
     document.getElementById("achievements_page").style.display = "none"
     document.getElementById("settings_page").style.display = "none"
-    document.getElementById("the_end_page").style.display = "none"
 
     document.getElementById("prestige_tabs").style.display = "none"
     document.getElementById("reboot_tabs").style.display = "none"
@@ -387,9 +375,6 @@ function goto_tab(id) {
             break
         case 7:
             document.getElementById("settings_page").style.display = "flex"
-            break
-        case 8:
-            document.getElementById("the_end_page").style.display = "block"
             break
     }
 }
@@ -467,6 +452,32 @@ function goto_subtab(id) {
     }
 }
 
+//changing display modes on past resets subtab
+function past_resets_mode(layer) {
+    if (layer === 1) {
+        if (!game.past_alt[0]) {
+            game.past_alt[0] = true
+            document.getElementById("past_prestiges_mode").innerHTML =
+                "Display Mode: PP"
+        } else {
+            game.past_alt[0] = false
+            document.getElementById("past_prestiges_mode").innerHTML =
+                "Display Mode: AMP"
+        }
+    }
+    if (layer === 2) {
+        if (!game.past_alt[1]) {
+            game.past_alt[1] = true
+            document.getElementById("past_reboots_mode").innerHTML =
+                "Display Mode: HYDROGEN"
+        } else {
+            game.past_alt[1] = false
+            document.getElementById("past_reboots_mode").innerHTML =
+                "Display Mode: WATTS"
+        }
+    }
+}
+
 //changing page on achievements tab
 function change_page(dir) {
     if (dir === "prev") {
@@ -518,121 +529,5 @@ function max_toggle() {
         if (!meme)
             document.getElementById("reactor_buy_max").style.textShadow =
                 "0em 0em 0.2em #ffffff"
-    }
-}
-
-//buy max cores
-function max_all() {
-    let efficiency = new Array(8).fill(Infinity)
-    let selection = 0
-    for (let i = 0; i < 8; i++) {
-        if (i === 0) {
-            efficiency[i] =
-                game.core_price[i] /
-                ((game.core_level[i] + 1) / game.core_level[i] - 1)
-        } else {
-            efficiency[i] =
-                game.core_price[i] /
-                ((game.core_level[i] + 2) / (game.core_level[i] + 1) - 1)
-        }
-        if (
-            efficiency[i] < efficiency[selection] &&
-            game.hydrogen >= game.core_price[i]
-        )
-            selection = i
-    }
-    while (game.hydrogen >= game.core_price[selection]) {
-        game.hydrogen -= game.core_price[selection]
-        game.budget -= game.core_price[selection]
-        if (game.budget < 0) game.budget = 0
-        game.core_level[selection]++
-        if (game.core_level[selection] > Math.floor(500000 / 2 ** selection)) {
-            game.core_price[selection] +=
-                (core.cores[selection].base_price *
-                    (game.core_level[selection] -
-                        Math.floor(500000 / 2 ** selection)) **
-                        1.65) /
-                4
-        } else {
-            game.core_price[selection] += core.cores[selection].base_price / 4
-        }
-
-        selection = 0
-
-        for (let i = 0; i < 8; i++) {
-            if (i === 0) {
-                efficiency[i] =
-                    game.core_price[i] /
-                    ((game.core_level[i] + 1) / game.core_level[i] - 1)
-            } else {
-                efficiency[i] =
-                    game.core_price[i] /
-                    ((game.core_level[i] + 2) / (game.core_level[i] + 1) - 1)
-            }
-            if (
-                efficiency[i] < efficiency[selection] &&
-                game.hydrogen >= game.core_price[i]
-            )
-                selection = i
-        }
-    }
-}
-
-//buy max cores with half money
-function max_half() {
-    let efficiency = new Array(8).fill(Infinity)
-    let selection = 0
-    let budget = game.hydrogen / 2
-    for (let i = 0; i < 8; i++) {
-        if (i === 0) {
-            efficiency[i] =
-                game.core_price[i] /
-                ((game.core_level[i] + 1) / game.core_level[i] - 1)
-        } else {
-            efficiency[i] =
-                game.core_price[i] /
-                ((game.core_level[i] + 2) / (game.core_level[i] + 1) - 1)
-        }
-        if (
-            efficiency[i] < efficiency[selection] &&
-            game.hydrogen >= game.core_price[i]
-        )
-            selection = i
-    }
-    while (budget >= game.core_price[selection]) {
-        game.hydrogen -= game.core_price[selection]
-        budget -= game.core_price[selection]
-        game.budget -= game.core_price[selection]
-        if (game.budget < 0) game.budget = 0
-        game.core_level[selection]++
-        if (game.core_level[selection] > Math.floor(500000 / 2 ** selection)) {
-            game.core_price[selection] +=
-                (core.cores[selection].base_price *
-                    (game.core_level[selection] -
-                        Math.floor(500000 / 2 ** selection)) **
-                        1.65) /
-                4
-        } else {
-            game.core_price[selection] += core.cores[selection].base_price / 4
-        }
-
-        selection = 0
-
-        for (let i = 0; i < 8; i++) {
-            if (i === 0) {
-                efficiency[i] =
-                    game.core_price[i] /
-                    ((game.core_level[i] + 1) / game.core_level[i] - 1)
-            } else {
-                efficiency[i] =
-                    game.core_price[i] /
-                    ((game.core_level[i] + 2) / (game.core_level[i] + 1) - 1)
-            }
-            if (
-                efficiency[i] < efficiency[selection] &&
-                game.hydrogen >= game.core_price[i]
-            )
-                selection = i
-        }
     }
 }
