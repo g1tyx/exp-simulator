@@ -1945,7 +1945,7 @@ function stats_update() {
                     reset_str += "无数据"
                 } else {
                     reset_str +=
-                        "放大倍率+" +
+                        "转生点+" +
                         format_num(Math.round(game.pp_amount[i])) +
                         "，耗时" +
                         format_time(game.amp_time[i] * game.tickspeed)
