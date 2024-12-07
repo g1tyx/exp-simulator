@@ -1,6 +1,6 @@
 //initializing game variables
 let game = {
-    version: "2.3.302",
+    version: "2.3.303",
 
     //v2.0.000 variables
     total_exp: new Decimal(0),
@@ -40,7 +40,6 @@ let game = {
 
     pr_min: 60,
 
-    ml_boost: 1,
     jumpstart: 0,
     starter_kit: 0,
 
@@ -72,7 +71,7 @@ let game = {
     pp_power: 1,
 
     flux_tier: 0,
-    flux_level: 75,
+    flux_level: 300,
 
     //v2.1.300 variables
     exp_battery: 1,
@@ -82,7 +81,7 @@ let game = {
     depth_power: 1,
 
     battery_tier: 0,
-    battery_level: 90,
+    battery_level: 1080,
 
     epilepsy: true,
 
@@ -284,6 +283,12 @@ let game = {
     smartpr_repeat: false,
     smartpr_start: false,
     smartpr_select: 0,
+
+    //v2.3.303 variables
+    au_boost: 1,
+    battery_charge: 1,
+    ds_boost: 2,
+    range_mode: 0,
 }
 
 //initialize maps
@@ -2109,6 +2114,95 @@ function format_time(input) {
     return output
 }
 
+//range formatting
+function format_range(min, max, eff) {
+    let output = ""
+    let avg = (min + max) / 2
+    let dev = max - avg
+    switch (game.range_mode) {
+        case 0:
+            if (min % 1 !== 0 || eff) output += format_eff(min)
+            else output += format_num(min)
+            if (max % 1 !== 0 || eff) output += " - " + format_eff(max)
+            else output += " - " + format_num(max)
+            break
+        case 1:
+            if (avg % 1 !== 0 || eff) output = format_eff(avg)
+            else output = format_num(avg)
+            break
+        case 2:
+            if (avg % 1 !== 0 || eff) output += format_eff(avg)
+            else output += format_num(avg)
+            if (dev % 1 !== 0 || eff) output += " ± " + format_eff(dev)
+            else output += " ± " + format_num(dev)
+            break
+    }
+
+    if (game.notation === 8) output = "???"
+
+    return output
+}
+
+//special post-infinity range formatting
+function format_range_infinity(min, max, eff) {
+    let output = ""
+    let avg = min.add(max).div(2)
+    let dev = max.sub(avg)
+
+    if (eff) {
+        switch (game.range_mode) {
+            case 0:
+                output =
+                    format_eff_infinity(min) + " - " + format_eff_infinity(max)
+                break
+            case 1:
+                output = format_eff_infinity(avg)
+                break
+            case 2:
+                output =
+                    format_eff_infinity(avg) + " ± " + format_eff_infinity(dev)
+                break
+        }
+    } else {
+        switch (game.range_mode) {
+            case 0:
+                if (
+                    min.cmp(1.7976931348622053 * 10 ** 308) >= 1 ||
+                    max.cmp(1.7976931348622053 * 10 ** 308) >= 1
+                )
+                    output =
+                        format_eff_infinity(min) +
+                        " - " +
+                        format_eff_infinity(max)
+                else output = format_range(min.toNumber(), max.toNumber(), eff)
+                break
+            case 1:
+                if (
+                    min.cmp(1.7976931348622053 * 10 ** 308) >= 1 ||
+                    max.cmp(1.7976931348622053 * 10 ** 308) >= 1
+                )
+                    output = format_eff_infinity(avg)
+                else output = format_range(min.toNumber(), max.toNumber(), eff)
+                break
+            case 2:
+                if (
+                    min.cmp(1.7976931348622053 * 10 ** 308) >= 1 ||
+                    max.cmp(1.7976931348622053 * 10 ** 308) >= 1
+                )
+                    output =
+                        format_eff_infinity(avg) +
+                        " ± " +
+                        format_eff_infinity(dev)
+                else output = format_range(min.toNumber(), max.toNumber(), eff)
+                break
+        }
+    }
+
+    if (game.notation === 8) output = "???"
+
+    return output
+}
+
 //get level based on total exp
 function get_level(xp) {
     const a = (32 / 27) * 61 ** 3
@@ -2768,11 +2862,11 @@ class pp_upgrade_child extends pp_upgrade {
     )
     //manual labor 1 [1]
     let ml1 = new pp_upgrade(
-        "Manual Labor I",
-        "Unautomated clicks are now 2x stronger",
+        "Fully Automatic I",
+        "The autoclicker is now 2x faster",
         1,
         function () {
-            if (game.challenge !== 7) game.ml_boost = 2
+            if (game.challenge !== 7) game.au_boost = 2
         }
     )
     //auto upgrade [2]
@@ -2797,11 +2891,11 @@ class pp_upgrade_child extends pp_upgrade {
     )
     //manual labor 2 [4]
     let ml2 = new pp_upgrade_child(
-        "Manual Labor II",
-        "Unautomated clicks are now 4x stronger",
+        "Fully Automatic II",
+        "The autoclicker is now 3x faster",
         4,
         function () {
-            if (game.challenge !== 7) game.ml_boost = 4
+            if (game.challenge !== 7) game.au_boost = 3
         },
         ml1
     )
@@ -2818,7 +2912,7 @@ class pp_upgrade_child extends pp_upgrade {
     //limit break [6]
     let lim_break = new pp_upgrade_child(
         "Limit Break",
-        "Breaks the limits, allowing you to go beyond LVL 60<br>Also allows Auto-Prestige configuration<br>(Heads up! PP gain past LVL 60 is based on highest level instead)",
+        'Breaks the limits, allowing you to go beyond LVL 60<br>Also allows Auto-Prestige configuration<br><span class="small_text">(Heads up! PP gain past LVL 60 is based on highest level instead)</span>',
         5,
         function () {
             document.getElementById("auto_level").style.display = "block"
@@ -2877,11 +2971,11 @@ class pp_upgrade_child extends pp_upgrade {
     )
     //manual labor 3 [11]
     let ml3 = new pp_upgrade_child(
-        "Manual Labor III",
-        "Unautomated clicks are now 8x stronger",
+        "Fully Automatic III",
+        "The autoclicker is now 4x faster",
         20,
         function () {
-            if (game.challenge !== 7) game.ml_boost = 8
+            if (game.challenge !== 7) game.au_boost = 4
         },
         ml2
     )
@@ -2951,11 +3045,11 @@ class pp_upgrade_child extends pp_upgrade {
     )
     //manual labor 4 [17]
     let ml4 = new pp_upgrade_child(
-        "Manual Labor IV",
-        "Unautomated clicks are now 16x stronger",
+        "Fully Automatic IV",
+        "The autoclicker is now 6x faster",
         120,
         function () {
-            if (game.challenge !== 7) game.ml_boost = 16
+            if (game.challenge !== 7) game.au_boost = 6
         },
         ml3
     )
@@ -3024,18 +3118,28 @@ class pp_upgrade_child extends pp_upgrade {
     )
     //manual labor 5 [24]
     new pp_upgrade_child(
-        "Manual Labor V",
-        "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(Currently: 16x)",
+        "Fully Automatic V",
+        "The autoclicker is a further +0.25% faster for every other upgrade tier<br>(Currently: 6x)",
         840,
         function () {
-            if (game.challenge !== 7) game.ml_boost = 16 + game.cps * 0.16
+            if (game.challenge !== 7)
+                game.au_boost =
+                    6 +
+                    (game.boost_tier +
+                        game.fluct_tier +
+                        game.fact_tier +
+                        game.flux_tier +
+                        game.battery_tier) *
+                        0.0025
         },
         ml4
     )
     //exp battery [25]
     let battery = new pp_upgrade_child(
         "EXP Battery",
-        "Unlocks an upgrade that gives an additional multiplier to EXP with active and idle modes",
+        "Unlocks an upgrade that gives an additional boost to autoclicker speed with active and idle modes" +
+            '<br><span class="small_text">ACTIVE mode: stays at 100% charge for the first 10 seconds, then decreases to 0% charge by 30 seconds' +
+            "<br>IDLE mode: starts at 0% charge, and reaches 100% charge after 5 minutes</span>",
         1000,
         function () {
             if (!game.achievements[48]) get_achievement(48)
@@ -3080,14 +3184,14 @@ class pp_upgrade_child extends pp_upgrade {
             game.cps += 16
             game.exp_fluct += 8 * game.amp
             game.exp_fact += 8
-            game.exp_battery += 8
+            game.exp_battery += 2
             if (game.perks[12]) {
                 game.starter_kit += 8
                 game.exp_add += game.amp * 8
                 game.cps += 16
                 game.exp_fluct += game.amp * 8
                 game.exp_fact += 8
-                game.exp_battery += 8
+                game.exp_battery += 2
             }
         },
         battery
@@ -3118,7 +3222,7 @@ class pp_upgrade_child extends pp_upgrade {
         prst_power
     )
     //triple a [31]
-    let aaa = new pp_upgrade_child(
+    let aa = new pp_upgrade_child(
         "AAA",
         "EXP Battery is now 3x stronger",
         10000,
@@ -3150,7 +3254,7 @@ class pp_upgrade_child extends pp_upgrade {
             }
             if (!game.achievements[49]) get_achievement(49)
         },
-        aaa
+        aa
     )
     //magnified flux [33]
     let magflux = new pp_upgrade_child(
@@ -3173,14 +3277,14 @@ class pp_upgrade_child extends pp_upgrade {
             game.cps += 20
             game.exp_fluct += 10 * game.amp
             game.exp_fact += 10
-            game.exp_battery += 10
+            game.exp_battery += 2.5
             if (game.perks[12]) {
                 game.starter_kit += 10
                 game.exp_add += game.amp * 10
                 game.cps += 20
                 game.exp_fluct += game.amp * 10
                 game.exp_fact += 10
-                game.exp_battery += 10
+                game.exp_battery += 2.5
             }
         },
         capacitor
@@ -3188,7 +3292,7 @@ class pp_upgrade_child extends pp_upgrade {
     //high voltage 1 [35]
     let hv1 = new pp_upgrade_child(
         "High Voltage I",
-        "Unlocks 50% Capacitance mode, which gives a 4x boost on Discharge<br>Also unlocks automation for Discharge",
+        "Unlocks 50% Capacitance mode, and Discharge now has a 4x boost<br>Also unlocks automation for Discharge",
         30000,
         function () {
             if (
@@ -3196,8 +3300,9 @@ class pp_upgrade_child extends pp_upgrade {
                 game.challenge !== 7 &&
                 game.challenge !== 9
             ) {
+                game.ds_boost = 4
+                if (game.perks[9]) game.ds_boost = 8
                 document.getElementById("cap_50").style.display = "inline"
-                document.getElementById("cap_disc").style.display = "inline"
                 if (!game.perks[9]) {
                     document.getElementById("dis_auto").style.display = "block"
                     document.getElementById("dis_text").style.display = "block"
@@ -3210,7 +3315,7 @@ class pp_upgrade_child extends pp_upgrade {
         },
         capacitor
     )
-    //9 volt [36]
+    //9-volt [36]
     new pp_upgrade_child(
         "9-Volt",
         "EXP Battery is now 9x stronger",
@@ -3223,7 +3328,7 @@ class pp_upgrade_child extends pp_upgrade {
     //high voltage 2 [37]
     let hv2 = new pp_upgrade_child(
         "High Voltage II",
-        "Unlocks 75% Capacitance mode, giving a 6x boost on Discharge",
+        "Unlocks 75% Capacitance mode, and Discharge now has a 6x boost",
         45000,
         function () {
             if (
@@ -3231,6 +3336,8 @@ class pp_upgrade_child extends pp_upgrade {
                 game.challenge !== 7 &&
                 game.challenge !== 9
             ) {
+                game.ds_boost = 6
+                if (game.perks[9]) game.ds_boost = 12
                 document.getElementById("cap_75").style.display = "inline"
                 if (game.perks[11] && game.autocp_toggle) {
                     set_capacitance(3)
@@ -3242,7 +3349,7 @@ class pp_upgrade_child extends pp_upgrade {
     //high voltage 3 [38]
     new pp_upgrade_child(
         "High Voltage III",
-        "Unlocks 100% Capacitance mode, giving a 8x boost on Discharge<br>Also allows you to Discharge at 0 seconds",
+        "Unlocks 100% Capacitance mode, and Discharge now has a 8x boost<br>Also allows you to Discharge at 0 seconds",
         60000,
         function () {
             if (
@@ -3250,6 +3357,8 @@ class pp_upgrade_child extends pp_upgrade {
                 game.challenge !== 7 &&
                 game.challenge !== 9
             ) {
+                game.ds_boost = 8
+                if (game.perks[9]) game.ds_boost = 16
                 document.getElementById("cap_100").style.display = "inline"
                 document.getElementById("dis_input").min = 0
                 if (game.perks[11] && game.autocp_toggle) {
@@ -3363,7 +3472,7 @@ class generator_perk {
     //multi-prestige [4]
     new generator_perk(
         "Multi-Prestige",
-        "You gain 1 extra Times Prestiged stat for every 200 levels when you Prestige<br>Patience will also boost Times Prestiged stat by up to 30x",
+        "You gain 1 extra Times Prestiged stat for every 200 levels when you Prestige<br>Patience will also boost Times Prestiged stat by up to 50x",
         5
     )
     //ultracharge [5]
@@ -3387,7 +3496,7 @@ class generator_perk {
     //fusion [8]
     new generator_perk(
         "Fusion",
-        "The active/idle switch for EXP Battery is removed, and both modes are now in effect simultaneously",
+        "The active/idle switch for EXP Battery is removed, and it is always at 100% charge",
         12
     )
     //max capacity [9]
@@ -3405,7 +3514,7 @@ class generator_perk {
     //autocapacitance [11]
     new generator_perk(
         "Auto-Capacitance",
-        "Unlocks automated mode switching for Capacitor, automatically switching to the highest available mode<br>Also unlocks Smart Auto-Discharge, which automatically Discharges when best to do so",
+        "Unlocks automated mode switching for Capacitor, automatically switching to the highest available mode<br>Auto-Discharge will also now automatically Discharge when best to do so if the time input is left blank",
         18
     )
     //starter kit 6 [12]
@@ -3879,13 +3988,13 @@ class achievement {
     )
     new achievement(
         "Sir, do you know how fast you were going?",
-        "Reach 150 clicks/s on the Autoclicker",
+        "Reach 600 clicks/s on the Autoclicker",
         54,
         2
     )
     new achievement(
         "WE HAVE REAHCED MXAIMUN VLELOCIPY",
-        "Reach 1,000 clicks/s on the Autoclicker",
+        "Reach 10,000 clicks/s on the Autoclicker",
         55,
         2
     )

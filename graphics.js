@@ -43,22 +43,26 @@ function level_update() {
             let eps = game.global_multiplier
                 .mul(game.exp_add + game.exp_fluct / 2)
                 .mul(game.cap_boost)
-                .mul(game.cps)
+                .mul(
+                    game.cps *
+                        game.au_boost *
+                        game.exp_battery ** game.battery_charge
+                )
             if (
-                (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                (game.autods_toggle === 2 &&
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
                     game.cap_mode === 4 &&
-                    !game.smartds_oc)
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
             )
                 eps = game.global_multiplier
                     .mul(game.exp_add + game.exp_fluct / 2)
+                    .mul(game.cap_boost + (1 - game.cap_boost) * game.ds_boost)
                     .mul(
-                        game.cap_boost +
-                            (1 - game.cap_boost) * game.cap_mode * 2
+                        game.cps *
+                            game.au_boost *
+                            game.exp_battery ** game.battery_charge
                     )
-                    .mul(game.cps)
-            if (game.battery_mode === 1 || game.perks[8])
-                eps = eps.mul(game.exp_battery)
             if (eps.div(game.goal).cmp(2) >= 0) {
                 document.getElementById("progress").style.width = 100 + "%"
             } else {
@@ -194,22 +198,26 @@ function level_update() {
             let eps = game.global_multiplier
                 .mul(game.exp_add + game.exp_fluct / 2)
                 .mul(game.cap_boost)
-                .mul(game.cps)
+                .mul(
+                    game.cps *
+                        game.au_boost *
+                        game.exp_battery ** game.battery_charge
+                )
             if (
-                (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                (game.autods_toggle === 2 &&
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
                     game.cap_mode === 4 &&
-                    !game.smartds_oc)
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
             )
                 eps = game.global_multiplier
                     .mul(game.exp_add + game.exp_fluct / 2)
+                    .mul(game.cap_boost + (1 - game.cap_boost) * game.ds_boost)
                     .mul(
-                        game.cap_boost +
-                            (1 - game.cap_boost) * game.cap_mode * 2
+                        game.cps *
+                            game.au_boost *
+                            game.exp_battery ** game.battery_charge
                     )
-                    .mul(game.cps)
-            if (game.battery_mode === 1 || game.perks[8])
-                eps = eps.mul(game.exp_battery)
             if (eps.div(goal2).cmp(2) >= 0) {
                 document.getElementById("pp_progress").style.width = "100%"
             }
@@ -255,67 +263,33 @@ function click_update() {
         game.challenge === 7 ||
         game.global_multiplier.cmp(0) === 0
     ) {
-        if (game.battery_mode === 1 && !game.perks[8])
-            document.getElementById("click").innerHTML =
-                "+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(game.ml_boost)
-                        .round()
-                ) +
-                "经验值"
-        else
-            document.getElementById("click").innerHTML =
-                "+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(game.ml_boost)
-                        .mul(game.exp_battery)
-                        .round()
-                ) +
-                "经验值"
+        document.getElementById("click").innerHTML =
+            "+" +
+            format_infinity(game.global_multiplier.mul(game.exp_add).round()) +
+            "经验值"
     } else if (
         game.fluct_tier >= 1 ||
         game.starter_kit + game.generator_kit >= 1
     ) {
-        if (game.battery_mode === 1 && !game.perks[8])
+        document.getElementById("click").innerHTML =
+            "+" +
+            format_range_infinity(
+                game.global_multiplier.mul(game.exp_add).round(),
+                game.global_multiplier
+                    .mul(game.exp_add + game.exp_fluct)
+                    .round()
+            ) +
+            "经验值"
+        if (game.range_mode === 1)
             document.getElementById("click").innerHTML =
                 "+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(game.ml_boost)
-                        .round()
-                ) +
-                " - " +
-                format_infinity(
+                format_range_infinity(
+                    game.global_multiplier.mul(game.exp_add).round(),
                     game.global_multiplier
                         .mul(game.exp_add + game.exp_fluct)
-                        .mul(game.ml_boost)
                         .round()
                 ) +
-                "经验值"
-        else
-            document.getElementById("click").innerHTML =
-                "+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(game.ml_boost)
-                        .mul(game.exp_battery)
-                        .round()
-                ) +
-                " - " +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add + game.exp_fluct)
-                        .mul(game.ml_boost)
-                        .mul(game.exp_battery)
-                        .round()
-                ) +
-                "经验值"
+                "经验值(平均)"
     }
 }
 
@@ -768,7 +742,20 @@ function upgrade_update() {
         else document.getElementById("boost_button").disabled = true
         document.getElementById("boost_button").style.cursor = "default"
     }
-    if (game.battery_mode === 1 || game.perks[8]) {
+    document.getElementById("boost").innerHTML =
+        "EXP Boost<br>阶层" +
+        format_num(game.boost_tier + game.starter_kit + game.generator_kit) +
+        "：每次点击+" +
+        format_infinity(
+            game.global_multiplier.mul(game.exp_add).mul(game.cap_boost).round()
+        ) +
+        "经验值"
+    if (
+        (game.autods_toggle && game.autods_goal === 0) ||
+        (game.autods_goal === -1 &&
+            game.cap_mode === 4 &&
+            (!game.smartds_oc || (game.smartds_oc && game.oc_state === 2)))
+    )
         document.getElementById("boost").innerHTML =
             "EXP Boost<br>阶层" +
             format_num(
@@ -777,72 +764,11 @@ function upgrade_update() {
             "：每次点击+" +
             format_infinity(
                 game.global_multiplier
-                    .mul(game.exp_add)
-                    .mul(game.exp_battery)
-                    .mul(game.cap_boost)
+                    .mul(game.exp_add + game.exp_fluct / 2)
+                    .mul(game.cap_boost + (1 - game.cap_boost) * game.ds_boost)
                     .round()
             ) +
             "经验值"
-        if (
-            (game.autods_toggle === 1 && game.autods_goal === 0) ||
-            (game.autods_toggle === 2 &&
-                game.cap_mode === 4 &&
-                !game.smartds_oc)
-        )
-            document.getElementById("boost").innerHTML =
-                "EXP Boost<br>阶层" +
-                format_num(
-                    game.boost_tier + game.starter_kit + game.generator_kit
-                ) +
-                "：每次点击+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(game.exp_battery)
-                        .mul(
-                            game.cap_boost +
-                                (1 - game.cap_boost) * game.cap_mode * 2
-                        )
-                        .round()
-                ) +
-                "经验值"
-    } else {
-        document.getElementById("boost").innerHTML =
-            "EXP Boost<br>阶层" +
-            format_num(
-                game.boost_tier + game.starter_kit + game.generator_kit
-            ) +
-            "：每次点击+" +
-            format_infinity(
-                game.global_multiplier
-                    .mul(game.exp_add)
-                    .mul(game.cap_boost)
-                    .round()
-            ) +
-            "经验值"
-        if (
-            (game.autods_toggle === 1 && game.autods_goal === 0) ||
-            (game.autods_toggle === 2 &&
-                game.cap_mode === 4 &&
-                !game.smartds_oc)
-        )
-            document.getElementById("boost").innerHTML =
-                "EXP Boost<br>阶层" +
-                format_num(
-                    game.boost_tier + game.starter_kit + game.generator_kit
-                ) +
-                "：每次点击+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_add)
-                        .mul(
-                            game.cap_boost +
-                                (1 - game.cap_boost) * game.cap_mode * 2
-                        )
-                        .round()
-                ) +
-                "经验值"
-    }
     if (game.challenge === 7)
         document.getElementById("boost").innerHTML =
             "EXP Boost<br>阶层" +
@@ -897,8 +823,19 @@ function upgrade_update() {
         "Autoclicker<br>阶层" +
         format_num(game.auto_tier + game.starter_kit + game.generator_kit) +
         "：每秒点击" +
-        format_num(game.cps) +
+        format_num(game.cps * game.au_boost) +
         "次"
+    if (game.pp_bought[24] || game.pp_bought[25])
+        document.getElementById("auto").innerHTML =
+            "Autoclicker<br>阶层" +
+            format_num(game.auto_tier + game.starter_kit + game.generator_kit) +
+            "：每秒点击" +
+            format_eff(
+                game.cps *
+                    game.au_boost *
+                    game.exp_battery ** game.battery_charge
+            ) +
+            "次"
 
     //exp fluctuation
     if (game.pp_bought[0] && game.challenge !== 7) {
@@ -944,7 +881,18 @@ function upgrade_update() {
         else document.getElementById("fluct_button").disabled = true
         document.getElementById("fluct_button").style.cursor = "default"
     }
-    if (game.battery_mode === 1 || game.perks[8]) {
+    document.getElementById("fluct").innerHTML =
+        "EXP Fluctuation<br>阶层" +
+        format_num(game.fluct_tier + game.starter_kit + game.generator_kit) +
+        "：每次点击经验值上限+" +
+        format_infinity(
+            game.global_multiplier
+                .mul(game.exp_fluct)
+                .mul(game.cap_boost)
+                .round()
+        ) +
+        ""
+    if (game.autods_toggle && game.autods_goal === 0)
         document.getElementById("fluct").innerHTML =
             "EXP Fluctuation<br>阶层" +
             format_num(
@@ -954,61 +902,10 @@ function upgrade_update() {
             format_infinity(
                 game.global_multiplier
                     .mul(game.exp_fluct)
-                    .mul(game.exp_battery)
-                    .mul(game.cap_boost)
+                    .mul(game.cap_boost + (1 - game.cap_boost) * game.ds_boost)
                     .round()
             ) +
             ""
-        if (game.autods_toggle >= 1 && game.autods_goal === 0)
-            document.getElementById("fluct").innerHTML =
-                "EXP Fluctuation<br>阶层" +
-                format_num(
-                    game.fluct_tier + game.starter_kit + game.generator_kit
-                ) +
-                "：每次点击经验值上限+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_fluct)
-                        .mul(game.exp_battery)
-                        .mul(
-                            game.cap_boost +
-                                (1 - game.cap_boost) * game.cap_mode * 2
-                        )
-                        .round()
-                ) +
-                ""
-    } else {
-        document.getElementById("fluct").innerHTML =
-            "EXP Fluctuation<br>阶层" +
-            format_num(
-                game.fluct_tier + game.starter_kit + game.generator_kit
-            ) +
-            "：每次点击经验值上限+" +
-            format_infinity(
-                game.global_multiplier
-                    .mul(game.exp_fluct)
-                    .mul(game.cap_boost)
-                    .round()
-            ) +
-            ""
-        if (game.autods_toggle >= 1 && game.autods_goal === 0)
-            document.getElementById("fluct").innerHTML =
-                "EXP Fluctuation<br>阶层" +
-                format_num(
-                    game.fluct_tier + game.starter_kit + game.generator_kit
-                ) +
-                "：每次点击经验值上限+" +
-                format_infinity(
-                    game.global_multiplier
-                        .mul(game.exp_fluct)
-                        .mul(
-                            game.cap_boost +
-                                (1 - game.cap_boost) * game.cap_mode * 2
-                        )
-                        .round()
-                ) +
-                ""
-    }
 
     //exp factor
     if (game.pp_bought[5] && game.challenge !== 7) {
@@ -1186,35 +1083,23 @@ function upgrade_update() {
         document.getElementById("battery_button").style.cursor = "default"
         if (meme) document.getElementById("battery_button").disabled = true
     }
-    if (game.battery_mode === 0) {
+    document.getElementById("battery").innerHTML =
+        "EXP Battery<br>阶层" +
+        format_num(game.battery_tier + game.starter_kit + game.generator_kit) +
+        "：自动经验值产量变为" +
+        format_eff(game.exp_battery ** game.battery_charge) +
+        "倍(" +
+        format_eff(game.battery_charge * 100) +
+        "%电容)"
+    if (game.perks[8])
         document.getElementById("battery").innerHTML =
             "EXP Battery<br>阶层" +
             format_num(
                 game.battery_tier + game.starter_kit + game.generator_kit
             ) +
-            "：手动经验值产量变为" +
-            format_num(game.exp_battery) +
+            "：自动点击的速度变为" +
+            format_eff(game.exp_battery ** game.battery_charge) +
             "倍"
-    } else if (game.battery_mode === 1) {
-        document.getElementById("battery").innerHTML =
-            "EXP Battery<br>阶层" +
-            format_num(
-                game.battery_tier + game.starter_kit + game.generator_kit
-            ) +
-            "：自动经验值产量变为" +
-            format_num(game.exp_battery) +
-            "倍"
-    }
-    if (game.perks[8]) {
-        document.getElementById("battery").innerHTML =
-            "EXP Battery<br>阶层" +
-            format_num(
-                game.battery_tier + game.starter_kit + game.generator_kit
-            ) +
-            "：经验值产量变为" +
-            format_num(game.exp_battery) +
-            "倍"
-    }
 
     if (game.starter_kit + game.generator_kit > 0) {
         document.getElementById("starter_kit").style.display = "block"
@@ -1230,242 +1115,85 @@ function upgrade_update() {
 //updating statistics page
 function stats_update() {
     if (game.tab === 5 && game.subtab[3] === 0) {
-        let cap_const = 2
-        if (game.perks[9]) cap_const = 4
         let auto_plus = ""
-        let manual_plus = ""
         if (
             game.fluct_tier === 0 &&
             game.starter_kit + game.generator_kit === 0
         ) {
-            if (game.battery_mode === 1 || game.perks[8]) {
+            auto_plus =
+                format_infinity(
+                    game.global_multiplier
+                        .mul(game.exp_add)
+                        .mul(game.cap_boost)
+                        .round()
+                ) + "经验值"
+            if (
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
+                    game.cap_mode === 4 &&
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
+            )
                 auto_plus =
                     format_infinity(
                         game.global_multiplier
                             .mul(game.exp_add)
-                            .mul(game.exp_battery)
-                            .mul(game.cap_boost)
+                            .mul(
+                                game.cap_boost +
+                                    (1 - game.cap_boost) * game.ds_boost
+                            )
                             .round()
-                    ) + "经验值"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    auto_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.exp_battery)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) + "经验值(放电)"
-            } else {
-                auto_plus =
-                    format_infinity(
-                        game.global_multiplier
-                            .mul(game.exp_add)
-                            .mul(game.cap_boost)
-                            .round()
-                    ) + "经验值"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    auto_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) + "经验值(放电)"
-            }
+                    ) + "经验值(放电)"
         } else if (
             game.fluct_tier >= 1 ||
             game.starter_kit + game.generator_kit >= 1
         ) {
-            if (game.battery_mode === 1 || game.perks[8]) {
+            auto_plus =
+                format_range_infinity(
+                    game.global_multiplier
+                        .mul(game.exp_add)
+                        .mul(game.cap_boost)
+                        .round(),
+                    game.global_multiplier
+                        .mul(game.exp_add + game.exp_fluct)
+                        .mul(game.cap_boost)
+                        .round()
+                ) + "经验值"
+            if (game.range_mode === 1)
                 auto_plus =
-                    format_infinity(
-                        game.global_multiplier
-                            .mul(game.exp_add)
-                            .mul(game.exp_battery)
-                            .mul(game.cap_boost)
-                            .round()
-                    ) +
-                    " - " +
-                    format_infinity(
-                        game.global_multiplier
-                            .mul(game.exp_add + game.exp_fluct)
-                            .mul(game.exp_battery)
-                            .mul(game.cap_boost)
-                            .round()
-                    ) +
-                    "经验值"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    auto_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.exp_battery)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) +
-                        " - " +
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct)
-                                .mul(game.exp_battery)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) +
-                        "经验值(放电)"
-            } else {
-                auto_plus =
-                    format_infinity(
+                    format_range_infinity(
                         game.global_multiplier
                             .mul(game.exp_add)
                             .mul(game.cap_boost)
-                            .round()
-                    ) +
-                    " - " +
-                    format_infinity(
+                            .round(),
                         game.global_multiplier
                             .mul(game.exp_add + game.exp_fluct)
                             .mul(game.cap_boost)
                             .round()
-                    ) +
-                    "经验值"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    auto_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) +
-                        " - " +
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .round()
-                        ) +
-                        "经验值(放电)"
-            }
+                    ) + "经验值(平均)"
+            if (
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
+                    game.cap_mode === 4 &&
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
+            )
+                auto_plus =
+                    format_infinity(
+                        game.global_multiplier
+                            .mul(game.exp_add + game.exp_fluct / 2)
+                            .mul(
+                                game.cap_boost +
+                                    (1 - game.cap_boost) * game.ds_boost
+                            )
+                            .round()
+                    ) + "经验值(放电)"
         }
         if (game.challenge === 7)
             auto_plus =
                 format_infinity(
                     game.global_multiplier.mul(game.exp_add).round()
                 ) + "经验值"
-        if (game.pp_bought[1]) {
-            if (
-                game.fluct_tier === 0 &&
-                game.starter_kit + game.generator_kit === 0
-            ) {
-                if (game.battery_mode === 0 || game.perks[8]) {
-                    manual_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.exp_battery)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) + "经验值"
-                } else {
-                    manual_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) + "经验值"
-                }
-            } else if (
-                game.fluct_tier >= 1 ||
-                game.starter_kit + game.generator_kit >= 1
-            ) {
-                if (game.battery_mode === 0 || game.perks[8]) {
-                    manual_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.exp_battery)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) +
-                        " - " +
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct)
-                                .mul(game.exp_battery)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) +
-                        "经验值"
-                } else {
-                    manual_plus =
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) +
-                        " - " +
-                        format_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct)
-                                .mul(game.ml_boost)
-                                .round()
-                        ) +
-                        "经验值"
-                }
-            }
-        }
 
         let exp_eff = ""
         let level_rate = new Decimal(10 ** 20 / game.tickspeed)
@@ -1475,98 +1203,61 @@ function stats_update() {
             game.reboot >= 1 ||
             game.quantum >= 1
         ) {
-            if (game.battery_mode === 1 || game.perks[8]) {
+            exp_eff =
+                "每秒" + format_eff_infinity(
+                    game.global_multiplier
+                        .mul(game.exp_add + game.exp_fluct / 2)
+                        .mul(game.cap_boost)
+                        .mul(
+                            game.cps *
+                                game.au_boost *
+                                game.exp_battery ** game.battery_charge
+                        )
+                ) + "经验值"
+            level_rate = game.goal.div(
+                game.global_multiplier
+                    .mul(game.exp_add + game.exp_fluct / 2)
+                    .mul(game.cap_boost)
+                    .mul(
+                        game.cps *
+                            game.au_boost *
+                            game.exp_battery ** game.battery_charge
+                    )
+            )
+            if (
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
+                    game.cap_mode === 4 &&
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
+            ) {
                 exp_eff =
                     "每秒" + format_eff_infinity(
                         game.global_multiplier
                             .mul(game.exp_add + game.exp_fluct / 2)
-                            .mul(game.exp_battery)
-                            .mul(game.cap_boost)
-                            .mul(game.cps)
-                    ) + "经验值"
+                            .mul(
+                                game.cap_boost +
+                                    (1 - game.cap_boost) * game.ds_boost
+                            )
+                            .mul(
+                                game.cps *
+                                    game.au_boost *
+                                    game.exp_battery ** game.battery_charge
+                            )
+                    ) + "经验值(放电)"
                 level_rate = game.goal.div(
                     game.global_multiplier
                         .mul(game.exp_add + game.exp_fluct / 2)
-                        .mul(game.exp_battery)
-                        .mul(game.cap_boost)
-                        .mul(game.cps)
+                        .mul(
+                            game.cap_boost +
+                                (1 - game.cap_boost) * game.ds_boost
+                        )
+                        .mul(
+                            game.cps *
+                                game.au_boost *
+                                game.exp_battery ** game.battery_charge
+                        )
                 )
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                ) {
-                    exp_eff =
-                        "每秒" + format_eff_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct / 2)
-                                .mul(game.exp_battery)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .mul(game.cps)
-                        ) + "经验值(放电)"
-                    level_rate = game.goal.div(
-                        game.global_multiplier
-                            .mul(game.exp_add + game.exp_fluct / 2)
-                            .mul(game.exp_battery)
-                            .mul(
-                                game.cap_boost +
-                                    (1 - game.cap_boost) *
-                                        game.cap_mode *
-                                        cap_const
-                            )
-                            .mul(game.cps)
-                    )
-                }
-            } else {
-                exp_eff =
-                    "每秒" + format_eff_infinity(
-                        game.global_multiplier
-                            .mul(game.exp_add + game.exp_fluct / 2)
-                            .mul(game.cap_boost)
-                            .mul(game.cps)
-                    ) + "经验值"
-                level_rate = game.goal.div(
-                    game.global_multiplier
-                        .mul(game.exp_add + game.exp_fluct / 2)
-                        .mul(game.cap_boost)
-                        .mul(game.cps)
-                )
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                ) {
-                    exp_eff =
-                        "每秒" + format_eff_infinity(
-                            game.global_multiplier
-                                .mul(game.exp_add + game.exp_fluct / 2)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                                .mul(game.cps)
-                        ) + "经验值(放电)"
-                    level_rate = game.goal.div(
-                        game.global_multiplier
-                            .mul(game.exp_add + game.exp_fluct / 2)
-                            .mul(
-                                game.cap_boost +
-                                    (1 - game.cap_boost) *
-                                        game.cap_mode *
-                                        cap_const
-                            )
-                            .mul(game.cps)
-                    )
-                }
             }
         }
         if (game.challenge === 7) {
@@ -1580,68 +1271,29 @@ function stats_update() {
         }
 
         let total_auto = ""
-        let total_manual = ""
         if (game.amp > 1) {
-            if (game.battery_mode === 1 || game.perks[8]) {
+            total_auto =
+                format_eff_infinity(
+                    game.global_multiplier.mul(game.amp).mul(game.cap_boost)
+                ) + "倍"
+            if (
+                (game.autods_toggle && game.autods_goal === 0) ||
+                (game.autods_goal === -1 &&
+                    game.cap_mode === 4 &&
+                    (!game.smartds_oc ||
+                        (game.smartds_oc && game.oc_state === 2)))
+            )
                 total_auto =
                     format_eff_infinity(
                         game.global_multiplier
                             .mul(game.amp)
-                            .mul(game.exp_battery)
-                            .mul(game.cap_boost)
-                    ) + "倍"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    total_auto =
-                        format_eff_infinity(
-                            game.global_multiplier
-                                .mul(game.amp)
-                                .mul(game.exp_battery)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                        ) + "倍(放电)"
-                total_manual =
-                    format_eff_infinity(
-                        game.global_multiplier.mul(game.amp * game.ml_boost)
-                    ) + "倍"
-            } else {
-                total_auto =
-                    format_eff_infinity(
-                        game.global_multiplier.mul(game.amp).mul(game.cap_boost)
-                    ) + "倍"
-                if (
-                    (game.autods_toggle === 1 && game.autods_goal === 0) ||
-                    (game.autods_toggle === 2 &&
-                        game.cap_mode === 4 &&
-                        !game.smartds_oc)
-                )
-                    total_auto =
-                        format_eff_infinity(
-                            game.global_multiplier
-                                .mul(game.amp)
-                                .mul(
-                                    game.cap_boost +
-                                        (1 - game.cap_boost) *
-                                            game.cap_mode *
-                                            cap_const
-                                )
-                        ) + "倍(放电)"
-                total_manual =
-                    format_eff_infinity(
-                        game.global_multiplier
-                            .mul(game.amp)
-                            .mul(game.exp_battery)
-                            .mul(game.ml_boost)
-                    ) + "倍"
-            }
+                            .mul(
+                                game.cap_boost +
+                                    (1 - game.cap_boost) * game.ds_boost
+                            )
+                    ) + "倍(放电)"
+            total_manual =
+                format_eff_infinity(game.global_multiplier.mul(game.amp)) + "倍"
 
             if (game.challenge === 7)
                 total_auto =
@@ -1674,11 +1326,16 @@ function stats_update() {
             format_infinity(game.all_time_exp) + "经验值"
         document.getElementById("exp_click_au_stat").innerHTML =
             "<br>" + auto_plus
-        document.getElementById("exp_click_mn_stat").innerHTML = manual_plus
         document.getElementById("exp_multi_au_stat").innerHTML = total_auto
-        document.getElementById("exp_multi_mn_stat").innerHTML = total_manual
         document.getElementById("autoclicking_stat").innerHTML =
-            "<br>每秒点击" + format_num(game.cps) + "次"
+            "每秒点击" + format_num(game.cps * game.au_boost) + "次"
+        if (game.pp_bought[24] || game.pp_bought[25])
+            document.getElementById("autoclicking_stat").innerHTML =
+                "每秒点击" + format_eff(
+                    game.cps *
+                        game.au_boost *
+                        game.exp_battery ** game.battery_charge
+                ) + "次"
         document.getElementById("auto_power_stat").innerHTML = exp_eff
         if (level_rate.cmp(10 ** 20 / game.tickspeed) >= 0) {
             document.getElementById("level_rate_stat").innerHTML =
@@ -1857,22 +1514,6 @@ function stats_update() {
                 "Total Clicks (Current Iteration):"
             document.getElementById("time_played_ci_name").innerHTML =
                 "Time Played (Current Iteration):"
-        }
-
-        if (game.pp_bought[1] && game.challenge !== 7) {
-            document.getElementById("exp_click_mn").style.display = "flex"
-            document.getElementById("exp_multi_mn").style.display = "flex"
-            document.getElementById("exp_click_au_name").innerHTML =
-                "<br>Automated EXP/click:"
-            document.getElementById("exp_multi_au_name").innerHTML =
-                "Total Automated EXP Multiplier:"
-        } else {
-            document.getElementById("exp_click_mn").style.display = "none"
-            document.getElementById("exp_multi_mn").style.display = "none"
-            document.getElementById("exp_click_au_name").innerHTML =
-                "<br>EXP/click:"
-            document.getElementById("exp_multi_au_name").innerHTML =
-                "Total EXP Multiplier:"
         }
 
         if (game.perks[23]) {
@@ -2360,7 +2001,7 @@ function pp_update() {
                 if (
                     upgrade.name === "EXP Flux" ||
                     upgrade.name === "Spare Power" ||
-                    upgrade.name === "Manual Labor V" ||
+                    upgrade.name === "Fully Automatic V" ||
                     upgrade.name === "Prestige Power" ||
                     upgrade.name === "Depth Power"
                 ) {
@@ -4089,19 +3730,19 @@ function achievements_update() {
 //updating descriptions of various things
 function description_update() {
     pp_upgrade.upgrades[1].desc =
-        "非自动点击的收益变为" + format_num(2) + "倍"
+        "自动点击的速度变为" + format_num(2) + "倍"
     pp_map.get(pp_upgrade.upgrades[1]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[1].desc
     pp_upgrade.upgrades[4].desc =
-        "非自动点击的收益变为" + format_num(4) + "倍"
+        "自动点击的速度变为" + format_num(3) + "倍"
     pp_map.get(pp_upgrade.upgrades[4]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[4].desc
     pp_upgrade.upgrades[6].desc =
         "突破界限，使等级可以超过" +
         format_lvl(60) +
-        "级<br>并解锁自动转生设置<br>(请小心！超过" +
+        '级<br>并解锁自动转生设置<br><span class="small_text">(请小心！超过' +
         format_lvl(60) +
-        "级后，转生点的获取将改为基于最高等级)"
+        "级后，转生点的获取将改为基于最高等级)</span>"
     pp_map.get(pp_upgrade.upgrades[6]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[6].desc
     pp_upgrade.upgrades[7].desc =
@@ -4113,7 +3754,7 @@ function description_update() {
     pp_map.get(pp_upgrade.upgrades[10]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[10].desc
     pp_upgrade.upgrades[11].desc =
-        "非自动点击的收益变为" + format_num(8) + "倍"
+        "自动点击的速度变为" + format_num(4) + "倍"
     pp_map.get(pp_upgrade.upgrades[11]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[11].desc
     pp_upgrade.upgrades[13].desc =
@@ -4121,7 +3762,7 @@ function description_update() {
     pp_map.get(pp_upgrade.upgrades[13]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[13].desc
     pp_upgrade.upgrades[17].desc =
-        "非自动点击的收益变为" + format_num(16) + "倍"
+        "自动点击的速度变为" + format_num(6) + "倍"
     pp_map.get(pp_upgrade.upgrades[17]).querySelector(".pp_desc").innerHTML =
         pp_upgrade.upgrades[17].desc
     pp_upgrade.upgrades[19].desc =
@@ -4191,7 +3832,7 @@ function description_update() {
         "级，转生时就可以额外获得" +
         format_num(1) +
         "次转生次数<br>耐心升级还可以使获得的转生次数进一步增加，最高为" +
-        format_num(30) +
+        format_num(50) +
         "倍"
     perk_map
         .get(generator_perk.perks[4])
@@ -4558,9 +4199,9 @@ function description_update() {
     achievement.achievements[93].requirement =
         "自动点击达到每秒点击" + format_num(30) + "次"
     achievement.achievements[94].requirement =
-        "自动点击达到每秒点击" + format_num(150) + "次"
+        "自动点击达到每秒点击" + format_num(600) + "次"
     achievement.achievements[95].requirement =
-        "自动点击达到每秒点击" + format_num(1000) + "次"
+        "自动点击达到每秒点击" + format_num(10000) + "次"
     achievement.achievements[96].requirement =
         "手动点击" + format_num(10000) + "次"
     achievement.achievements[97].requirement =
@@ -4747,8 +4388,16 @@ function description_update() {
             .get(pp_upgrade.upgrades[14])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[14].desc
         pp_upgrade.upgrades[24].desc =
-            "Unautomated clicks are boosted a further +??? for every Autoclicker tier<br>(当前效果：" +
-            format_eff(16 + game.cps * 0.16) +
+            "The autoclicker is a further +??? faster for every other upgrade tier<br>(当前效果：" +
+            format_eff(
+                6 +
+                    (game.boost_tier +
+                        game.fluct_tier +
+                        game.fact_tier +
+                        game.flux_tier +
+                        game.battery_tier) *
+                        0.0025
+            ) +
             "倍)"
         pp_map
             .get(pp_upgrade.upgrades[24])
@@ -4866,16 +4515,24 @@ function description_update() {
             .get(pp_upgrade.upgrades[14])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[14].desc
         pp_upgrade.upgrades[24].desc =
-            "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
-            format_eff(16 + game.cps * 0.16) +
+            "The autoclicker is a further +0.25% faster for every other upgrade tier<br>(当前效果：" +
+            format_eff(
+                6 +
+                    (game.boost_tier +
+                        game.fluct_tier +
+                        game.fact_tier +
+                        game.flux_tier +
+                        game.battery_tier) *
+                        0.0025
+            ) +
             "倍)"
         pp_map
             .get(pp_upgrade.upgrades[24])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[24].desc
         if (game.challenge === 7) {
             pp_upgrade.upgrades[24].desc =
-                "Unautomated clicks are boosted a further +32% for every Autoclicker tier<br>(当前效果：" +
-                format_eff(16 + game.cps * 0.16) +
+                "The autoclicker is a further +0.25% faster for every other upgrade tier<br>(当前效果：" +
+                format_eff(1) +
                 "倍)"
             pp_map
                 .get(pp_upgrade.upgrades[24])
@@ -4943,38 +4600,38 @@ function description_update() {
 
         if (game.perks[9]) {
             pp_upgrade.upgrades[35].desc =
-                "Unlocks 50% Capacitance mode, which gives a 8x boost on Discharge"
+                "Unlocks 50% Capacitance mode, and Discharge now has a 8x boost"
             pp_map
                 .get(pp_upgrade.upgrades[35])
                 .querySelector(".pp_desc").innerHTML =
                 pp_upgrade.upgrades[35].desc
             pp_upgrade.upgrades[37].desc =
-                "Unlocks 75% Capacitance mode, giving a 12x boost on Discharge"
+                "Unlocks 75% Capacitance mode, and Discharge now has a 12x boost"
             pp_map
                 .get(pp_upgrade.upgrades[37])
                 .querySelector(".pp_desc").innerHTML =
                 pp_upgrade.upgrades[37].desc
             pp_upgrade.upgrades[38].desc =
-                "Unlocks 100% Capacitance mode, giving a 16x boost on Discharge<br>Also allows you to Discharge at 0 seconds"
+                "Unlocks 100% Capacitance mode, and Discharge now has a 16x boost<br>Also allows you to Discharge at 0 seconds"
             pp_map
                 .get(pp_upgrade.upgrades[38])
                 .querySelector(".pp_desc").innerHTML =
                 pp_upgrade.upgrades[38].desc
         } else {
             pp_upgrade.upgrades[35].desc =
-                "Unlocks 50% Capacitance mode, which gives a 4x boost on Discharge<br>Also unlocks automation for Discharge"
+                "Unlocks 50% Capacitance mode, and Discharge now has a 4x boost<br>Also unlocks automation for Discharge"
             pp_map
                 .get(pp_upgrade.upgrades[35])
                 .querySelector(".pp_desc").innerHTML =
                 pp_upgrade.upgrades[35].desc
             pp_upgrade.upgrades[37].desc =
-                "Unlocks 75% Capacitance mode, giving a 6x boost on Discharge"
+                "Unlocks 75% Capacitance mode, and Discharge now has a 6x boost"
             pp_map
                 .get(pp_upgrade.upgrades[37])
                 .querySelector(".pp_desc").innerHTML =
                 pp_upgrade.upgrades[37].desc
             pp_upgrade.upgrades[38].desc =
-                "Unlocks 100% Capacitance mode, giving a 8x boost on Discharge<br>Also allows you to Discharge at 0 seconds"
+                "Unlocks 100% Capacitance mode, and Discharge now has a 8x boost<br>Also allows you to Discharge at 0 seconds"
             pp_map
                 .get(pp_upgrade.upgrades[38])
                 .querySelector(".pp_desc").innerHTML =
@@ -5026,13 +4683,16 @@ function description_update() {
 
     if (game.perks[8]) {
         pp_upgrade.upgrades[25].desc =
-            "Unlocks an upgrade that gives an additional multiplier to EXP"
+            "Unlocks an upgrade that gives an additional boost to autoclicker speed" +
+            '<br><span class="small_text">FUSION: always at 100% charge</span>'
         pp_map
             .get(pp_upgrade.upgrades[25])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[25].desc
     } else {
         pp_upgrade.upgrades[25].desc =
-            "Unlocks an upgrade that gives an additional multiplier to EXP with active and idle modes"
+            "Unlocks an upgrade that gives an additional boost to autoclicker speed with active and idle modes" +
+            '<br><span class="small_text">ACTIVE mode: stays at 100% charge for the first 10 seconds, then decreases to 0% charge by 30 seconds' +
+            "<br>IDLE mode: starts at 0% charge, and reaches 100% charge after 5 minutes</span>"
         pp_map
             .get(pp_upgrade.upgrades[25])
             .querySelector(".pp_desc").innerHTML = pp_upgrade.upgrades[25].desc
@@ -5245,6 +4905,17 @@ function regenerate_ui() {
             document.getElementById("switchpoint_button").innerHTML = "BILLION"
             break
     }
+    switch (game.range_mode) {
+        case 0:
+            document.getElementById("range_button").innerHTML = "RANGE"
+            break
+        case 1:
+            document.getElementById("range_button").innerHTML = "AVERAGE"
+            break
+        case 2:
+            document.getElementById("range_button").innerHTML = "VARIANCE"
+            break
+    }
     if (game.hotkeys) {
         document.getElementById("hotkeys_button").innerHTML = "ENABLED"
     } else {
@@ -5261,6 +4932,11 @@ function regenerate_ui() {
         case 2:
             document.getElementById("hidden_button").innerHTML = "HIDE BOUGHT"
             break
+    }
+    if (game.perks_hidden) {
+        document.getElementById("perks_hidden_button").innerHTML = "ENABLED"
+    } else {
+        document.getElementById("perks_hidden_button").innerHTML = "DISABLED"
     }
     if (
         game.pp_progress &&
@@ -5314,6 +4990,11 @@ function regenerate_ui() {
     } else {
         document.getElementById("ch_confirm_button").innerHTML = "DISABLED"
     }
+    if (game.quantum_confirmation) {
+        document.getElementById("qu_confirm_button").innerHTML = "ENABLED"
+    } else {
+        document.getElementById("qu_confirm_button").innerHTML = "DISABLED"
+    }
     switch (game.priority_layer) {
         case 0:
             document.getElementById("layer_button").innerHTML = "NONE"
@@ -5323,6 +5004,9 @@ function regenerate_ui() {
             break
         case 2:
             document.getElementById("layer_button").innerHTML = "REBOOT"
+            break
+        case 3:
+            document.getElementById("layer_button").innerHTML = "QUANTUM"
             break
     }
 
@@ -5349,7 +5033,6 @@ function regenerate_ui() {
     oc_toggle()
     ds_toggle()
     ds_toggle()
-    if (game.perks[11]) ds_toggle()
     pp_toggle()
     pp_toggle()
     pp_switch(game.autopp_mode)
@@ -5359,7 +5042,6 @@ function regenerate_ui() {
     battery_toggle()
     max_toggle()
     max_toggle()
-    autopr_switch(game.autopr_mode)
     if (game.level < 60) {
         document.getElementById("progress").style.width =
             game.exp.div(game.goal).mul(100).clamp(0, 100) + "%"
@@ -5370,6 +5052,9 @@ function regenerate_ui() {
     if (game.achiev_page === 0) {
         document.getElementById("page_left1").style.display = "none"
         document.getElementById("page_left2").style.display = "none"
+    } else {
+        document.getElementById("page_left1").style.display = "inline"
+        document.getElementById("page_left2").style.display = "inline"
     }
     if (
         game.achiev_page === Math.ceil(achievement.achievements.length / 10 - 1)
@@ -5387,17 +5072,14 @@ function regenerate_ui() {
         document.getElementById("amp_auto").style.display = "inline"
         document.getElementById("auto_config").style.display = "block"
         if (game.pp_bought[6]) {
-            document.getElementById("auto_level").style.display = "block"
             if (game.pp_bought[12]) {
                 document.getElementById("auto_mode").style.display = "block"
                 if (game.perks[0])
                     document.getElementById("peak_mode").style.display =
                         "inline"
                 else document.getElementById("peak_mode").style.display = "none"
-                autopr_switch(game.autopr_mode)
-            } else {
-                document.getElementById("auto_mode").style.display = "none"
             }
+            autopr_switch(game.autopr_mode)
         } else {
             document.getElementById("auto_level").style.display = "none"
         }
@@ -5452,9 +5134,8 @@ function regenerate_ui() {
     }
 
     if (
-        game.autods_toggle !== 2 &&
-        ((game.pp_bought[35] && !game.perks[9]) ||
-            (game.pp_bought[32] && game.perks[9]))
+        (game.pp_bought[35] && !game.perks[9]) ||
+        (game.pp_bought[32] && game.perks[9])
     ) {
         document.getElementById("dis_text").style.display = "block"
         document.getElementById("dis_input").style.display = "block"
@@ -5462,7 +5143,8 @@ function regenerate_ui() {
         document.getElementById("dis_text").style.display = "none"
         document.getElementById("dis_input").style.display = "none"
     }
-    document.getElementById("dis_input").value = game.autods_goal
+    if (game.autods_goal === -1) document.getElementById("dis_input").value = ""
+    else document.getElementById("dis_input").value = game.autods_goal
 
     if (
         game.pp_bought[32] &&
@@ -5486,13 +5168,11 @@ function regenerate_ui() {
         game.challenge !== 9
     ) {
         document.getElementById("cap_50").style.display = "inline"
-        document.getElementById("cap_disc").style.display = "inline"
         if (!game.perks[9]) {
             document.getElementById("dis_auto").style.display = "block"
         }
     } else {
         document.getElementById("cap_50").style.display = "none"
-        document.getElementById("cap_disc").style.display = "none"
     }
 
     if (
