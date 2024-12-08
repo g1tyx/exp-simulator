@@ -58,7 +58,7 @@ var cnItems = {
     'Total Clicks (Current Iteration': '总点击次数(本次迭代',
     'Time Played (Current Iteration': '总游戏时长(本次迭代',
     'EXP/click': '每次点击经验值',
-    'Total EXP Multipler': '点击经验值倍率',
+    'Total EXP Multiplier': '点击经验值倍率',
     'Past Prestiges': '之前转生',
     'Past Reboots': '之前重启',
     'Past Quantum Iterations': '之前量子迭代',
