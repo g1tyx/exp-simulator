@@ -178,7 +178,7 @@ var cnItems = {
     'Unlocks automation for Reboot': '解锁自动重启',
     'Also unlocks Past Reboots in Statistics': '并解锁统计面板下之前重启的统计',
     'You can only Prestige once': '您只能进行1次转生',
-    'Multi-Prestige, Reboot Residue, AMP Conversion, and PP Shift do not apply': '多重转生、重启余产，放大倍率转换转生点变换无效',
+    'Multi-Prestige, Reboot Residue, AMP Conversion, and PP Shift do not apply': '多重转生、重启余产、放大倍率转换和转生点变换无效',
     'Multi-Prestige, Reboot Residue, and AMP Conversion do not apply': '多重转生、重启余产和放大倍率转换无效',
     'Multi-Prestige and Reboot Residue do not apply': '多重转生和重启余产无效',
     'LONG': '长整型记数法',
