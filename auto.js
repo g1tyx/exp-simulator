@@ -187,9 +187,12 @@ function rb_toggle() {
                 document.getElementById("autorb_toggle").style.color = "#ff0000"
         }
     } else {
-        alert(
-            "关闭重启确认后才可以启用重启自动化"
-        )
+        if (modal === "none") {
+            open_modal(
+                "alert",
+                "关闭重启确认后才可以启用重启自动化"
+            )
+        }
     }
 }
 
@@ -214,9 +217,12 @@ function qu_toggle() {
                 document.getElementById("autoqu_toggle").style.color = "#ff0000"
         }
     } else {
-        alert(
-            "关闭量子化确认后才可以启用量子化自动化"
-        )
+        if (modal === "none") {
+            open_modal(
+                "alert",
+                "关闭量子化确认后才可以启用量子化自动化"
+            )
+        }
     }
 }
 
